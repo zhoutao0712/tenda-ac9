@@ -3683,7 +3683,7 @@ void watchdog(int sig)
 
 	watchdog_period = (watchdog_period + 1) % 30;
 
-#ifdef RTCONFIG_BCMARM
+#if defined(RTCONFIG_USB) && defined(RTCONFIG_BCMARM)
 	if (u3_chk_life < 20) {
 		chkusb3_period = (chkusb3_period + 1) % u3_chk_life;
 		if (!chkusb3_period && nvram_get_int("usb_usb3") &&
