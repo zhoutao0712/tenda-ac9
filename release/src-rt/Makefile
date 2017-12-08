@@ -1639,6 +1639,12 @@ define RouterOptions
 		sed -i "/RTCONFIG_DEFLAN50/d" $(1); \
 		echo "RTCONFIG_DEFLAN50=y" >>$(1); \
 	fi; \
+	if [ "$(TINC)" = "y" ]; then \
+		sed -i "/RTCONFIG_LZO/d" $(1); \
+		echo "RTCONFIG_LZO=y" >>$(1); \
+		sed -i "/RTCONFIG_TINC/d" $(1); \
+		echo "RTCONFIG_TINC=y" >>$(1); \
+	fi; \
 	)
 	$(call platformRouterOptions, $(1))
 endef

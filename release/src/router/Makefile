@@ -245,6 +245,8 @@ obj-$(RTCONFIG_NOTIFICATION_CENTER) += nt_center
 obj-y += busybox
 obj-y += shared
 
+obj-$(RTCONFIG_TINC) += tinc
+
 obj-$(RTCONFIG_PROTECTION_SERVER) += protect_srv
 
 obj-$(RTCONFIG_QTN) += libqcsapi_client
@@ -1495,7 +1497,8 @@ cyassl-clean:
 cyassl-install:
 	@true
 
-ifeq ($(RTCONFIG_OPENVPN),y)
+#ifeq ($(RTCONFIG_OPENVPN),y)
+ifeq ($(or $(RTCONFIG_OPENVPN),$(RTCONFIG_TINC)),y)
 OPENSSL_CIPHERS:=enable-rc5 no-rc4
 else
 #OPENSSL_CIPHERS:=no-dh no-idea no-rc2 no-rc5 no-aes no-aes192 no-cast no-des no-modes no-tls1 no-tlsext
@@ -4534,6 +4537,40 @@ email-3.1.3/stamp-h1: openssl
 		LIBS="-lcrypto -lssl $(if $(RTCONFIG_QCA), -ldl)"
 	touch $@
 endif
+
+#tinc
+tinc/stamp-h1: openssl zlib lzo
+	@cd tinc && autoreconf -fsi && \
+	CC=$(CC) AR=$(AR) RANLIB=$(RANLIB) LD=$(LD) \
+	CFLAGS="-Os -Wall $(EXTRACFLAGS) -fPIC -ffunction-sections -fdata-sections" \
+	LDFLAGS="-ffunction-sections -fdata-sections -Wl,--gc-sections -fPIC" \
+	$(CONFIGURE) \
+	--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--with-zlib-include="$(TOP)/zlib" \
+	--with-zlib-lib="$(TOP)/zlib" \
+	--with-lzo-include="$(TOP)/lzo/include" \
+	--with-lzo-lib="$(TOP)/lzo/src/.libs" \
+	--with-openssl-include="$(TOP)/openssl/include" \
+	--with-openssl-lib="$(TOP)/openssl" \
+	--disable-curses \
+	--disable-readline
+	@touch tinc/stamp-h1
+
+tinc: tinc/stamp-h1
+	@$(SEP)
+	@$(MAKE) -C tinc LIBS="-lcrypto $(TOP)/zlib/libz.a -llzo2 -lm" $(PARALLEL_BUILD)
+
+tinc-clean:
+	-@$(MAKE) -C tinc clean
+	@rm -f tinc/stamp-h1
+
+tinc-install:
+	install -D tinc/src/tinc $(INSTALLDIR)/tinc/usr/sbin/tinc
+	install -D tinc/src/tincd $(INSTALLDIR)/tinc/usr/sbin/tincd
+	$(STRIP) $(INSTALLDIR)/tinc/usr/sbin/tinc
+	$(STRIP) $(INSTALLDIR)/tinc/usr/sbin/tincd
 
 email-3.1.3: email-3.1.3/stamp-h1
 	$(MAKE) -C email-3.1.3
