@@ -2404,10 +2404,10 @@ void init_syspara(void)
 		nvram_set("odmpid", "");
 #endif
 
-	if (nvram_get("secret_code"))
-		nvram_set("wps_device_pin", nvram_get("secret_code"));
-	else
-		nvram_set("wps_device_pin", "12345670");
+//	if (nvram_get("secret_code"))
+//		nvram_set("wps_device_pin", nvram_get("secret_code"));
+//	else
+//		nvram_set("wps_device_pin", "12345670");
 }
 
 #ifdef RTCONFIG_BCMARM
