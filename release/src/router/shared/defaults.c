@@ -16,6 +16,10 @@
 
 // stub for wlconf, etc.
 struct nvram_tuple router_defaults[] = {
+// turn off boot_wait for tftp
+	{ "boot_wait", "on" },
+	{ "wait_time", "9" },
+
 	// NVRAM for restore_defaults: system wide parameters
 	{ "nvramver", RTCONFIG_NVRAM_VER },
 	{ "restore_defaults",	"0" },		// Set to 0 to not restore defaults on boot
