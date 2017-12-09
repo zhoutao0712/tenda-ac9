@@ -246,6 +246,7 @@ obj-y += busybox
 obj-y += shared
 
 obj-$(RTCONFIG_TINC) += tinc
+obj-$(RTCONFIG_TINC) += openssl
 
 obj-$(RTCONFIG_PROTECTION_SERVER) += protect_srv
 
