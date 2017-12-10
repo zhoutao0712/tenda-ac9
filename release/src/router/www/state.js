@@ -691,9 +691,9 @@ function show_banner(L3){// L3 = The third Level of Menu
 	banner_code +='<a href="javascript:reboot();"><div style="margin-top:13px;margin-left:0px;*width:136px;" class="titlebtn" align="center"><span><#BTN_REBOOT#></span></div></a>\n';
 
 	// language
-	banner_code +='<ul class="navigation">';
-	banner_code +='<% shown_language_css(); %>';
-	banner_code +='</ul>';
+//	banner_code +='<ul class="navigation">';
+//	banner_code +='<% shown_language_css(); %>';
+//	banner_code +='</ul>';
 
 	banner_code +='</div>\n';
 	banner_code +='<table width="998" border="0" align="center" cellpadding="0" cellspacing="0" class="statusBar">\n';
@@ -1755,7 +1755,7 @@ function show_menu(){
 	
 	show_banner(L3);
 	show_footer();
-	show_selected_language();
+//	show_selected_language();
 	autoFocus('<% get_parameter("af"); %>');
 
 	// QIS wizard
