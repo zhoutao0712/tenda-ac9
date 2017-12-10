@@ -34,8 +34,8 @@
 		setTimeout("parent.detect_httpd();", 160000);
 	}
 	else{
-		parent.showLoadingBar(270);
-		setTimeout("parent.detect_httpd();", 272000);		
+		parent.showLoadingBar(120);
+		setTimeout("parent.detect_httpd();", 122000);
 	}	
 </script>
 </body>
