@@ -265,6 +265,9 @@ function isSupport(_ptn){
 		});
 		return hasRogClient;
 	}
+	else if(_ptn == "usbX"){
+		return ('<% nvram_get("UI_usb_support"); %>' == "1" ? true: false)
+	}
 	else if(_ptn == "mssid"){
 		var wl_vifnames = '<% nvram_get("wl_vifnames"); %>';
 		var multissid = rc_support.search("mssid");
