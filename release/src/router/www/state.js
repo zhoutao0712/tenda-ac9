@@ -268,6 +268,9 @@ function isSupport(_ptn){
 	else if(_ptn == "usbX"){
 		return ('<% nvram_get("UI_usb_support"); %>' == "1" ? true: false)
 	}
+	else if(_ptn == "language"){
+		return ('<% nvram_get("UI_language_support"); %>' == "1" ? true: false)
+	}
 	else if(_ptn == "mssid"){
 		var wl_vifnames = '<% nvram_get("wl_vifnames"); %>';
 		var multissid = rc_support.search("mssid");
@@ -308,6 +311,8 @@ function isSupport(_ptn){
 	else
 		return (rc_support.search(_ptn) == -1) ? false : true;
 }
+
+var language_support = isSupport("language");		//language support for UI
 
 var spirit_logo_support = isSupport("spirit");
 var wifilogo_support = isSupport("WIFI_LOGO"); 
@@ -694,9 +699,11 @@ function show_banner(L3){// L3 = The third Level of Menu
 	banner_code +='<a href="javascript:reboot();"><div style="margin-top:13px;margin-left:0px;*width:136px;" class="titlebtn" align="center"><span><#BTN_REBOOT#></span></div></a>\n';
 
 	// language
-//	banner_code +='<ul class="navigation">';
-//	banner_code +='<% shown_language_css(); %>';
-//	banner_code +='</ul>';
+	if (language_support){
+		banner_code +='<ul class="navigation">';
+		banner_code +='<% shown_language_css(); %>';
+		banner_code +='</ul>';
+	}
 
 	banner_code +='</div>\n';
 	banner_code +='<table width="998" border="0" align="center" cellpadding="0" cellspacing="0" class="statusBar">\n';
@@ -1758,7 +1765,11 @@ function show_menu(){
 	
 	show_banner(L3);
 	show_footer();
-//	show_selected_language();
+
+	if(language_support){
+		show_selected_language();
+	}
+
 	autoFocus('<% get_parameter("af"); %>');
 
 	// QIS wizard
