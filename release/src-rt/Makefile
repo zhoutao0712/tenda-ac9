@@ -130,6 +130,7 @@ lowercase_N = $(shell echo $(N) | tr A-Z a-z)
 uppercase_B = $(shell echo $(BUILD_NAME) | tr a-z  A-Z)
 lowercase_B = $(shell echo $(BUILD_NAME) | tr A-Z a-z)
 BUILD_TIME := $(shell LC_ALL=C date -u)
+BUILD_TIME2 := $(shell date +%Y%m%d%H%M)
 BUILD_USER ?= $(shell whoami)
 BUILD_INFO := $(shell git log --pretty="%h" -n 1)
 
@@ -142,9 +143,9 @@ KERN_SIZE_OPT ?= y
 endif
 
 ifeq ($(FAKEID),y)
-export IMGNAME := $(BUILD_NAME)_$(KERNEL_VER).$(FS_VER)_$(FORCE_SN)_$(SWPJVER)$(FORCE_EN)
+export IMGNAME := $(BUILD_NAME)_$(BUILD_TIME2)_$(KERNEL_VER).$(FS_VER)_$(FORCE_SN)_$(SWPJVER)$(FORCE_EN)
 else
-export IMGNAME := $(BUILD_NAME)_$(KERNEL_VER).$(FS_VER)_$(SERIALNO)_$(SWPJVER)$(EXTENDNO)
+export IMGNAME := $(BUILD_NAME)_$(BUILD_TIME2)_$(KERNEL_VER).$(FS_VER)_$(SERIALNO)_$(SWPJVER)$(EXTENDNO)
 endif
 
 ifeq ($(BUILD_NAME),DSL-AC68U)

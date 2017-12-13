@@ -725,6 +725,10 @@ function transferTimeFormat(time){
 				<th><#FW_item1#></th>
 				<td><#Web_Title2#></td>
 			</tr>
+			<tr>
+				<th>BUILD_INFO</th>
+				<td><% nvram_get("buildinfo"); %></td>
+			</tr>
 <!--###HTML_PREP_START###-->
 <!--###HTML_PREP_ELSE###-->
 <!--
