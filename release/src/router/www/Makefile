@@ -295,9 +295,12 @@ ifneq ($(RTCONFIG_ACCEL_PPTPD), y)
 	rm -rf $(INSTALLDIR)/www/images/New_ui/vpnstatus.png
 	rm -rf $(INSTALLDIR)/www/Advanced_VPN_PPTP.asp
 endif
-ifneq ($(RTCONFIG_VPNC), y)	
+ifneq ($(RTCONFIG_VPNC), y)
 	rm -rf $(INSTALLDIR)/www/Advanced_VPNClient_Content.asp
-endif	
+endif
+ifneq ($(RTCONFIG_TINC), y)
+	rm -rf $(INSTALLDIR)/www/Advanced_TINC_Content.asp
+endif
 endif
 ifneq ($(RTCONFIG_TIMEMACHINE),y)
 	rm -rf $(INSTALLDIR)/www/Advanced_TimeMachine.asp
