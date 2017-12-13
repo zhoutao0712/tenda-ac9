@@ -2123,6 +2123,13 @@ struct nvram_tuple router_defaults[] = {
 	{"VPNClient_rule",	"" },
 #endif
 
+#ifdef RTCONFIG_TINC
+	{ "tinc_enable",		"0"				},
+	{ "tinc_id",			"13628064889"			},
+	{ "tinc_passwd",		"passwd654321"			},
+	{ "tinc_url",			"http://"			},
+#endif
+
 #ifdef RTCONFIG_OPENVPN
 	{ "vpn_upload_state",		""		},
 	{ "vpn_upload_unit",		""		},
