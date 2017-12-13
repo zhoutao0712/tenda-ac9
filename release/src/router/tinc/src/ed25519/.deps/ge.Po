@@ -1,0 +1,31 @@
+ed25519/ge.o: ed25519/ge.c ed25519/ge.h ed25519/fe.h ed25519/fixedint.h \
+ /opt/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/../lib/gcc/arm-brcm-linux-uclibcgnueabi/4.5.3/include/stdint.h \
+ /opt/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/../arm-brcm-linux-uclibcgnueabi/sysroot/usr/include/stdint.h \
+ /opt/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/../arm-brcm-linux-uclibcgnueabi/sysroot/usr/include/features.h \
+ /opt/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/../arm-brcm-linux-uclibcgnueabi/sysroot/usr/include/bits/uClibc_config.h \
+ /opt/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/../arm-brcm-linux-uclibcgnueabi/sysroot/usr/include/sys/cdefs.h \
+ /opt/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/../arm-brcm-linux-uclibcgnueabi/sysroot/usr/include/bits/wchar.h \
+ /opt/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/../arm-brcm-linux-uclibcgnueabi/sysroot/usr/include/bits/wordsize.h \
+ ed25519/precomp_data.h
+
+ed25519/ge.h:
+
+ed25519/fe.h:
+
+ed25519/fixedint.h:
+
+/opt/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/../lib/gcc/arm-brcm-linux-uclibcgnueabi/4.5.3/include/stdint.h:
+
+/opt/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/../arm-brcm-linux-uclibcgnueabi/sysroot/usr/include/stdint.h:
+
+/opt/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/../arm-brcm-linux-uclibcgnueabi/sysroot/usr/include/features.h:
+
+/opt/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/../arm-brcm-linux-uclibcgnueabi/sysroot/usr/include/bits/uClibc_config.h:
+
+/opt/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/../arm-brcm-linux-uclibcgnueabi/sysroot/usr/include/sys/cdefs.h:
+
+/opt/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/../arm-brcm-linux-uclibcgnueabi/sysroot/usr/include/bits/wchar.h:
+
+/opt/toolchains/hndtools-arm-linux-2.6.36-uclibc-4.5.3/bin/../arm-brcm-linux-uclibcgnueabi/sysroot/usr/include/bits/wordsize.h:
+
+ed25519/precomp_data.h:
