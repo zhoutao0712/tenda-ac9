@@ -928,6 +928,11 @@ config NETFILTER_XT_MATCH_RECENT
 	Short options are available by using 'iptables -m recent -h'
 	Official Website: <http://snowman.net/projects/ipt_recent/>
 
+config NETFILTER_XT_MATCH_IPHASH
+	tristate '"iphash" match support'
+	depends on NETFILTER_ADVANCED
+	---help---
+
 config NETFILTER_XT_MATCH_SCTP
 	tristate  '"sctp" protocol match support (EXPERIMENTAL)'
 	depends on EXPERIMENTAL
