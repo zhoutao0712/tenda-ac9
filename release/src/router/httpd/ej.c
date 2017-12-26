@@ -231,14 +231,18 @@ do_ej(char *path, FILE *stream)
 	} else {
 		lang = nvram_safe_get("preferred_lang");
 		if (!check_lang_support(lang)) {
-			nvram_set("preferred_lang", "EN");
-			lang = "EN";
+//			nvram_set("preferred_lang", "EN");
+//			lang = "EN";
+			nvram_set("preferred_lang", "CN");
+			lang = "CN";
 		}
 	}
 
 	if(!strncmp(nvram_safe_get("territory_code"), "JP", 2) && strcmp(nvram_safe_get("ATEMODE"), "1")){
-		nvram_set("preferred_lang", "JP");
-		lang = "JP";	
+//		nvram_set("preferred_lang", "JP");
+//		lang = "JP";	
+		nvram_set("preferred_lang", "CN");
+		lang = "CN";
 	}
 
 	if (load_dictionary (lang, &kw))	{

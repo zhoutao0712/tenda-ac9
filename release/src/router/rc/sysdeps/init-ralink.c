@@ -1062,7 +1062,9 @@ void init_syspara(void)
 		}
 #endif
 		if (nvram_match("wl_country_code", "HK") && nvram_match("preferred_lang", ""))
-			nvram_set("preferred_lang", "TW");
+//			nvram_set("preferred_lang", "TW");
+			nvram_set("preferred_lang", "CN");
+
 
 	/* reserved for Ralink. used as ASUS pin code. */
 	dst = (char*)pin;

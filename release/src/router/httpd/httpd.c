@@ -918,8 +918,8 @@ handle_request(void)
 						if (is_firsttime() && nvram_match("ui_Setting", "0")) {
 							_dprintf("%s", Accept_Language);
 							nvram_set("ui_Setting", "1");
-							nvram_set("preferred_lang", Accept_Language);
-							
+							//nvram_set("preferred_lang", Accept_Language);
+							nvram_set("preferred_lang", "CN");
 
 #if defined(RTCONFIG_TCODE)
 							if (find_word(nvram_safe_get("rc_support"), "tcode") && nvram_get("territory_code")){
@@ -966,7 +966,8 @@ handle_request(void)
 
 				// 2008.10 magic {
 				if (is_firsttime())
-					nvram_set("preferred_lang", "EN");
+					//nvram_set("preferred_lang", "EN");
+					nvram_set("preferred_lang", "CN");
 				// 2008.10 magic }
 			}
 		}
@@ -2016,6 +2017,10 @@ int main(int argc, char **argv)
 		{
 			http_port = SERVER_PORT;
 		}
+	}
+
+	if(nvram_get_int("UI_language_support") != 1) {
+		nvram_set("preferred_lang", "CN");
 	}
 
 	//websSetVer();
