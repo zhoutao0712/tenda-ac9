@@ -933,6 +933,12 @@ config NETFILTER_XT_MATCH_IPHASH
 	depends on NETFILTER_ADVANCED
 	---help---
 
+config NETFILTER_XT_MATCH_SRD
+	tristate '"srd" match support'
+	depends on NETFILTER_ADVANCED
+	select NETFILTER_XT_MATCH_IPHASH
+	---help---
+
 config NETFILTER_XT_MATCH_SCTP
 	tristate  '"sctp" protocol match support (EXPERIMENTAL)'
 	depends on EXPERIMENTAL
