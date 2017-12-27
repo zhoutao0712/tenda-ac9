@@ -122,6 +122,32 @@ static void iphash_table_flush(struct iphash_table *t)
 			iphash_entry_remove(t, e);
 }
 
+int iphash_find_add(struct net *net, const char *name, const __be32 ip)
+{
+	struct iphash_net *iphash_net;
+	struct iphash_table *t;
+	struct iphash_entry *e;
+	union nf_inet_addr addr = {};
+
+	addr.ip = ip;
+	iphash_net = net_generic(net, iphash_net_id);
+	e = NULL;
+
+	spin_lock_bh(&iphash_lock);
+	t = iphash_table_lookup(iphash_net, name);
+	if(t != NULL) e = iphash_entry_lookup(t, &addr);
+	spin_unlock_bh(&iphash_lock);
+
+	if(t == NULL) return -1;
+
+	if(e == NULL) e = iphash_entry_add(t, &addr);
+
+	if(e == NULL) return -2;
+
+	return 0;
+}
+EXPORT_SYMBOL(iphash_find_add);
+
 static bool
 iphash_mt(const struct sk_buff *skb, struct xt_action_param *par)
 {
