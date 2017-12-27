@@ -1,0 +1,11 @@
+#!/bin/sh
+echo -1 >/proc/sys/net/ipv4/rt_cache_rebuild_count
+echo 0 >/proc/sys/net/ipv4/conf/$INTERFACE/rp_filter
+
+ifconfig $INTERFACE 172.16.0.3 netmask 255.255.255.0
+
+ip route del default dev $INTERFACE via 172.16.0.1 table 200
+ip rule del fwmark 0x1000/0xf000 pref 5 table 200
+ip route add default dev $INTERFACE via 172.16.0.1 table 200
+ip rule add fwmark 0x1000/0xf000 pref 5 table 200
+

@@ -1,0 +1,4 @@
+#!/bin/sh
+ip route del default dev $INTERFACE via 172.16.0.1 table 200
+ip rule del fwmark 0x1000/0xf000 pref 5 table 200
+
