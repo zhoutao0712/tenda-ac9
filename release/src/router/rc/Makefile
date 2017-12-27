@@ -300,6 +300,10 @@ ifeq ($(RTCONFIG_TIMEMACHINE),y)
 OBJS += timemachine.o
 endif
 
+ifeq ($(RTCONFIG_TINC),y)
+OBJS += tinc.o
+endif
+
 CFLAGS += $(if $(RTCONFIG_BLINK_LED),-I$(TOP)/bled)
 
 export CFLAGS
@@ -641,6 +645,10 @@ ifeq ($(RTCONFIG_KEY_GUARD),y)
 endif
 ifneq ($(RTCONFIG_RALINK)$(RTCONFIG_QCA)$(RTCONFIG_REALTEK),y)
 	@cd $(INSTALLDIR)/sbin && ln -sf rc erp_monitor
+endif
+
+ifeq ($(RTCONFIG_TINC),y)
+	@cd $(INSTALLDIR)/sbin && ln -sf rc tinc_start
 endif
 
 clean:

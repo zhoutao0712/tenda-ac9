@@ -518,6 +518,9 @@ static const applets_t applets[] = {
 #if !(defined(RTCONFIG_QCA) || defined(RTCONFIG_RALINK) || defined(RTCONFIG_REALTEK))
 	{ "erp_monitor",		erp_monitor_main		},
 #endif
+#ifdef RTCONFIG_TINC
+	{ "tinc_start",			tinc_start_main		},
+#endif
 	{NULL, NULL}
 };
 

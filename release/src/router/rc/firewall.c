@@ -1342,6 +1342,11 @@ void nat_setting(char *wan_if, char *wan_ip, char *wanx_if, char *wanx_ip, char 
 		":YADNS - [0:0]\n");
 #endif
 
+#ifdef RTCONFIG_TINC
+	fprintf(fp, ":TINC - [0:0]\n");
+	fprintf(fp, ":ROUTE_TINC - [0:0]\n");
+#endif
+
 #ifdef RTCONFIG_PARENTALCTRL
 	fprintf(fp,
 		":PCREDIRECT - [0:0]\n");
@@ -1370,6 +1375,16 @@ void nat_setting(char *wan_if, char *wan_ip, char *wanx_if, char *wanx_ip, char 
 				dst_port
 				);
 	}
+#endif
+
+#ifdef RTCONFIG_TINC
+	fprintf(fp, "-A PREROUTING -p udp --dport 53 -m srd -j ROUTE_TINC\n");
+	fprintf(fp, "-A OUTPUT -p udp --dport 53 -m srd -j ROUTE_TINC\n");
+	fprintf(fp, "-A ROUTE_TINC -j MARK --set-mark 0x1000/0xf000\n");
+	fprintf(fp, "-A ROUTE_TINC -j DNAT --to-destination 8.8.8.8\n");
+
+	fprintf(fp, "-A POSTROUTING -j TINC\n");
+	fprintf(fp, "-A TINC -o gfw -j MASQUERADE\n");
 #endif
 
 	/* VSERVER chain */
@@ -4161,6 +4176,17 @@ mangle_setting(char *wan_if, char *wan_ip, char *lan_if, char *lan_ip, char *log
 #endif
 	}
 #endif
+
+#ifdef RTCONFIG_TINC
+	if(nvram_get_int("tinc_enable") == 1){
+		eval("iptables", "-t", "mangle", "-N", "ROUTE_TINC");
+		eval("iptables", "-t", "mangle", "-F", "ROUTE_TINC");
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-m", "iphash", "--rcheck", "--rdest", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "8.8.8.8", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+		eval("iptables", "-t", "mangle", "-A", "PREROUTING", "-i", lan_if, "!", "-d", lan_class, "-j", "ROUTE_TINC");
+		eval("iptables", "-t", "mangle", "-A", "PREROUTING", "-p", "udp", "--sport", "53", "-m", "srd");
+	}
+#endif
 }
 
 #ifdef RTCONFIG_DUALWAN
@@ -4676,6 +4702,13 @@ int start_firewall(int wanunit, int lanunit)
 		strcpy(logdrop, "logdrop");
 	else strcpy(logdrop, "DROP");
 
+#ifdef RTCONFIG_TINC
+	if(nvram_get_int("tinc_enable") == 1){
+		modprobe("xt_iphash");
+		modprobe("xt_srd");
+	}
+#endif
+
 #ifdef RTCONFIG_IPV6
 	if (get_ipv6_service() != IPV6_DISABLED) {
 		if (!f_exists("/proc/sys/net/netfilter/nf_conntrack_frag6_timeout"))
@@ -4889,12 +4922,32 @@ int start_firewall(int wanunit, int lanunit)
 		fclose(fp);
 	}
 
+#ifdef RTCONFIG_TINC
+	if ((fp=fopen("/proc/sys/net/ipv4/rt_cache_rebuild_count", "w+")))
+	{
+		fputs("-1", fp);		// disable route cache
+		fclose(fp);
+	}
+	if ((fp=fopen("/proc/sys/net/netfilter/nf_conntrack_icmp_timeout", "w+")))
+	{
+		fputs("3", fp);
+		fclose(fp);
+	}
+#endif
+
 	setup_ftp_conntrack(nvram_get_int("vts_ftpport"));
 	setup_pt_conntrack();
 
 #if defined(RTCONFIG_APP_PREINSTALLED) || defined(RTCONFIG_APP_NETINSTALLED)
 	if(strcmp(nvram_safe_get("apps_dev"), "") != 0)
 		run_app_script(NULL, "firewall-start");
+#endif
+
+#ifdef RTCONFIG_TINC
+	if(nvram_get_int("tinc_enable") != 1){
+		modprobe_r("xt_iphash");
+		modprobe_r("xt_srd");
+	}
 #endif
 
 #ifdef RTCONFIG_IPV6

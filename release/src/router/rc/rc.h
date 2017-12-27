@@ -1461,6 +1461,13 @@ extern void start_vlan_wl(void);
 extern void find_backup_mac_date(char *mpname);
 extern void write_timemachine_tokeninfo(char *mpname);
 
+// tinc.c
+#ifdef RTCONFIG_TINC
+extern int tinc_start_main(int argc, char *argv[]);
+extern void start_tinc();
+extern void stop_tinc();
+#endif
+
 // erp_monitor.c
 #if !(defined(RTCONFIG_QCA) || defined(RTCONFIG_RALINK) || defined(RTCONFIG_REALTEK))
 extern int erp_monitor_main(int argc, char **argv);

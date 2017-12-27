@@ -8536,6 +8536,16 @@ check_ddr_done:
  		}
  	}
  #endif
+
+#if defined(RTCONFIG_TINC)
+	else if (strcmp(script, "tinc") == 0)
+	{
+		if (action & RC_SERVICE_STOP) stop_tinc();
+		if (action & RC_SERVICE_START) start_tinc();
+		start_firewall(wan_primary_ifunit(), 0);
+	}
+#endif
+
 #ifdef RTCONFIG_YANDEXDNS
 	else if (strcmp(script, "yadns") == 0)
 	{
