@@ -4693,6 +4693,10 @@ int start_firewall(int wanunit, int lanunit)
 	}
 	closedir(dir);
 
+#ifdef RTCONFIG_TINC
+	f_write_string("/proc/sys/net/ipv4/conf/gfw/rp_filter", "0", 0 ,0);
+#endif
+
 	/* Determine the log type */
 	if (nvram_match("fw_log_x", "accept") || nvram_match("fw_log_x", "both"))
 		strcpy(logaccept, "logaccept");
