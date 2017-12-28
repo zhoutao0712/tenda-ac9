@@ -953,11 +953,11 @@ function open_link(page){
 	else if(page == "privacy")
 		tourl = "https://www.wtfast.com/pages/privacy/";
 	else if(page == "gpn1")
-		tourl = "https://www.asus.com/support/FAQ/1015724/";
+		tourl = "https://www.zhtel.com/support/FAQ/1015724/";
 	else if(page == "gpn2")
-		tourl = "https://www.asus.com/support/FAQ/1015723/";
+		tourl = "https://www.zhtel.com/support/FAQ/1015723/";
 	else if(page == "howto")
-		tourl = "https://www.asus.com/support/FAQ/1015726/";
+		tourl = "https://www.zhtel.com/support/FAQ/1015726/";
 	else
 		tourl = "https://www.wtfast.com/pages/asus_router/";
 	
