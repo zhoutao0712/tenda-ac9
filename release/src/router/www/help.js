@@ -20,7 +20,7 @@ function isSupport(_ptn){
 if(isSupport("tmo"))
         var theUrl = "cellspot.router";
 else
-        var theUrl = "router.asus.com";
+        var theUrl = "router.zhtel.com";
 
 var gobi_support = isSupport("gobi");
 

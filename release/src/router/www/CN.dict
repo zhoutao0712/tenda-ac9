@@ -3,7 +3,7 @@ ADSL_FW_item3=最新版本
 APSurvey_action_ConnectingStatus0=Parent-AP 可能已关闭。请确认。
 APSurvey_action_ConnectingStatus1=连接失败。密码错误。请点击【重新扫描】选择其它访问点。
 APSurvey_action_ConnectingStatus24=无线网络联机成功
-APSurvey_action_ConnectingStatus3=重新打开浏览器。在网址栏中输入 "http://router.asus.com/" 查看中继器连接状态。
+APSurvey_action_ConnectingStatus3=重新打开浏览器。在网址栏中输入 "http://router.zhtel.com/" 查看中继器连接状态。
 APSurvey_action_renew_success=IP 设定更新成功，即将为您导回设定页面。
 APSurvey_action_search_again_hint1=重新选择
 APSurvey_action_search_again_hint2=更换 ZVMODELVZ 所连接的无线网源。
@@ -14,7 +14,7 @@ APSurvey_msg_connect_open_wlan=您正在连接不安全的网络。在这个网�
 APSurvey_msg_connected=您已经连上此基地台。
 APSurvey_msg_non_support_Auth=不支持的验证方法。
 APSurvey_msg_waiting_to_connect=请稍候，ZVMODELVZ 正在联机到
-ASUS_Registration=加入华硕会员，华硕将不定时提供您最新的产品资讯。 <a style='color:#FC0' target='_blank' href='https://account.asus.com'>立即注册！</a>
+ASUS_Registration=加入华硕会员，华硕将不定时提供您最新的产品资讯。 <a style='color:#FC0' target='_blank' href='https://account.zhtel.com'>立即注册！</a>
 asusddns_inputhint=请输入名称
 Auto=自动
 Auto_Setting_btn=自动设置
@@ -62,7 +62,7 @@ CTL_Setting=跳过设置向导
 CTL_signin=登录
 CTL_Skip=跳过
 CTL_unknown=未知名称的设备
-defaultHint=要了解更多信息，请访问 <a style="font-weight: bolder;text-decoration: underline;color:#000000;" href="http://www.asus.com/support/" target="_blank">http://www.asus.com/support/</a>
+defaultHint=要了解更多信息，请访问 <a style="font-weight: bolder;text-decoration: underline;color:#000000;" href="http://www.zhtel.com/support/" target="_blank">http://www.zhtel.com/support/</a>
 Detect_consume_warning1=* 一个最小的 PING 帧每个间隔会消耗大概 128 字节的数据流量。 因此， PING 监测将消耗
 Detect_consume_warning2=MB /每月
 Disconnected=联机中断
@@ -230,11 +230,11 @@ OP_MB_desc5=变更到无线桥接 (Media Bridge) 模式为您的媒体设备提�
 [###MODEL_DEP###][RT-N66U][RT-N18U]OP_MB_desc5=变更到无线桥接 (Media Bridge) 模式为您的媒体设备提供一个并行的 802.11n Wi-Fi 连接。
 OP_MB_desc6=在无线桥接 (Media Bridge) 模式中，只有无线设备连接至 Parent-AP。客户端设备需使用网线连接至网桥。
 OP_MB_desc7=ZVMODELVZ 正处于无线桥接 (Media Bridge) 模式。IP 地址已更改。
-OP_MB_desc8=请下载 <a href='http://dlcdnet.asus.com/pub/ASUS/LiveUpdate/Release/Wireless/Discovery.zip' target='_blank' style='font-family:Lucida Console;text-decoration:underline;color:#FC0;'>Device Discovery Utility</a> 来识别无线桥接 (Media Bridge) 的 IP 地址。
+OP_MB_desc8=请下载 <a href='http://dlcdnet.zhtel.com/pub/ASUS/LiveUpdate/Release/Wireless/Discovery.zip' target='_blank' style='font-family:Lucida Console;text-decoration:underline;color:#FC0;'>Device Discovery Utility</a> 来识别无线桥接 (Media Bridge) 的 IP 地址。
 OP_MB_desc9=请检查是否已经从 WAN 口移除网线。
 OP_RE_desc=在无线桥接模式下，ZVMODELVZ 采用无线连接至一个已经存在的无线网络，以扩展无线覆盖范围。在这个模式下，防火墙、IP 分享以及 NAT 功能是禁用的。
 OP_RE_desc1=ZVMODELVZ 的 LAN  IP 地址可能已更改。
-OP_RE_desc2=关闭此窗口并重新访问 http://router.asus.com
+OP_RE_desc2=关闭此窗口并重新访问 http://router.zhtel.com
 OP_RE_item=无线桥接模式
 OP_WISP_item=WISP 模式
 OP_WISP_desc1=ZVMODELVZ 通过无线网络连接至您的主要路由器、存取点或公共热点，并与您的有线/无线客户端共享网络。此模式下， NAT、防火墙和 DHCP 服务器默认为开启。
@@ -690,10 +690,10 @@ aicloud_bandwidth2_3=15 Mbps 或更快速的上传带宽用于 720p 视频。
 aicloud_bandwidth2_4=30 Mbps 或更快速的上传带宽用于 1080p HD 视频串流。
 aicloud_bandwidth3=网络上传速度按照您的网络服务供应商与其他因素而定。若要了解您的网络速度，请联系您的网络服务供应商，或由连接到华硕路由器的电脑上进行在线带宽测试。
 aicloud_cloud_list=云端列表
-aicloud_disk_case0=由<a id="cloud_url" style="font-weight: bolder;text-decoration: underline;" href="https://router.asus.com" target="_blank">https://router.asus.com</a> 访问云端硬盘。
+aicloud_disk_case0=由<a id="cloud_url" style="font-weight: bolder;text-decoration: underline;" href="https://router.zhtel.com" target="_blank">https://router.zhtel.com</a> 访问云端硬盘。
 aicloud_disk_case11=您可以通过这个网址访问云端硬盘：
 aicloud_disk_case12=要修改 DDNS 名称，请点击<a style="font-weight: bolder;text-decoration: underline;" href="/Advanced_ASUSDDNS_Content.asp?af=DDNSName" target="_blank">这里</a>。
-aicloud_disk_case21=由<a style="font-weight: bolder;text-decoration: underline;" href="https://router.asus.com" target="_blank">https://router.asus.com</a> 访问云端硬盘。
+aicloud_disk_case21=由<a style="font-weight: bolder;text-decoration: underline;" href="https://router.zhtel.com" target="_blank">https://router.zhtel.com</a> 访问云端硬盘。
 aicloud_disk_case22=在<a style="font-weight: bolder;text-decoration: underline;" href="/Advanced_ASUSDDNS_Content.asp" target="_blank">这里</a>注册华硕 DDNS 来在线访问云端硬盘。
 aicloud_disk_desc=开启透过互联网分享 USB 已联机的存储设备。
 aicloud_disk1=要创建云端硬盘，您需要在路由器上连接 USB 存储设备，然后将云端硬盘功能设为开启 <b>ON</b>。
@@ -1022,9 +1022,9 @@ Device_type_03_AP=无线访问点
 Device_type_04_NS=网络存储服务器
 Device_type_05_IC=网络摄像头
 Device_type_06_OD=无法辨识的设备
-deviceDiscorvy2=在无线桥接模式中，若由 DHCP 所分配的 IP 地址变动。请安装与使用 <a href=\"http://dlcdnet.asus.com/pub/ASUS/LiveUpdate/Release/Wireless/Discovery.zip\" style=\"font-family:Lucida Console;text-decoration:underline;color:#FC0;\">Device Discovery Utility</a> 以利获取无线路由器新的 IP 地址。
-deviceDiscorvy3=在无线访问点 (AP) 模式中，若由 DHCP 所分配的 IP 地址变动，请安装与使用 <a href=\"http://dlcdnet.asus.com/pub/ASUS/LiveUpdate/Release/Wireless/Discovery.zip\" target=\"_blank\" style=\"font-family:Lucida Console;text-decoration:underline;color:#FC0;\">Device Discovery 程序</a> 以利获取无线路由器新的 IP 地址。
-deviceDiscorvy4=在无线桥接 (Media Bridge) 模式中，DHCP 分配的 IP 地址将更改。安装并使用 <a href=\"http://dlcdnet.asus.com/pub/ASUS/LiveUpdate/Release/Wireless/Discovery.zip\" style=\"font-family:Lucida Console;text-decoration:underline;color:#FC0;\">Device Discovery Utility</a> 来获得无线路由器新的 IP 地址。
+deviceDiscorvy2=在无线桥接模式中，若由 DHCP 所分配的 IP 地址变动。请安装与使用 <a href=\"http://dlcdnet.zhtel.com/pub/ASUS/LiveUpdate/Release/Wireless/Discovery.zip\" style=\"font-family:Lucida Console;text-decoration:underline;color:#FC0;\">Device Discovery Utility</a> 以利获取无线路由器新的 IP 地址。
+deviceDiscorvy3=在无线访问点 (AP) 模式中，若由 DHCP 所分配的 IP 地址变动，请安装与使用 <a href=\"http://dlcdnet.zhtel.com/pub/ASUS/LiveUpdate/Release/Wireless/Discovery.zip\" target=\"_blank\" style=\"font-family:Lucida Console;text-decoration:underline;color:#FC0;\">Device Discovery 程序</a> 以利获取无线路由器新的 IP 地址。
+deviceDiscorvy4=在无线桥接 (Media Bridge) 模式中，DHCP 分配的 IP 地址将更改。安装并使用 <a href=\"http://dlcdnet.zhtel.com/pub/ASUS/LiveUpdate/Release/Wireless/Discovery.zip\" style=\"font-family:Lucida Console;text-decoration:underline;color:#FC0;\">Device Discovery Utility</a> 来获得无线路由器新的 IP 地址。
 DeviceSecurity11a_display1_sectiondesc=此功能能够控制 ZVMODELVZ 无线内部网络中，特定网卡物理地址（MAC Address）的访问。
 DHCP_query_freq=DHCP 查询频率
 DHCPaggressive=积极模式
@@ -1205,7 +1205,7 @@ feedback_max_counts=最多可输入 2000 字 - 还可以输入
 feedback_note0=Now this function can't work, because your ASUS Router isn't connected to the Internet. Please send your Feedback to this email address :
 feedback_note1=固件版本将会随您的信息及反馈一同提交。
 [###MODEL_DEP###][DSL-AC68U][DSL-N55U][DSL-N55U-B]feedback_note1=固件及 DSL 版本将会随您的信息及反馈一同提交。
-feedback_note2=您的反馈将用于诊断问题及完善 ZVMODELVZ 固件。您提交的任何信息，无论是明确的还是出于偶然，都将根据 <a style="font-weight: bolder;text-decoration:underline;cursor:pointer;" href="http://www.asus.com/Terms_of_Use_Notice_Privacy_Policy/Privacy_Policy/" target="_blank">隐私政策</a>受到保护。
+feedback_note2=您的反馈将用于诊断问题及完善 ZVMODELVZ 固件。您提交的任何信息，无论是明确的还是出于偶然，都将根据 <a style="font-weight: bolder;text-decoration:underline;cursor:pointer;" href="http://www.zhtel.com/Terms_of_Use_Notice_Privacy_Policy/Privacy_Policy/" target="_blank">隐私政策</a>受到保护。
 feedback_note3=通过提交您的反馈，您已同意华硕采纳您的意见以完善其网络及无线网络产品。
 [###MODEL_DEP###][DSL-AC68U][DSL-N55U][DSL-N55U-B]feedback_note3=通过提交您的反馈，您已同意华硕采纳您的意见以完善其 xDSL 调制解调器路由器产品。
 feedback_Occasion_interrupt=偶尔中断
@@ -1289,8 +1289,8 @@ FirewallIPv6_remoteIP=Remote IP/CIDR
 FolderName=文件夹名称
 FTP_desc=设定 FTP 的账号与许可。
 Full_Clients=用户数
-FW_desc0=从华硕支持网站 <a id="asus_link" style="font-weight: bolder;text-decoration: underline;color:#FFFFFF;" href="http://www.asus.com/support/" target="_blank">http://www.asus.com/support/</a> 获得最新版本固件
-FW_desc1=请造访华硕技术支持网站 http://www.asus.com/support/ 获取最新韧体。
+FW_desc0=从华硕支持网站 <a id="asus_link" style="font-weight: bolder;text-decoration: underline;color:#FFFFFF;" href="http://www.zhtel.com/support/" target="_blank">http://www.zhtel.com/support/</a> 获得最新版本固件
+FW_desc1=请造访华硕技术支持网站 http://www.zhtel.com/support/ 获取最新韧体。
 fw_downloading=下载固件
 FW_item1=产品型号
 FW_item2=固件版本
@@ -1745,7 +1745,7 @@ note_turn_wifi_on_WPS=开启 Wi-Fi 以设置 WPS。
 note_auth_wpa_WPS=要启用 WPS 需将身份验证方式改为 WPA2 或 WPA-Auto。
 note_hide_SSID_WPS=If you want to enable WPS, you need to disable hiding SSID first.
 note_up_to_date=Note: New patch will be updated regularly, please keep your firmware stay up to date.
-NSlookup_help=如果您遇到华硕 DDNS 服务无法使用的问题，请前往 <a href="http://iplookup.asus.com/nslookup.php" target="_blank" style="font-family:Lucida Console;text-decoration:underline;">http://iplookup.asus.com/nslookup.php</a> 网站取得您的实体 IP 位置以进行使用
+NSlookup_help=如果您遇到华硕 DDNS 服务无法使用的问题，请前往 <a href="http://iplookup.zhtel.com/nslookup.php" target="_blank" style="font-family:Lucida Console;text-decoration:underline;">http://iplookup.zhtel.com/nslookup.php</a> 网站取得您的实体 IP 位置以进行使用
 op_already_configured=已经设定为此模式。
 option_both_direction=双向
 option_download=下载
@@ -1957,7 +1957,7 @@ sockets_UNIX=UNIX 套接字
 Smart_Access=智能访问
 smart_access_desc=开启从远端访问网上邻居的电脑和设备。智能访问同样可以唤醒睡眠的电脑。
 smart_access2=WOL（Wake-On-LAN）功能允许您通过网络中的设备来唤醒计算机。
-smart_access3=什么是 <a id="faq3" href="http://www.asus.com/support/FAQ/1009775" target="_blank" style="font-weight: bolder;text-decoration:underline;">WOL</a> ?
+smart_access3=什么是 <a id="faq3" href="http://www.zhtel.com/support/FAQ/1009775" target="_blank" style="font-weight: bolder;text-decoration:underline;">WOL</a> ?
 smart_connect_BD=弹回检测
 smart_connect_enable=启动 Smart Connect
 smart_connect_hint=设置下列 Smart Connect 相关信息。
@@ -2214,7 +2214,7 @@ usb_tethering_hint2=选择 USB 设备为 [安卓手机] 并点击 [应用本页�
 usb_tethering_hint3=手动开启您安卓手机上的 USB 网络共享功能。
 usb_uninstalling=正在从 USB 存储设备移除应用程序
 usb_unmount=USB 功能未开启
-use_DevDiscoveryUtil=安装并使用 <a href=\"http://dlcdnet.asus.com/pub/ASUS/LiveUpdate/Release/Wireless/Discovery.zip\" target=\"_blank\" style=\"font-family:Lucida Console;text-decoration:underline;color:#FC0;\">Device Discovery 程序</a> 来侦测无线路由器的 IP 地址。
+use_DevDiscoveryUtil=安装并使用 <a href=\"http://dlcdnet.zhtel.com/pub/ASUS/LiveUpdate/Release/Wireless/Discovery.zip\" target=\"_blank\" style=\"font-family:Lucida Console;text-decoration:underline;color:#FC0;\">Device Discovery 程序</a> 来侦测无线路由器的 IP 地址。
 Username_Pwd=用户名称与密码
 UserQoS_desc=在使用者定义带宽管理规定下拉列表中，您可以将网络应用程序或装置优先至五个等级。依据优先级，带宽管理使用以下方法传输数据包：<ul><li>更换上行网络数据包的顺序，可参照数据包传输至网络的顺序。</li><li>优先级低的数据包会被忽视以确保高优先级的传输。优先级较高的上行数据包将会产生优先级较高的下行数据包。</li><li>若优先级高的应用程序中无数据包传输，则低优先级的数据包将获得全部的网络传输率。</li></ul>
 UserQoS_desc_zero=<ul><li>请先开启的带宽管理后再设定上传与下载速率限制。</li></ul>
