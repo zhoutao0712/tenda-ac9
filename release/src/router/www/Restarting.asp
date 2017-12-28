@@ -12,7 +12,7 @@
 if(parent.tmo_support)
         var theUrl = "cellspot.router"; 
 else
-        var theUrl = "router.asus.com";
+        var theUrl = "router.zhtel.com";
 var reboot_needed_time = <% get_default_reboot_time(); %>;
 var action_mode = '<% get_parameter("action_mode"); %>';
 function redirect(){
