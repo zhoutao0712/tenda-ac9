@@ -65,7 +65,7 @@ else if(wan1_primary == 1)
 if(parent.tmo_support)
 	var theUrl = "cellspot.router"; 
 else
-	var theUrl = "router.asus.com";
+	var theUrl = "router.zhtel.com";
 
 var reIP = (parent.changeSubnet) ? [<% get_next_lanip(); %>][0].next_lanip : '<% nvram_get("lan_ipaddr"); %>';
 
@@ -92,7 +92,7 @@ var delayTimeout = 500;
 if(parent.tmo_support)
         var theUrl = "cellspot.router"; 
 else
-        var theUrl = "router.asus.com";
+        var theUrl = "router.zhtel.com";
 
 var JS_timeObj = new Date();
 var uptimeStr = "<% uptime(); %>";
