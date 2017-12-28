@@ -838,8 +838,8 @@ struct nvram_tuple router_defaults[] = {
 						/* 0:Disable, 1:Primary, 2:Helper, 3:Standalone */
 	{ "bsd_hport", "9877", 0 },		/* BSD helper port */
 	{ "bsd_pport", "9878", 0 },		/* BSD Primary port */
-	{ "bsd_helper", "192.168.1.2", 0 },	/* BSD primary ipaddr */
-	{ "bsd_primary", "192.168.1.1", 0 },	/* BSD Helper ipaddr */
+	{ "bsd_helper", "192.168.18.2", 0 },	/* BSD primary ipaddr */
+	{ "bsd_primary", "192.168.18.1", 0 },	/* BSD Helper ipaddr */
 	{ "smart_connect_x", "0", 0 },		/* 0:Disable, 1:Tri-band, 2:5GHz */
 #if 0
 	{ "bsd_msglevel", "0x000010", 0 },	/* BSD_DEBUG_STEER */
@@ -988,8 +988,8 @@ struct nvram_tuple router_defaults[] = {
 	{ "lan_ipaddr",			"192.168.50.1"	},	// LAN IP address
 	{ "lan_ipaddr_rt",		"192.168.50.1"	},
 #else
-	{ "lan_ipaddr",			"192.168.1.1"	},	// LAN IP address
-	{ "lan_ipaddr_rt",		"192.168.1.1"	},
+	{ "lan_ipaddr",			"192.168.18.1"	},	// LAN IP address
+	{ "lan_ipaddr_rt",		"192.168.18.1"	},
 #endif
 	{ "lan_netmask",		"255.255.255.0"	},	// LAN netmask
 	{ "lan_netmask_rt",		"255.255.255.0" },
@@ -1038,8 +1038,8 @@ struct nvram_tuple router_defaults[] = {
 	{ "dhcp_start", "192.168.50.2" },
 	{ "dhcp_end", "192.168.50.254" },
 #else
-	{ "dhcp_start", "192.168.1.2" },
-	{ "dhcp_end", "192.168.1.254" },
+	{ "dhcp_start", "192.168.18.2" },
+	{ "dhcp_end", "192.168.18.254" },
 #endif
 	{ "dhcp_lease", "86400" },
 	{ "dhcp_gateway_x", "" },
@@ -1795,7 +1795,7 @@ struct nvram_tuple router_defaults[] = {
 	{"chilli_enable", "0"},
 	{"chilli_radius", "127.0.0.1"},
 	{"chilli_backup", "127.0.0.1"},
-	{"chilli_url", "https://192.168.1.1/Uam"},
+	{"chilli_url", "https://192.168.18.1/Uam"},
 	{"chilli_pass", "radius"},
 	{"chilli_uamsecret", "chillispot"},
 #endif
@@ -2150,8 +2150,8 @@ struct nvram_tuple router_defaults[] = {
 	{ "vpn_server_comp",		"adaptive"	},
 	{ "vpn_server_cipher",		"AES-128-CBC"	},
 	{ "vpn_server_dhcp",		"1"		},
-	{ "vpn_server_r1",		"192.168.1.50"	},
-	{ "vpn_server_r2",		"192.168.1.55"	},
+	{ "vpn_server_r1",		"192.168.18.50"	},
+	{ "vpn_server_r2",		"192.168.18.55"	},
 	{ "vpn_server_sn",		"10.8.0.0"	},
 	{ "vpn_server_nm",		"255.255.255.0"	},
 	{ "vpn_server_local",		"10.8.0.1"	},
@@ -2176,8 +2176,8 @@ struct nvram_tuple router_defaults[] = {
 	{ "vpn_server1_comp",		"adaptive"	},
 	{ "vpn_server1_cipher",		"AES-128-CBC"	},
 	{ "vpn_server1_dhcp",		"1"		},
-	{ "vpn_server1_r1",		"192.168.1.50"	},
-	{ "vpn_server1_r2",		"192.168.1.55"	},
+	{ "vpn_server1_r1",		"192.168.18.50"	},
+	{ "vpn_server1_r2",		"192.168.18.55"	},
 	{ "vpn_server1_sn",		"10.8.0.0"	},
 	{ "vpn_server1_nm",		"255.255.255.0"	},
 	{ "vpn_server1_local",		"10.8.0.1"	},
@@ -2213,8 +2213,8 @@ struct nvram_tuple router_defaults[] = {
 	{ "vpn_server2_comp",		"adaptive"	},
 	{ "vpn_server2_cipher",		"AES-128-CBC"	},
 	{ "vpn_server2_dhcp",		"1"		},
-	{ "vpn_server2_r1",		"192.168.1.50"	},
-	{ "vpn_server2_r2",		"192.168.1.55"	},
+	{ "vpn_server2_r1",		"192.168.18.50"	},
+	{ "vpn_server2_r2",		"192.168.18.55"	},
 	{ "vpn_server2_sn",		"10.8.0.0"	},
 	{ "vpn_server2_nm",		"255.255.255.0"	},
 	{ "vpn_server2_local",		"10.8.0.1"	},
@@ -2804,7 +2804,7 @@ struct nvram_tuple router_defaults[] = {
 
 #ifdef RTCONFIG_AUTOCOVER_SIP
 	{ "atcover_sip", "0" },
-	{ "atcover_sip_ip", "192.168.1.1" },
+	{ "atcover_sip_ip", "192.168.18.1" },
 	{ "atcover_sip_type", "0" },
 #endif
 
