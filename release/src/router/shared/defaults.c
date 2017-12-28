@@ -119,12 +119,12 @@ struct nvram_tuple router_defaults[] = {
 	{ "wl_phytypes", "", 0 },		/* List of supported wireless bands (e.g. "ga") */
 	{ "wl_radioids", "", 0 },		/* List of radio IDs */
 #endif
-	{ "wl_ssid", "ASUS", 0 },		/* Service set ID (network name) */
+	{ "wl_ssid", "ZHtel", 0 },		/* Service set ID (network name) */
 #if !defined (RTAC3200) && !defined (RTAC5300) && !defined (RTAC5300R)
-	{ "wl1_ssid", "ASUS_5G" },
+	{ "wl1_ssid", "ZHtel_5G" },
 #else
-	{ "wl1_ssid", "ASUS_5G-1" },
-	{ "wl2_ssid", "ASUS_5G-2" },
+	{ "wl1_ssid", "ZHtel_5G-1" },
+	{ "wl2_ssid", "ZHtel_5G-2" },
 #endif
 	{ "wl_bss_enabled", "1", 0 },		/* Service set Enable (1) or disable (0) radio */
 						/* See "default_get" below. */
@@ -447,7 +447,7 @@ struct nvram_tuple router_defaults[] = {
 #else
 	{ "wps_modelname", "Wi-Fi Protected Setup Router", 0 },
 #endif
-	{ "wps_mfstring", "ASUSTeK Computer Inc.", 0 },
+	{ "wps_mfstring", "ZHtel Computer Inc.", 0 },
 //	{ "wps_device_name", RT_BUILD_NAME, 0 },
 #ifdef RTCONFIG_RALINK
 #elif defined(RTCONFIG_QCA)
@@ -1080,7 +1080,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "mr_altnet_x", "" },
 
 	// Domain Name
-	{ "local_domain", "router.asus.com" },
+	{ "local_domain", "router.zhtel.com" },
 
 	// NVRAM for switch control
 //#ifdef RTCONFIG_SWITCH_CONTROL_8367

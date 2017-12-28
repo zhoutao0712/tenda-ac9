@@ -74,9 +74,9 @@
 #endif
 
 #if defined(RTCONFIG_DEFAULT_AP_MODE)
-#define DUT_DOMAIN_NAME "ap.asus.com"
+#define DUT_DOMAIN_NAME "ap.zhtel.com"
 #else
-#define DUT_DOMAIN_NAME "router.asus.com"
+#define DUT_DOMAIN_NAME "router.zhtel.com"
 #endif
 #define OLD_DUT_DOMAIN_NAME1 "www.asusnetwork.net"
 #define OLD_DUT_DOMAIN_NAME2 "www.asusrouter.com"
