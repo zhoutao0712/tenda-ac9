@@ -798,7 +798,7 @@ function linkport(obj){
 									<li><#UserQoSRule_desc_one#></li>
 							</ul>
 					</div>
-					<div class="formfontdesc"><a style="text-decoration:underline;" href="https://www.asus.com/support/FAQ/1010951/" target="_blank">QoS FAQ</a></div>
+					<div class="formfontdesc"><a style="text-decoration:underline;" href="https://www.zhtel.com/support/FAQ/1010951/" target="_blank">QoS FAQ</a></div>
 
 					</div>	
 					</td>
