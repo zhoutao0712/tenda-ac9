@@ -162,8 +162,8 @@ void am_send_mail(int type, char *path)
 		fprintf(fp, "You also can link to trend micro website to download security trial software for your client device protection.\n");
 		fprintf(fp, "http://www.trendmicro.com/\n");
 		fprintf(fp, "\n");
-		fprintf(fp, "ASUS AiProtection FAQ:\n");
-		fprintf(fp, "http://www.asus.com/support/FAQ/1012070/\n");
+		fprintf(fp, "ZHtel AiProtection FAQ:\n");
+		fprintf(fp, "http://www.zhtel.com/support/FAQ/1012070/\n");
 		logmessage("ALERT MAIL", "AiProtection send mail");
 		MyDBG("AiProtection send mail\n");
 	}
@@ -194,7 +194,7 @@ void am_send_mail(int type, char *path)
 		}
 		fprintf(fp, "Your internet traffic usage have reached the alert vlaue. If you are in limited traffic usage, please get more attention.\n\n");
 		fprintf(fp, "Thanks,\n");
-		fprintf(fp, "ASUSTeK Computer Inc.\n");
+		fprintf(fp, "ZHTELTeK Computer Inc.\n");
 		logmessage("ALERT MAIL", "Traffic limter send mail");
 	}
 #endif
@@ -202,9 +202,9 @@ void am_send_mail(int type, char *path)
 	{
 		fprintf(fp, "Dear user,\n\n");
 		fprintf(fp, "This is for your mail address confirmation and please click below link to go back firmware page for configuration.\n\n");
-		fprintf(fp, "http://router.asus.com/\n\n");
+		fprintf(fp, "http://router.zhtel.com/\n\n");
 		fprintf(fp, "Thanks,\n");
-		fprintf(fp, "ASUSTeK Computer Inc.\n");
+		fprintf(fp, "ZHTELTeK Computer Inc.\n");
 		logmessage("ALERT MAIL", "Confirm Mail");
 		MyDBG("Confirm Mail\n");
 	}
