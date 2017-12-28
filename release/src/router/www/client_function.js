@@ -292,7 +292,7 @@ if(ouiClientListArray == undefined) {
 	setTimeout(function() {
 		var ouiBDjs = document.createElement("script");
 		ouiBDjs.type = "application/javascript";
-		ouiBDjs.src = "http://nw-dlcdnet.asus.com/plugin/js/ouiDB.js";
+		ouiBDjs.src = "http://nw-dlcdnet.zhtel.com/plugin/js/ouiDB.js";
 		window.document.body.appendChild(ouiBDjs);
 	}, 1000);
 }

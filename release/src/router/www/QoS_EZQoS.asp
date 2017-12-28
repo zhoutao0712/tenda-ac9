@@ -1288,7 +1288,7 @@ function cancel(){
 														<#EzQoS_desc_note#>														
 													</div>
 													<div class="formfontdesc">
-														<a id="faq" href="http://www.asus.com/support/FAQ/1008718/" target="_blank" style="text-decoration:underline;">QoS FAQ</a>
+														<a id="faq" href="http://www.zhtel.com/support/FAQ/1008718/" target="_blank" style="text-decoration:underline;">QoS FAQ</a>
 													</div>
 												</td>
 											</tr>

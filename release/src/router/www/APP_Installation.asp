@@ -516,7 +516,7 @@ function show_apps(){
 		else
 			htmlcode += '<div class="app_name"><a style="text-decoration: underline;" href="' + default_apps_array[i][1] + '">' + default_apps_array[i][0] + '</a></div>\n';
 		if(i ==3){
-			htmlcode += '<div class="app_desc">' + default_apps_array[i][2] + ' <a href="http://www.asus.com/event/networks_3G4G_support/" target="_blank" style="text-decoration:underline;">Support</a></div>\n';
+			htmlcode += '<div class="app_desc">' + default_apps_array[i][2] + ' <a href="http://www.zhtel.com/event/networks_3G4G_support/" target="_blank" style="text-decoration:underline;">Support</a></div>\n';
 		}
 		else{
 			htmlcode += '<div class="app_desc">' + default_apps_array[i][2] + '</div>\n';
@@ -942,13 +942,13 @@ function go_modem_page(usb_unit_flag){
 						<ul style="margin-left:10px;">
 							<br>
 							<li>
-								<a id="faq" href="http://www.asus.com/support/FAQ/1009773/" target="_blank" style="text-decoration:underline;font-size:14px;font-weight:bolder;color:#FFF">Download Master FAQ</a>
+								<a id="faq" href="http://www.zhtel.com/support/FAQ/1009773/" target="_blank" style="text-decoration:underline;font-size:14px;font-weight:bolder;color:#FFF">Download Master FAQ</a>
 							</li>
 							<li style="margin-top:10px;">
-								<a id="faq2" href="http://www.asus.com/support/FAQ/1016385/" target="_blank" style="text-decoration:underline;font-size:14px;font-weight:bolder;color:#FFF">Download Master Tool FAQ</a>
+								<a id="faq2" href="http://www.zhtel.com/support/FAQ/1016385/" target="_blank" style="text-decoration:underline;font-size:14px;font-weight:bolder;color:#FFF">Download Master Tool FAQ</a>
 							</li>
 							<li style="margin-top:10px;">
-								<a id="DMUtilityLink" href="http://dlcdnet.asus.com/pub/ASUS/wireless/RT-AC5300/UT_Download_Master_2228_Win.zip" style="text-decoration:underline;font-size:14px;font-weight:bolder;color:#FFF"><#DM_Download_Tool#></a>
+								<a id="DMUtilityLink" href="http://dlcdnet.zhtel.com/pub/ASUS/wireless/RT-AC5300/UT_Download_Master_2228_Win.zip" style="text-decoration:underline;font-size:14px;font-weight:bolder;color:#FFF"><#DM_Download_Tool#></a>
 							</li>
 						</ul>
 					</td>

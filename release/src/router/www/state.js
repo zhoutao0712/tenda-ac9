@@ -2046,7 +2046,7 @@ function get_helplink(){
 	var href_lang = get_supportsite_lang();
 	var model_name_supportsite = supportsite_model(support_site_modelid, hw_ver);  // @ /js/support_site.js
 
-	var getlink="http://www.asus.com"+href_lang+"Networking/" +model_name_supportsite+ "/HelpDesk_Download/";       
+	var getlink="http://www.zhtel.com"+href_lang+"Networking/" +model_name_supportsite+ "/HelpDesk_Download/";       
 	return getlink;
 }
 
@@ -2236,7 +2236,7 @@ function addOnlineHelp(obj, keywordArray){
 	// exception end	
 
 	if(obj){
-		obj.href = "http://www.asus.com"+faqLang.<% nvram_get("preferred_lang"); %>;
+		obj.href = "http://www.zhtel.com"+faqLang.<% nvram_get("preferred_lang"); %>;
 		obj.href += support_path;
 		obj.href += "keyword=";
 		for(var i=0; i<keywordArray.length; i++){
@@ -2373,7 +2373,7 @@ function show_footer(){
 	var tracing_path_Utility = "/HelpDesk_Download/?utm_source=asus-product&utm_medium=referral&utm_campaign=router";
 	var model_name_supportsite = supportsite_model(support_site_modelid, hw_ver);	// @ /js/support_site.js	
 			
-	//footer_code += "<td width=\"335\" id=\"bottom_help_link\" align=\"left\"><a style=\"font-weight: bolder;text-decoration:underline;cursor:pointer;\" href=\"http://www.asus.com"+ href_lang +"Networking/"+ model_name_supportsite + tracing_path_Manual +"\" target=\"_blank\"><#Manual#></a>&nbsp|&nbsp<a style=\"font-weight: bolder;text-decoration:underline;cursor:pointer;\" href=\"http://www.asus.com"+ href_lang +"Networking/" + model_name_supportsite + tracing_path_Utility +"\" target=\"_blank\"><#Utility#></a>";
+	//footer_code += "<td width=\"335\" id=\"bottom_help_link\" align=\"left\"><a style=\"font-weight: bolder;text-decoration:underline;cursor:pointer;\" href=\"http://www.zhtel.com"+ href_lang +"Networking/"+ model_name_supportsite + tracing_path_Manual +"\" target=\"_blank\"><#Manual#></a>&nbsp|&nbsp<a style=\"font-weight: bolder;text-decoration:underline;cursor:pointer;\" href=\"http://www.zhtel.com"+ href_lang +"Networking/" + model_name_supportsite + tracing_path_Utility +"\" target=\"_blank\"><#Utility#></a>";
 
 	if(dsl_support && feedback_support){
 		footer_code += '&nbsp|&nbsp<a id="fb_link" href="/Advanced_Feedback.asp" target="_self" style="font-weight: bolder;text-decoration:underline;cursor:pointer;"><#menu_feedback#></a>';
@@ -2383,7 +2383,7 @@ function show_footer(){
 		footer_code += '&nbsp|&nbsp<a id="fb_link" href="'+location_href+'" target="_blank" style="font-weight: bolder;text-decoration:underline;cursor:pointer;"><#menu_feedback#></a>';
 	}
 	
-	//footer_code += '&nbsp|&nbsp<a id="registration_link" target="_blank" href="https://account.asus.com/" target="_self" style="font-weight: bolder;text-decoration:underline;cursor:pointer;"><#Product_Registration#></a>';
+	//footer_code += '&nbsp|&nbsp<a id="registration_link" target="_blank" href="https://account.zhtel.com/" target="_self" style="font-weight: bolder;text-decoration:underline;cursor:pointer;"><#Product_Registration#></a>';
 	
 	footer_code += '</td>';
 	//footer_code += '<td width="270" id="bottom_help_FAQ" align="right" style="font-family:Arial, Helvetica, sans-serif;">FAQ&nbsp&nbsp<input type="text" id="FAQ_input" class="input_FAQ_table" maxlength="40" onKeyPress="submitenter(this,event);" autocorrect="off" autocapitalize="off"></td>';
@@ -2484,7 +2484,7 @@ function search_supportsite(obj){
 	
 		var keywordArray = document.getElementById("FAQ_input").value.split(" ");
 		var faq_href;
-		faq_href = "http://www.asus.com";		
+		faq_href = "http://www.zhtel.com";		
 		faq_href += faqLang.<% nvram_get("preferred_lang"); %>;
 		faq_href += "support/Knowledge-searchV2/?utm_source=asus-product&utm_medium=referral&utm_campaign=router&";
 		faq_href += "keyword=";

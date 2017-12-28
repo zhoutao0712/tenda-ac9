@@ -441,7 +441,7 @@ function enable_check(obj){
 											<td>&nbsp;&nbsp;</td>
 											<td style="font-size: 14px;">
 												<div><#Bandwidth_Limiter_hint#></div>
-												<div><a style="text-decoration:underline;" href="http://www.asus.com/support/FAQ/1013333/" target="_blank"><#Bandwidth_Limiter#> FAQ</a></div>	
+												<div><a style="text-decoration:underline;" href="http://www.zhtel.com/support/FAQ/1013333/" target="_blank"><#Bandwidth_Limiter#> FAQ</a></div>	
 											</td>
 										</tr>
 									</table>
