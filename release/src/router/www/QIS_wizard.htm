@@ -320,8 +320,13 @@ $.ajax({
 	});	
 }
 
+function LanguageSupport(){
+	return ('<% nvram_get("UI_language_support"); %>' == "1" ? true: false)
+}
+
 function QIS_load_body(){
 	var showCase;
+	var language_menu_support = LanguageSupport();
 	showCase = (document.getElementById("flag").value == "") ? "welcome" : document.getElementById("flag").value;
 	winW_H();
 	
@@ -332,11 +337,15 @@ function QIS_load_body(){
 		banner_code += '<img src="images/New_ui/asustitle.png" width="218" height="54" align="left">'
 		banner_code += '<span class="modelName_top" style="margin-top:20px;"><#Web_Title2#></span>'
 	}
-	banner_code += '<ul id="language_menu" class="navigation"></ul>'
+	if(language_menu_support)
+		banner_code += '<ul id="language_menu" class="navigation"></ul>'
+
 	document.getElementById("QIS_banner").innerHTML = banner_code;
 
-	document.getElementById("language_menu").innerHTML = '<% shown_language_css(); %>';
-	show_selected_language();
+	if(language_menu_support){
+		document.getElementById("language_menu").innerHTML = '<% shown_language_css(); %>';
+		show_selected_language();
+	}
 	
 	if(based_modelid == "4G-AC55U" && sim_state == "1" && modem_autoapn == "1" && usb_modem_auto_spn.length == 0)
 		update_apn_progress();
