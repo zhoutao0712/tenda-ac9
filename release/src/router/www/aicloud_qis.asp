@@ -68,7 +68,7 @@ function initial(){
 			if(tmo_support)
 				var theUrl = "cellspot.router"; 
 			else
-				var theUrl = "router.asus.com";
+				var theUrl = "router.zhtel.com";
 			document.getElementById("aicloud_main_text").innerHTML = "<#AiCloud_maintext_note0#>"+ theUrl +"<#AiCloud_maintext_note1#>";
 		}
 	}
@@ -170,7 +170,7 @@ function enable_ddns(){
 
 function register_ddns(){
 	document.form.ddns_enable_x.value = 1;
-	document.form.ddns_server_x.value = "WWW.ASUS.COM";
+	document.form.ddns_server_x.value = "WWW.ZHTEL.COM";
 	document.form.ddns_hostname_x.value = MD5DDNSName;	
 	document.form.ddns_return_code_chk.value = "";	
 	FormActions("", "apply", "adm_asusddns_register", "3");

@@ -66,7 +66,7 @@ var https_port = '<% nvram_get("webdav_https_port"); %>';
 if(tmo_support)
 	var theUrl = "cellspot.router"; 
 else
-	var theUrl = "router.asus.com";
+	var theUrl = "router.zhtel.com";
 
 function initial(){
 	show_menu();
@@ -125,9 +125,9 @@ function initial(){
 
 			/*
 			if(https_port == 443)
-				document.getElementById("accessMethod").innerHTML = "<#AiCloud_enter#> <a id=\"cloud_url\" style=\"font-weight: bolder;text-decoration: underline;\" href=\"https://router.asus.com\" target=\"_blank\">https://router.asus.com</a>";
+				document.getElementById("accessMethod").innerHTML = "<#AiCloud_enter#> <a id=\"cloud_url\" style=\"font-weight: bolder;text-decoration: underline;\" href=\"https://router.zhtel.com\" target=\"_blank\">https://router.zhtel.com</a>";
 			else{
-				document.getElementById("accessMethod").innerHTML = "<#AiCloud_enter#> <a id=\"cloud_url\" style=\"font-weight: bolder;text-decoration: underline;\" href=\"https://router.asus.com\" target=\"_blank\">https://router.asus.com</a>";
+				document.getElementById("accessMethod").innerHTML = "<#AiCloud_enter#> <a id=\"cloud_url\" style=\"font-weight: bolder;text-decoration: underline;\" href=\"https://router.zhtel.com\" target=\"_blank\">https://router.zhtel.com</a>";
 				document.getElementById('cloud_url').href = "https://"+ theUrl +":" + https_port;
 				document.getElementById('cloud_url').innerHTML = "https://"+ theUrl +":" + https_port;
 			}
@@ -145,9 +145,9 @@ function initial(){
 			}
 			else{
 				if(https_port == 443) // if the port number of https is 443, hide it
-					document.getElementById("accessMethod").innerHTML = "<#AiCloud_enter#> <a id=\"cloud_url\" style=\"font-weight: bolder;text-decoration: underline;\" href=\"https://router.asus.com\" target=\"_blank\">https://router.asus.com</a>";
+					document.getElementById("accessMethod").innerHTML = "<#AiCloud_enter#> <a id=\"cloud_url\" style=\"font-weight: bolder;text-decoration: underline;\" href=\"https://router.zhtel.com\" target=\"_blank\">https://router.zhtel.com</a>";
 				else{
-					document.getElementById("accessMethod").innerHTML = "<#AiCloud_enter#> <a id=\"cloud_url\" style=\"font-weight: bolder;text-decoration: underline;\" href=\"https://router.asus.com\" target=\"_blank\">https://router.asus.com</a>";
+					document.getElementById("accessMethod").innerHTML = "<#AiCloud_enter#> <a id=\"cloud_url\" style=\"font-weight: bolder;text-decoration: underline;\" href=\"https://router.zhtel.com\" target=\"_blank\">https://router.zhtel.com</a>";
                                 	document.getElementById('cloud_url').href = "https://"+ theUrl +":" + https_port;
 	                                document.getElementById('cloud_url').innerHTML = "https://"+ theUrl +":" + https_port;
 				}	
@@ -698,7 +698,7 @@ By using AiCloud 2.0, you represent and warranty that (a) you agree to this NOTI
 YOU agree to defend, indemnify and hold harmless ASUS and its affiliates, service providers, syndicators, suppliers, licensors, officers, directors and employees, from and against any and all losses, damages, liabilities, and expenses arising out of any claim or demand (including reasonable attorneys' fees and court costs), due to or in connection with YOUR violation of this NOTICE or any applicable law or regulation, or third-party right. In particular, AiCloud 2.0 app is available on Apple Store and Google Play!. You agree to defend, indemnify and hold harmless Apple Store and Google Play!. ASUS reserves the right to recover court costs and a reasonable attorney’s fee. You agree to cooperate with ASUS for related recoveries. ASUS will notify you of related recoveries, actions or lawsuits to a reasonable degree. 
 <br><br>  
 13.INFORMATION COLLECTION AND USE: PRIVACY POLICY<br>
-To use AiCloud 2.0, You have to create an ASUS DDNS name or use an existing one. If you choose not to provide an ASUS DDNS name, You will not be able to use AiCloud 2.0. An ASUS DDNS name collects solely public IPs of your ASUS routers to enable remote access function. An ASUS DDNS name does not collect any information of your usage data, files or personal info. When you create an ASUS DDNS name account, ASUS saves all info collected via the ASUS DDNS name in ASUS servers. By using an ASUS DDNS, you understand and consent to these information collection and usage terms, including (where applicable) the transfer of data into the ASUS server. ASUS does not disclose your personal information to third parties, including but not limited to advertising or marketing agencies. ASUS discloses your personal information to third parties via AiCloud 2.0 only in following circumstances: a.When ASUS provides You technical support for AiCloud 2.0. ASUS requires third parties to sign related agreements to protect your personal information from being disclosed according to the terms in this agreement. b.When disclosing your personal information is to follow legal procedures or public policies to protect public or personal safety, or to protect ASUS property and benefit. If You have any question or further information regarding ASUS AiCloud 2.0 information collection and use, please contact ASUS via privacy@asus.com or address below: ASUS address
+To use AiCloud 2.0, You have to create an ASUS DDNS name or use an existing one. If you choose not to provide an ASUS DDNS name, You will not be able to use AiCloud 2.0. An ASUS DDNS name collects solely public IPs of your ASUS routers to enable remote access function. An ASUS DDNS name does not collect any information of your usage data, files or personal info. When you create an ASUS DDNS name account, ASUS saves all info collected via the ASUS DDNS name in ASUS servers. By using an ASUS DDNS, you understand and consent to these information collection and usage terms, including (where applicable) the transfer of data into the ASUS server. ASUS does not disclose your personal information to third parties, including but not limited to advertising or marketing agencies. ASUS discloses your personal information to third parties via AiCloud 2.0 only in following circumstances: a.When ASUS provides You technical support for AiCloud 2.0. ASUS requires third parties to sign related agreements to protect your personal information from being disclosed according to the terms in this agreement. b.When disclosing your personal information is to follow legal procedures or public policies to protect public or personal safety, or to protect ASUS property and benefit. If You have any question or further information regarding ASUS AiCloud 2.0 information collection and use, please contact ASUS via privacy@zhtel.com or address below: ASUS address
 <br><br>  
 14.INFORMATION COLLECTION AND USE: COOKIES<br>
 When you visit AiCloud 2.0 portal website for the first time, ASUS server may save one small text file, a “Cookie”, to your desktop or mobile devices. The Cookie allows AiCloud 2.0 website to retrieve your browsing history. The Cookie helps ASUS provide customized service and better user experience to you. ASUS may use Cookie to measure website traffic volume, to learn areas on the website you have visited and the pattern of your visit.Information collected by Cookie is called “Clickstream”. ASUS uses Clickstream to understand how users are navigated by ASUS websites and traffic volume patterns such as which website users come from. Clickstream helps ASUS develop website guide, recommend products and re-design websites according to users’ browsing behaviors. Clickstream also helps ASUS customize contents, banners and promotion advertisements for each user to make best purchase decisions. ASUS retrieves Clickstream through a third party. You may change Cookie settings according to your needs. Changing Internet Explorer preference settings allows you to get notice to accept or reject Cookies or when Cookie settings changed. Please note that if you reject all Cookies, you will be not able to use services or join activities that require Cookie. 
@@ -794,7 +794,7 @@ This agreement constitutes the entire agreement between you and ASUS with respec
    												<td><div class="formfontdesc" id="usbHint"><#AiCloud_maintext_note#></div></td> 
   										</tr>
 											<tr>
-   												<td><div class="formfontdesc" id="usbHint2"><#Learn_more#> : <a href="http://www.asus.com/search/results.aspx?SearchKey=AiCloud&SearchType=FAQ&IsSupport=True&Page=1" target="_blank" style="color:#FC0;text-decoration: underline; font-family:Lucida Console;">GO</a></div></td> 
+   												<td><div class="formfontdesc" id="usbHint2"><#Learn_more#> : <a href="http://www.zhtel.com/search/results.aspx?SearchKey=AiCloud&SearchType=FAQ&IsSupport=True&Page=1" target="_blank" style="color:#FC0;text-decoration: underline; font-family:Lucida Console;">GO</a></div></td> 
   										</tr>  
   										<!--tr>
    												<td valign="top"><div id="cloud_movie" style="box-shadow: 2px 2px 15px #222;margin-top: 50px;width:400px;height:241px;margin-left:165px;background:url(images/movie.jpg) no-repeat center;cursor:pointer" onClick="window.open('http://www.youtube.com/watch?v=MgIAfG5ZhPs')"></div></td>
@@ -830,7 +830,7 @@ This agreement constitutes the entire agreement between you and ASUS with respec
 																	 <#Video_Find#> <a style="font-weight: bolder;text-decoration: underline;" href="http://www.youtube.com/asusrouters" target="_blank">GO</a>
 																	</li-->
 																	<li style="margin-top:-5px;">
-																	 <#FAQ_Find#> <a style="font-weight: bolder;text-decoration: underline;" href="http://www.asus.com/search/results.aspx?SearchKey=AiCloud&SearchType=FAQ&IsSupport=True&Page=1" target="_blank">GO</a>
+																	 <#FAQ_Find#> <a style="font-weight: bolder;text-decoration: underline;" href="http://www.zhtel.com/search/results.aspx?SearchKey=AiCloud&SearchType=FAQ&IsSupport=True&Page=1" target="_blank">GO</a>
 																	</li>
 																	<li style="margin-top:-5px;">
 																		<#NSlookup_help#>

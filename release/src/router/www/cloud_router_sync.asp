@@ -178,7 +178,7 @@ var webdav_https_port = '<% nvram_get("webdav_https_port"); %>';
 if(tmo_support)
         var theUrl = "cellspot.router"; 
 else
-        var theUrl = "router.asus.com";
+        var theUrl = "router.zhtel.com";
 	
 if(!rrsut_support){
 	alert("This function is not supported on this system.");
@@ -773,7 +773,7 @@ function domain_name_select(){
 		}	
 		else{
 			document.ddns_form.ddns_enable_x.value = 1;
-			document.ddns_form.ddns_server_x.value = "WWW.ASUS.COM";
+			document.ddns_form.ddns_server_x.value = "WWW.ZHTEL.COM";
 			document.ddns_form.ddns_hostname_x.value = isMD5DDNSName;
 			
 			document.ddns_form.submit();
@@ -883,7 +883,7 @@ function show_view_info(obj_id){
 			sharelink_folder = temp[i];
 	}
 	
-	//hash_url = router_synclist_desc[j] + ">" + "http://router.asus.com/" + router_synclist_sharelink[j] + "/" + sharelink_folder + ">" + router_synclist_rule[j] + ">" + router_synclist_captcha[j];
+	//hash_url = router_synclist_desc[j] + ">" + "http://router.zhtel.com/" + router_synclist_sharelink[j] + "/" + sharelink_folder + ">" + router_synclist_rule[j] + ">" + router_synclist_captcha[j];
 	hash_url = router_synclist_desc[j] + ">" + router_synclist_sharelink[j] + "/" + sharelink_folder + ">" + router_synclist_rule[j] + ">" + router_synclist_captcha[j];
 	share_link_hashed = f23.s52e(hash_url);
 

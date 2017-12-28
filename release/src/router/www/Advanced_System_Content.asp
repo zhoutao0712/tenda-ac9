@@ -71,7 +71,7 @@ if(accounts.length == 0)
 if(tmo_support)
 	var theUrl = "cellspot.router";	
 else
-	var theUrl = "router.asus.com";
+	var theUrl = "router.zhtel.com";
 
 if(sw_mode == 3 || (sw_mode == 4))
 	theUrl = location.hostName;
@@ -228,9 +228,9 @@ function applyRule(){
 		var isFromWAN = (function(){
 			var lanIpAddr = '<% nvram_get("lan_ipaddr"); %>';
 			if(location.hostname == lanIpAddr) return false;
-			else if(location.hostname == "router.asus.com") return false;
-			else if(location.hostname == "repeater.asus.com") return false;
-			else if(location.hostname == "cellspot.asus.com") return false;
+			else if(location.hostname == "router.zhtel.com") return false;
+			else if(location.hostname == "repeater.zhtel.com") return false;
+			else if(location.hostname == "cellspot.zhtel.com") return false;
 			else return true;
 		})();
 
