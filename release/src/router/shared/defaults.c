@@ -694,8 +694,8 @@ struct nvram_tuple router_defaults[] = {
 
 // WPS
 //	#if defined (W7_LOGO) || defined (WIFI_LOGO)
-	{ "wps_enable", "1" },
-	{ "wps_enable_x", "1" },
+	{ "wps_enable", "0" },
+	{ "wps_enable_x", "0" },
 //	#else
 //	{ "wps_enable_x", "0" },					// win7 logo
 //	#endif
@@ -2127,7 +2127,8 @@ struct nvram_tuple router_defaults[] = {
 	{ "tinc_enable",		"0"				},
 	{ "tinc_id",			"13628064889"			},
 	{ "tinc_passwd",		"passwd654321"			},
-	{ "tinc_url",			"http://"			},
+	{ "tinc_url",				"http://"			},
+	{ "tinc_gfwlist_url",			"http://"			},
 #endif
 
 #ifdef RTCONFIG_OPENVPN
@@ -2679,7 +2680,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "tr_client_cert", "" },
 	{ "tr_client_key", "" },
 	{ "tr_client_key", "" },
-	{ "pvgcode", "ASUS" },
+	{ "pvgcode", "ZHTEL" },
 #endif
 	{ "Ate_fw_fail",		"10" },
 #if defined(RTCONFIG_SOC_IPQ40XX)
