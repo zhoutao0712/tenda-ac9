@@ -78,8 +78,8 @@
 #else
 #define DUT_DOMAIN_NAME "router.zhtel.com"
 #endif
-#define OLD_DUT_DOMAIN_NAME1 "www.asusnetwork.net"
-#define OLD_DUT_DOMAIN_NAME2 "www.asusrouter.com"
+#define OLD_DUT_DOMAIN_NAME1 "www.zhtelnetwork.net"
+#define OLD_DUT_DOMAIN_NAME2 "www.zhtelrouter.com"
 
 #ifdef RTCONFIG_TRAFFIC_LIMITER
 /* debug message */
