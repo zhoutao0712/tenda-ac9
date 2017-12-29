@@ -250,7 +250,7 @@ srd_find_host(const struct srd_table *table, const char *host, const int label_c
 		q--;
 	}
 
-printk(KERN_WARNING "\n%s %d q=%s\n", __FUNCTION__, __LINE__, q);
+//printk(KERN_WARNING "\n%s %d q=%s\n", __FUNCTION__, __LINE__, q);
 
 	return srd_entry_lookup(table, q);
 }
@@ -373,7 +373,7 @@ don't care ttl
 	if(Q->type == 0x0001) {			// type A
 		if(Q->data_len != 4) return false;
 		Q->ip = *(__be32 *)p;
-printk(KERN_WARNING "-------------------------------------------------%s %d: host=%s ip=%pI4\n", __FUNCTION__, __LINE__, proto->query.host, &Q->ip);
+//printk(KERN_WARNING "-------------------------------------------------%s %d: host=%s ip=%pI4\n", __FUNCTION__, __LINE__, proto->query.host, &Q->ip);
 		iphash_find_add(net, name, Q->ip);
 		return true;
 	} else if(Q->type == 0x0005) {		// type cname
@@ -427,7 +427,7 @@ printk(KERN_WARNING "\n%s %d: %d %d %d %d\n\n"
 		if((proto.header.authority_rrs != 0)||(proto.header.additional_rrs != 0)) return false;
 
 		if(!get_dns_query(&K, &proto, &offset_x)) return false;
-printk(KERN_WARNING "%s %d: host=%s type=%u class=%u\n", __FUNCTION__, __LINE__, proto.query.host, proto.query.type, proto.query.class);
+//printk(KERN_WARNING "%s %d: host=%s type=%u class=%u\n", __FUNCTION__, __LINE__, proto.query.host, proto.query.type, proto.query.class);
 		if(proto.query.class != 0x0001) return false;
 
 		spin_lock_bh(&srd_lock);
@@ -446,7 +446,7 @@ printk(KERN_WARNING "%s %d: host=%s type=%u class=%u\n", __FUNCTION__, __LINE__,
 		if((proto.header.num_answers > 0) && (proto.header.num_answers <= MAX_DNS_REQUESTS)) {
 
 			if(!get_dns_query(&K, &proto, &offset_x)) return false;
-printk(KERN_WARNING "%s %d: host=%s type=%u class=%u\n", __FUNCTION__, __LINE__, proto.query.host, proto.query.type, proto.query.class);
+//printk(KERN_WARNING "%s %d: host=%s type=%u class=%u\n", __FUNCTION__, __LINE__, proto.query.host, proto.query.type, proto.query.class);
 			if(proto.query.class != 0x0001) return false;
 
 			spin_lock_bh(&srd_lock);
