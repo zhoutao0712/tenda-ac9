@@ -827,7 +827,7 @@ This agreement constitutes the entire agreement between you and ASUS with respec
 																 	<div id="accessMethod"></div>
 																 	</li>
 																 	<!--li style="margin-top:-5px;">
-																	 <#Video_Find#> <a style="font-weight: bolder;text-decoration: underline;" href="http://www.youtube.com/asusrouters" target="_blank">GO</a>
+																	 <#Video_Find#> <a style="font-weight: bolder;text-decoration: underline;" href="http://www.youtube.com/zhtelrouters" target="_blank">GO</a>
 																	</li-->
 																	<li style="margin-top:-5px;">
 																	 <#FAQ_Find#> <a style="font-weight: bolder;text-decoration: underline;" href="http://www.zhtel.com/search/results.aspx?SearchKey=AiCloud&SearchType=FAQ&IsSupport=True&Page=1" target="_blank">GO</a>

@@ -1101,7 +1101,7 @@ var startQuery = function(){
 function internetCheck(){
 	$("#summary_try_button").show();
 	var lang_alise = get_supportsite_lang();
-	url = "http://www.asus.com/" + lang_alise + "/Networking/";
+	url = "http://www.zhtel.com/" + lang_alise + "/Networking/";
 	setTimeout('top.location.href =" ' + url + '"', 10000);
 }
 
@@ -1662,7 +1662,7 @@ function final_summary(){
 		string += "<br/>In Media Bridge mode, only wireless devices connect to the P-AP. Client devices need to be connected to the Media Bridge with a network cable.";			
 	}
 		
-	string += "<br/><span>Use <a href='http://repeater.asus.com' target='_blank' style='text-decoration:underline'>repeater.asus.com</a> to login the device</span>";
+	string += "<br/><span>Use <a href='http://repeater.zhtel.com' target='_blank' style='text-decoration:underline'>repeater.zhtel.com</a> to login the device</span>";
 	string += "<br/><span id='summary_try' style='display:none'>Try Connecting to Internet...</span><span id='summary_try_button' style='margin-left:12px;padding:3px 12px;border-radius:3px;background:#007AFF;display:none' onclick='startQuery();'>GO</span>";
 		
 	$("#summary_desc").html(string);

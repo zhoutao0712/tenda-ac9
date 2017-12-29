@@ -178,7 +178,7 @@ function register_ddns(){
 }
 
 function open_aicloud(){
-	window.location.href = "http://www.asusrouter.com/aicloud.html?v=https://" + ddns_hostname_x + ":" + webdav_https_port;
+	window.location.href = "http://www.zhtelrouter.com/aicloud.html?v=https://" + ddns_hostname_x + ":" + webdav_https_port;
 }
 
 function restart_needed_time(second){
