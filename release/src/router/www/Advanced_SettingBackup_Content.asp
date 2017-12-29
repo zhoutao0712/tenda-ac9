@@ -23,12 +23,12 @@
 var varload = 0;
 var lan_ipaddr = '<% nvram_get("lan_ipaddr"); %>';
 var ddns_enable = '<% nvram_get("ddns_enable_x"); %>';	//0: disable, 1: enable
-var ddns_server = '<% nvram_get("ddns_server_x"); %>';	//WWW.ASUS.COM
+var ddns_server = '<% nvram_get("ddns_server_x"); %>';	//WWW.ZHTEL.COM
 
 
 function initial(){
 	show_menu();
-	if(ddns_enable == 1 && ddns_server == "WWW.ASUS.COM")
+	if(ddns_enable == 1 && ddns_server == "WWW.ZHTEL.COM")
 		document.getElementById("transfer_ddns_field").style.display = "";
 		
 }
@@ -53,7 +53,7 @@ function restoreRule(){
 
 function saveSetting(){
 	var flag = 0;
-	if(ddns_enable == 1 && ddns_server != "WWW.ASUS.COM"){
+	if(ddns_enable == 1 && ddns_server != "WWW.ZHTEL.COM"){
 		flag = 1;
 	}
 	else{	//ASUS DDNS

@@ -24,7 +24,7 @@ var ddns_hostname_title;
 function initial(){
 	parent.hideLoading();
 	
-	if(this.ddns_server_x == "WWW.ASUS.COM" && this.ddns_hostname_x != ''){
+	if(this.ddns_server_x == "WWW.ZHTEL.COM" && this.ddns_hostname_x != ''){
 		this.ddns_hostname_title = this.ddns_hostname_x.substring(0, this.ddns_hostname_x.indexOf('.asuscomm.com'));
 		if(this.ddns_hostname_x != '' && this.ddns_hostname_title)
 			document.getElementById("DDNSName").value = this.ddns_hostname_title;
@@ -40,7 +40,7 @@ function initial(){
 function switch_ddns(){
 	if(document.form.check_asus_ddns[0].checked){
 		parent.setASUSDDNS_enable("1");
-		document.form.ddns_server_x.value = "WWW.ASUS.COM";
+		document.form.ddns_server_x.value = "WWW.ZHTEL.COM";
 	}
 	else{
 		parent.setASUSDDNS_enable("0");
@@ -67,7 +67,7 @@ function show_TOS_checkbox(){
 		document.getElementById("ddnsname_input").style.display = "none";	
 	}
 
-	if(this.ddns_server_x == "WWW.ASUS.COM")
+	if(this.ddns_server_x == "WWW.ZHTEL.COM")
 		check_return_code();
 	}
 

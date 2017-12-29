@@ -392,7 +392,7 @@ function show_ddns_status(){
 			if((link_status != undefined || link_auxstatus != undefined) && !((link_status == "2" && link_auxstatus == "0") || (link_status == "2" && link_auxstatus == "2")) ) //link down
 				document.getElementById("ddns_fail_hint").className = "notificationon";
 					
-			if( ddns_server_x == 'WWW.ASUS.COM' ) { //ASUS DDNS
+			if( ddns_server_x == 'WWW.ZHTEL.COM' ) { //ASUS DDNS
 				if( (ddns_return_code.indexOf('200')==-1) && (ddns_return_code.indexOf('220')==-1) && (ddns_return_code.indexOf('230')==-1))
 					document.getElementById("ddns_fail_hint").className = "notificationon";
 			}
@@ -898,7 +898,7 @@ function show_ddns_fail_hint() {
 	var str="";
 	if(sw_mode != 3 && document.getElementById("connect_status").className == "connectstatusoff")
 		str = "<#Disconnected#>";
-	else if(ddns_server = 'WWW.ASUS.COM') {
+	else if(ddns_server = 'WWW.ZHTEL.COM') {
 		var ddnsHint = getDDNSState(ddns_return_code, "<%nvram_get("ddns_hostname_x");%>", "<%nvram_get("ddns_old_name");%>");
 		if(ddnsHint != "")
 			str = ddnsHint;

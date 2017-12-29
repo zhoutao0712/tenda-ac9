@@ -297,7 +297,7 @@ function handle_11ac_80MHz(){
 
 function change_ddns_setting(v){
 		var hostname_x = '<% nvram_get("ddns_hostname_x"); %>';
-		if (v == "WWW.ASUS.COM"){
+		if (v == "WWW.ZHTEL.COM"){
 				document.getElementById("ddns_hostname_info_tr").style.display = "none";
 				document.getElementById("ddns_hostname_tr").style.display="";
 				document.form.ddns_hostname_x.parentNode.style.display = "none";
@@ -369,7 +369,7 @@ function change_common_radio(o, s, v, r){
 		var ddns_updated = '<% nvram_get("ddns_updated"); %>';
 		if(r == 1){
 			inputCtrl(document.form.ddns_server_x, 1);
-			if('<% nvram_get("ddns_server_x"); %>' == 'WWW.ASUS.COM'){
+			if('<% nvram_get("ddns_server_x"); %>' == 'WWW.ZHTEL.COM'){
 				document.form.DDNSName.disabled = false;
 				document.form.DDNSName.parentNode.parentNode.parentNode.style.display = "";
 				if(hostname_x != ''){
@@ -395,7 +395,7 @@ function change_common_radio(o, s, v, r){
 			}
 			change_ddns_setting(document.form.ddns_server_x.value);			
 		}else{
-			if(document.form.ddns_server_x.value == "WWW.ASUS.COM"){
+			if(document.form.ddns_server_x.value == "WWW.ZHTEL.COM"){
 				document.form.DDNSName.parentNode.parentNode.parentNode.style.display = "none";
 			}
 			else{
@@ -515,7 +515,7 @@ function openLink(s){
 			tourl = "http://dnsomatic.com/create/";
 		else if (document.form.ddns_server_x.value == 'WWW.TUNNELBROKER.NET')
 			tourl = "http://www.tunnelbroker.net/register.php";
-		else if (document.form.ddns_server_x.value == 'WWW.ASUS.COM')
+		else if (document.form.ddns_server_x.value == 'WWW.ZHTEL.COM')
 			tourl = "";
 		else if (document.form.ddns_server_x.value == 'WWW.NO-IP.COM')
 			tourl = "http://www.no-ip.com/newUser.php";
