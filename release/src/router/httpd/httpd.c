@@ -1181,6 +1181,7 @@ handle_request(void)
 				else if((mime_exception&MIME_EXCEPTION_NOAUTH_ALL)) {
 				}
 				else {
+/*
 					if(do_referer&CHECK_REFERER){
 						referer_result = referer_check(referer, fromapp);
 						if(referer_result != 0){
@@ -1194,6 +1195,7 @@ handle_request(void)
 							return;
 						}
 					}
+*/
 					handler->auth(auth_userid, auth_passwd, auth_realm);
 					auth_result = auth_check(auth_realm, authorization, url, file, cookies, fromapp);
 					if (auth_result != 0)
@@ -1220,6 +1222,7 @@ handle_request(void)
 			}else{
 				if(fromapp == 0 && (do_referer&CHECK_REFERER)){
 					referer_result = check_noauth_referrer(referer, fromapp);
+/*
 					if(referer_result != 0){
 						if(strcasecmp(method, "post") == 0){
 							if (handler->input) {
@@ -1230,6 +1233,7 @@ handle_request(void)
 						//if(!fromapp) http_logout(login_ip_tmp, cookies);
 						return;
 					}
+*/
 				}
 			}
 
