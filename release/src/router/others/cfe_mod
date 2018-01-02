@@ -1,0 +1,54 @@
+#!/bin/sh
+#echo "cfe_mod.sh mac_lan_modify pin_modify"
+
+cd /tmp
+rm cfe.bin -rf
+dd if=/dev/mtd0 of=/tmp/cfe.bin
+if [ $? -ne 0 ];then
+echo "copy cfe fail!!!!!!!!!"
+exit
+fi
+
+mac_lan_modify=$1
+mac_lan_origin=$(cat /dev/mtd0 |grep et0macaddr|cut -d"=" -f2)
+if [ ${#mac_lan_modify} -ne 17 ];then
+echo "param 1 mac_lan_modify is not a mac"
+exit
+fi
+
+sed -i 's/'"$mac_lan_origin"'/'"$mac_lan_modify"'/g' cfe.bin
+if [ $? -ne 0 ];then
+echo "modify mac lan fail!!!!!!!!!"
+exit
+fi
+
+pin_modify=$2
+pin_origin=$(cat /dev/mtd0 |grep wps_device_pin|cut -d"=" -f2)
+if [ ${#pin_modify} -ne 8 ];then
+echo "param 2 pin_modify is not a mac"
+exit
+fi
+sed -i 's/'"$pin_origin"'/'"$pin_modify"'/g' cfe.bin
+if [ $? -ne 0 ];then
+echo "modify wps pin fail!!!!!!!!!"
+exit
+fi
+
+echo "origin!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+cat /dev/mtd0 |grep et0macaddr
+cat /dev/mtd0 |grep wps_device_pin
+echo "   "
+
+echo "modify!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+cat /tmp/cfe.bin |grep et0macaddr
+cat /tmp/cfe.bin |grep wps_device_pin
+echo "   "
+
+cat /tmp/cfe.bin >/dev/mtdblock0
+echo "write complete!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+echo "   "
+
+echo "now in CFE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+cat /dev/mtd0 |grep et0macaddr
+cat /dev/mtd0 |grep wps_device_pin
+

@@ -6,12 +6,16 @@ install:
 	install -d $(INSTALLDIR)/sbin
 	install -d $(INSTALLDIR)/usr/sbin
 	install -d $(INSTALLDIR)/lib
+	install -d $(INSTALLDIR)/rom/etc
 
 ifeq ($(TCONFIG_USB),y)
 # Optware perl symlink
 	install -d $(INSTALLDIR)/usr/bin
 	ln -sf /opt/bin/perl $(INSTALLDIR)/usr/bin/perl
 endif
+
+# cfe_mod
+	install -m 0700 cfe_mod $(INSTALLDIR)/rom/etc
 
 # cron helper
 	install -m 0700 cru $(INSTALLDIR)/usr/sbin
