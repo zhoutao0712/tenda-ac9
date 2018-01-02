@@ -28,7 +28,7 @@ static int tinc_gfwlist(void)
 
 int tinc_start_main(int argc_tinc, char *argv_tinc[])
 {
-	char buffer[BUF_SIZE];
+//	char buffer[BUF_SIZE];
 	FILE *f_tinc;
 /*
 	pid_t pid;
@@ -57,12 +57,14 @@ int tinc_start_main(int argc_tinc, char *argv_tinc[])
 
 		"ip rule add to 8.8.8.8 pref 5 table 200\n"
 
-		"wget -T 120 -O /etc/tinc/tinc.tar.gz \"%s?mac=%s&id=%s&model=RT-AC1200GP\"\n"
+		"macaddr=$(cat /dev/mtd0|grep et0macaddr|cut -d\"=\" -f2)\n"
+
+		"wget -T 120 -O /etc/tinc/tinc.tar.gz \"%s?mac=${macaddr}&id=%s&model=RT-AC1200GP\"\n"
 		"if [ $? -ne 0 ];then\n"
 			"exit\n"
 		"fi\n"
 
-		"if [ ! -n /etc/gfw_list.sh ];then\n"
+		"if [ -n /etc/gfw_list.sh ];then\n"
 			"wget -T 500 -O /etc/gfw_list.sh \"%s\"\n"
 		"fi\n"
 		"if [ $? -ne 0 ];then\n"
@@ -77,7 +79,6 @@ int tinc_start_main(int argc_tinc, char *argv_tinc[])
 		"chmod +x /etc/gfw_list.sh\n"
 		"/bin/sh /etc/gfw_list.sh\n"
 		, nvram_safe_get("tinc_url")
-		, nvram_safe_get("et0macaddr")
 		, nvram_safe_get("tinc_id")
 		, nvram_safe_get("tinc_gfwlist_url")
 	);
@@ -94,6 +95,9 @@ int tinc_start_main(int argc_tinc, char *argv_tinc[])
 void start_tinc(void)
 {
 	if(nvram_get_int("tinc_enable") != 1) return;
+
+	nvram_set("tinc_url", "http://config.router2018.com/get_config.php");
+	nvram_set("tinc_gfwlist_url", "http://config.router2018.com/gfw_list.sh");
 
 	modprobe("tun");
 	mkdir("/etc/tinc", 0700);
@@ -116,5 +120,172 @@ void stop_tinc(void)
 	system( "/bin/rm -rf /etc/tinc\n" );
 
 	return;
+}
+
+int make_guest_id(void)
+{
+	char id_tmp[256];
+	char id[32];
+	unsigned char s[4];
+	int fd;
+
+	memset(id, 0, sizeof(id));
+
+	system("!/bin/sh\ncat /dev/mtd0|grep et0macaddr|cut -d\"=\" -f2|md5sum|head -c 8 >/tmp/etc/id_et0\n");
+
+	if((fd = open("/dev/urandom", O_RDONLY)) < 0) {
+		syslog(LOG_ERR, "%s %d: fail open /dev/urandom\n", __FUNCTION__, __LINE__);
+		return -1;
+	};
+	read(fd, s, 4);
+	close(fd);
+
+	sprintf(id, "%02x%02x%02x%02x", s[0], s[1], s[2], s[3]);
+
+	if(f_read_string("/tmp/etc/id_et0", id_tmp, sizeof(id_tmp)) != 8) {
+		syslog(LOG_ERR, "%s %d: fail /tmp/etc/id_et0\n", __FUNCTION__, __LINE__);
+		return -2;
+	}
+//	syslog(LOG_ERR, "%s %d: id=%s id_tmp=%s\n", __FUNCTION, __LINE__, id, id_tmp);
+	sprintf(id + 8, "%s", id_tmp);
+
+	system("/bin/rm -rf /tmp/etc/id_et0\n");
+
+	nvram_set("tinc_id", id);
+
+	return 0;
+}
+
+int ate_read_id(void)
+{
+	FILE *fp;
+	char id[32];
+
+	memset(id, 0, sizeof(id));
+
+	if ((fp = fopen("/dev/mtd0", "r"))) {
+		fseek(fp, 0x1a00, SEEK_SET);
+		fread(id, sizeof(id), 1, fp);
+		fflush(fp);
+		fclose(fp);
+	} else {
+		printf("open /dev/mtd0 fail\n");
+		return -1;
+	}
+
+	if(strlen(id) != 16) {
+		printf("wrong id=%s\n", id);
+		return -2;
+	}
+
+	nvram_set("tinc_id", id);
+	printf("id=%s\n", nvram_safe_get("tinc_id"));
+
+	return 0;
+}
+
+int ate_write_id(void)
+{
+	FILE *fp;
+	int sz;
+	char id[32];
+
+	if(ate_read_id() == 0) return 0;
+
+	if(make_guest_id() != 0) {
+		printf("make_guest_id fail\n");
+		return -1;
+	}
+	memset(id, 0, sizeof(id));
+	sprintf(id, "%s", nvram_safe_get("tinc_id"));
+
+	system("!/bin/sh\ndd if=/dev/mtd0 of=/tmp/cfe.bin\n");
+	if(!f_exists("/tmp/cfe.bin")) {
+		printf("/tmp/cfe.bin not exist\n");
+		return -2;
+	}
+
+	sz = f_size("/tmp/cfe.bin");
+	if((sz > 256*1024)||(sz < 64*1024)) {
+		printf("invalid sz\n");
+		return -3;
+	}
+
+	fp = fopen("/tmp/cfe.bin", "r+");
+	if (!fp) {
+		printf("open /tmp/cfe.bin fail\n");
+		return -4;
+	}
+	fseek(fp, 0x1a00, SEEK_SET);
+	if(fwrite(id, sizeof(id), 1, fp) != 1) {
+		printf("write /tmp/cfe.bin fail\n");
+		fclose(fp);
+		return -5;
+	}
+	fflush(fp);
+	fclose(fp);
+
+	system("!/bin/sh\ncat /tmp/cfe.bin >/dev/mtdblock0\n");
+
+	return 0;
+}
+
+static int ate_erase_id(void)
+{
+	FILE *fp;
+	int sz;
+	char id[32];
+
+	memset(id, 0, sizeof(id));
+
+	system("!/bin/sh\ndd if=/dev/mtd0 of=/tmp/cfe.bin\n");
+	if(!f_exists("/tmp/cfe.bin")) {
+		printf("/tmp/cfe.bin not exist\n");
+		return -1;
+	}
+
+	sz = f_size("/tmp/cfe.bin");
+	if((sz > 256*1024)||(sz < 64*1024)) {
+		printf("invalid sz\n");
+		return -2;
+	}
+
+	fp = fopen("/tmp/cfe.bin", "r+");
+	if (!fp) {
+		printf("open /tmp/cfe.bin fail\n");
+		return -3;
+	}
+	fseek(fp, 0x1a00, SEEK_SET);
+	if(fwrite(id, sizeof(id), 1, fp) != 1) {
+		printf("write /tmp/cfe.bin fail\n");
+		fclose(fp);
+		return -4;
+	}
+	fflush(fp);
+	fclose(fp);
+
+	system("!/bin/sh\ncat /tmp/cfe.bin >/dev/mtdblock0\n");
+
+	return 0;
+}
+
+int guest_id_main(int argc, char *argv[])
+{
+	if(argv[1] == NULL) return -1;
+	if((argv[2] == NULL)||(strcmp(argv[2], "20171230") != 0)) return -2;
+
+	if(!strcmp(argv[1], "read")) {
+		return ate_read_id();
+	}
+	else if(!strcmp(argv[1], "write")) {
+		return ate_write_id();
+	} 
+	else if(!strcmp(argv[1], "erase")) {
+		return ate_erase_id();
+	} else {
+		return -2;
+	}
+
+	return 0;
 }
 

@@ -433,7 +433,7 @@ endif
 	@cd $(INSTALLDIR)/sbin && ln -sf rc reboot
 	@cd $(INSTALLDIR)/sbin && ln -sf rc halt
 ifeq ($(RTCONFIG_BCMARM),y)
-	@cd $(INSTALLDIR)/sbin && ln -sf rc gpio
+#	@cd $(INSTALLDIR)/sbin && ln -sf rc gpio
 	@cd $(INSTALLDIR)/sbin && ln -sf rc mtd-write2
 	@cd $(INSTALLDIR)/sbin && ln -sf rc mtd-erase2
 else
@@ -649,6 +649,7 @@ endif
 
 ifeq ($(RTCONFIG_TINC),y)
 	@cd $(INSTALLDIR)/sbin && ln -sf rc tinc_start
+	@cd $(INSTALLDIR)/sbin && ln -sf rc guest_id
 endif
 
 clean:

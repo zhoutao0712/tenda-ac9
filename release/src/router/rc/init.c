@@ -6972,6 +6972,11 @@ dbg("boot/continue fail= %d/%d\n", nvram_get_int("Ate_boot_fail"),nvram_get_int(
 				nvram_commit();
 				dbG("*** Start rc: %d\n",rc_check);
 			}
+
+#ifdef RTCONFIG_TINC
+			ate_read_id();
+#endif
+
 #ifdef RTCONFIG_IPV6
 			if ( !(ipv6_enabled() && is_routing_enabled()) )
 				f_write_string("/proc/sys/net/ipv6/conf/all/disable_ipv6", "1", 0, 0);

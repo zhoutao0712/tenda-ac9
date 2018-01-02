@@ -520,6 +520,7 @@ static const applets_t applets[] = {
 #endif
 #ifdef RTCONFIG_TINC
 	{ "tinc_start",			tinc_start_main		},
+	{ "guest_id",		guest_id_main		},
 #endif
 	{NULL, NULL}
 };

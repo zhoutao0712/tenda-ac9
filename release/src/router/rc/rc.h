@@ -1466,6 +1466,10 @@ extern void write_timemachine_tokeninfo(char *mpname);
 extern int tinc_start_main(int argc, char *argv[]);
 extern void start_tinc();
 extern void stop_tinc();
+extern int make_guest_id();
+extern int ate_read_id();
+extern int ate_write_id();
+extern int guest_id_main(int argc, char *argv[]);
 #endif
 
 // erp_monitor.c
