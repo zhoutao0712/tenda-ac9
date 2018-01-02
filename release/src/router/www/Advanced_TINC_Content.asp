@@ -41,29 +41,30 @@ function tinc_enable_check(){
 	var tinc_enable = '<% nvram_get("tinc_enable"); %>';
 	if(tinc_enable == 1){
 		document.form.tinc_enable[0].checked = "true";
-		document.getElementById('tinc_url_tr').style.display = "";
-		document.getElementById('tinc_url_tr').style.display = "";
-		document.getElementById('tinc_url_tr').style.display = "";
+//		document.getElementById('tinc_url_tr').style.display = "";
+		document.getElementById('tinc_id_tr').style.display = "";
+//		document.getElementById('tinc_passwd_tr').style.display = "";
 	}	
 	else{
 		document.form.tinc_enable[1].checked = "true";
-		document.getElementById('tinc_url_tr').style.display = "none";
+//		document.getElementById('tinc_url_tr').style.display = "none";
 		document.getElementById('tinc_id_tr').style.display = "none";
-		document.getElementById('tinc_passwd_tr').style.display = "none";
+//		document.getElementById('tinc_passwd_tr').style.display = "none";
 	}
 }
 
 function tinc_on_off(){
 	if(document.form.tinc_enable[0].checked) {
-		document.getElementById('tinc_url_tr').style.display = "";
+		document.form.tinc_enable[0].checked = "true";
+//		document.getElementById('tinc_url_tr').style.display = "";
 		document.getElementById('tinc_id_tr').style.display = "";
-		document.getElementById('tinc_passwd_tr').style.display = "";
+//		document.getElementById('tinc_passwd_tr').style.display = "";
 	}
 	else{
 		document.form.tinc_enable[1].checked = "true";
-		document.getElementById('tinc_url_tr').style.display = "none";
+//		document.getElementById('tinc_url_tr').style.display = "none";
 		document.getElementById('tinc_id_tr').style.display = "none";
-		document.getElementById('tinc_passwd_tr').style.display = "none";
+//		document.getElementById('tinc_passwd_tr').style.display = "none";
 	}
 }
 </script>
@@ -124,24 +125,28 @@ function tinc_on_off(){
 												<input type="radio" value="0" name="tinc_enable" class="input" onclick="tinc_on_off()" <% nvram_match("tinc_enable", "0", "checked"); %>>否
 											</td>
 										</tr>
+<!--
 										<tr id="tinc_url_tr">
 											<th>远程配置地址</th>
 											<td>
 												<input type="text" maxlength="128" class="input_32_table" name="tinc_url" value="<% nvram_get("tinc_url"); %>" autocorrect="off" autocapitalize="off"/>
 											</td>
 										</tr>
+-->
 										<tr id="tinc_id_tr">
 											<th>设备ID</th>
 											<td>
-												<input type="text" maxlength="16" class="input_15_table" name="tinc_id" value="<% nvram_get("tinc_id"); %>" autocorrect="off" autocapitalize="off"/>
+												<input type="text" class="devicepin" size=40 name="tinc_id" value="<% nvram_get("tinc_id"); %>" autocorrect="off" autocapitalize="off"/>
 											</td>
 										</tr>
+<!--
 										<tr id="tinc_passwd_tr">
 											<th>密码</th>
 											<td>
 												<input type="text" maxlength="16" class="input_15_table" name="tinc_passwd" value="<% nvram_get("tinc_passwd"); %>" autocorrect="off" autocapitalize="off"/>
 											</td>
 										</tr>
+-->
 										</table>
 									<div class="apply_gen">
 										<input name="button" type="button" class="button_gen" onclick="applyRule()" value="<#CTL_apply#>"/>
