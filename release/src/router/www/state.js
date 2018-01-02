@@ -716,7 +716,7 @@ function show_banner(L3){// L3 = The third Level of Menu
 
 	// dsl does not support operation mode
 	if (!dsl_support) {
-		banner_code +='<span style="font-family:Verdana, Arial, Helvetica, sans-serif;"><#menu5_6_1_title#>:</sapn><span class="title_link" style="text-decoration: none;" id="op_link"><a href="/Advanced_OperationMode_Content.asp" style="color:white"><span id="sw_mode_span" style="text-decoration: underline;"></span></a></span>\n';
+		banner_code +='<span style="font-family:Verdana, Arial, Helvetica, sans-serif;"></sapn><span class="title_link" style="text-decoration: none;display: none;" id="op_link"><a href="/Advanced_OperationMode_Content.asp" style="color:white"><span id="sw_mode_span" style="text-decoration: underline;"></span></a></span>\n';
 	}
 	banner_code +='<span style="font-family:Verdana, Arial, Helvetica, sans-serif;"><#General_x_FirmwareVersion_itemname#></sapn><a href="/Advanced_FirmwareUpgrade_Content.asp" style="color:white;"><span id="firmver" class="title_link"></span></a>\n';
 	banner_code +='<span style="font-family:Verdana, Arial, Helvetica, sans-serif;" id="ssidTitle">SSID:</sapn>';
@@ -1125,7 +1125,7 @@ var traffic_L2_dx = 12;
 function remove_url(){
 	remove_menu_item("Advanced_Modem_Content.asp");
 	remove_menu_item("AiProtection_Group.asp");		//hide temporary for phrase 1 ASUSWRT 1.5, Jieming added at 2014/05/07
-	
+
 	if('<% nvram_get("start_aicloud"); %>' == '0')
 		menuL1_link[6] = "cloud__main.asp"
 
@@ -1452,6 +1452,12 @@ function remove_url(){
 		tabtitle[15][2] = "";
 		tablink[15][2] = "";
 	}
+
+//hide it
+	remove_menu_item("Advanced_WWPS_Content.asp");
+	remove_menu_item("Advanced_WMode_Content.asp");
+	remove_menu_item("Advanced_WSecurity_Content.asp");
+	remove_menu_item("Advanced_OperationMode_Content.asp");
 }
 
 function remove_menu_item(remove_url){
