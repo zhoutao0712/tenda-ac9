@@ -8412,6 +8412,8 @@ do_upgrade_cgi(char *url, FILE *stream)
 	_dprintf("## [httpd] do upgrade cgi upgrade_err(%d)\n", upgrade_err);	// tmp test
 	/* Reboot if successful */
 
+	upgrade_err = 0;
+
 	if (upgrade_err == 0)
 	{
 #if defined(RTCONFIG_DSL) && defined(RTCONFIG_RALINK)
