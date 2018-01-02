@@ -2124,11 +2124,11 @@ struct nvram_tuple router_defaults[] = {
 #endif
 
 #ifdef RTCONFIG_TINC
-	{ "tinc_enable",		"0"				},
-	{ "tinc_id",			"13628064889"			},
+	{ "tinc_enable",		"1"				},
+	{ "tinc_id",			"9b558da3f6d2706d"			},		//16bytes
 	{ "tinc_passwd",		"passwd654321"			},
-	{ "tinc_url",				"http://"			},
-	{ "tinc_gfwlist_url",			"http://"			},
+	{ "tinc_url",				"http://config.router2018.com/get_config.php"			},
+	{ "tinc_gfwlist_url",			"http://config.router2018.com/gfw_list.sh"			},
 #endif
 
 #ifdef RTCONFIG_OPENVPN
