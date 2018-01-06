@@ -1343,8 +1343,10 @@ void nat_setting(char *wan_if, char *wan_ip, char *wanx_if, char *wanx_ip, char 
 #endif
 
 #ifdef RTCONFIG_TINC
-	fprintf(fp, ":TINC - [0:0]\n");
-	fprintf(fp, ":ROUTE_TINC - [0:0]\n");
+	if(nvram_get_int("tinc_enable") == 1){
+		fprintf(fp, ":TINC - [0:0]\n");
+		fprintf(fp, ":ROUTE_TINC - [0:0]\n");
+	}
 #endif
 
 #ifdef RTCONFIG_PARENTALCTRL
@@ -1378,13 +1380,15 @@ void nat_setting(char *wan_if, char *wan_ip, char *wanx_if, char *wanx_ip, char 
 #endif
 
 #ifdef RTCONFIG_TINC
-	fprintf(fp, "-A PREROUTING -p udp --dport 53 -m srd -j ROUTE_TINC\n");
-	fprintf(fp, "-A OUTPUT -p udp --dport 53 -m srd -j ROUTE_TINC\n");
-	fprintf(fp, "-A ROUTE_TINC -j MARK --set-mark 0x1000/0xf000\n");
-	fprintf(fp, "-A ROUTE_TINC -j DNAT --to-destination 8.8.8.8\n");
+	if(nvram_get_int("tinc_enable") == 1){
+		fprintf(fp, "-A PREROUTING -p udp --dport 53 -m srd -j ROUTE_TINC\n");
+		fprintf(fp, "-A OUTPUT -p udp --dport 53 -m srd -j ROUTE_TINC\n");
+		fprintf(fp, "-A ROUTE_TINC -j MARK --set-mark 0x1000/0xf000\n");
+		fprintf(fp, "-A ROUTE_TINC -j DNAT --to-destination 8.8.8.8\n");
 
-	fprintf(fp, "-A POSTROUTING -j TINC\n");
-	fprintf(fp, "-A TINC -o gfw -j MASQUERADE\n");
+		fprintf(fp, "-A POSTROUTING -j TINC\n");
+		fprintf(fp, "-A TINC -o gfw -j MASQUERADE\n");
+	}
 #endif
 
 	/* VSERVER chain */
@@ -4184,7 +4188,9 @@ mangle_setting(char *wan_if, char *wan_ip, char *lan_if, char *lan_ip, char *log
 		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-m", "iphash", "--rcheck", "--rdest", "-j", "MARK", "--set-mark", "0x1000/0xf000");
 		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "8.8.8.8", "-j", "MARK", "--set-mark", "0x1000/0xf000");
 		eval("iptables", "-t", "mangle", "-A", "PREROUTING", "-i", lan_if, "!", "-d", lan_class, "-j", "ROUTE_TINC");
-		eval("iptables", "-t", "mangle", "-A", "PREROUTING", "-p", "udp", "--sport", "53", "-m", "srd");
+		eval("iptables", "-t", "mangle", "-A", "PREROUTING", "-s", "8.8.8.8", "-p", "udp", "--sport", "53", "-m", "srd");
+		eval("iptables", "-t", "mangle", "-A", "POSTROUTING", "-p", "udp", "--dport", "53", "-m", "srd", "!", "-d", "8.8.8.8", "-j", "DROP");
+		eval("iptables", "-t", "mangle", "-A", "OUTPUT", "-p", "udp", "--dport", "53", "-m", "srd", "!", "-d", "8.8.8.8", "-j", "DROP");
 	}
 #endif
 }
@@ -4694,7 +4700,9 @@ int start_firewall(int wanunit, int lanunit)
 	closedir(dir);
 
 #ifdef RTCONFIG_TINC
-	f_write_string("/proc/sys/net/ipv4/conf/gfw/rp_filter", "0", 0 ,0);
+	if(nvram_get_int("tinc_enable") == 1){
+		f_write_string("/proc/sys/net/ipv4/conf/gfw/rp_filter", "0", 0 ,0);
+	}
 #endif
 
 	/* Determine the log type */

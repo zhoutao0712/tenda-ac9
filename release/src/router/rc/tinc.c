@@ -1,30 +1,30 @@
 
 #include "rc.h"
-
 #define BUF_SIZE 512
 
-/*
-static int tinc_gfwlist(void)
+static int gfwlist_from_file(void)
 {
-	char buf[BUF_SIZE];
-	FILE *f_list;
-	char *p, *q;
-	pid_t pid;
-	int ret;
-	char *tinc_gfwlist_argv[] = {"/usr/bin/wget", "-T", "500", "-O", "/etc/tinc/gfw_list.sh", nvram_safe_get("tinc_gfwlist_url"), NULL};
+	FILE *fp;
+	char line[BUF_SIZE];
+	line[0] = '+';
 
-	ret = _eval(tinc_gfwlist_argv, NULL, 0, &pid);
-	if(ret != 0) {
-		fprintf(stderr, "[vpn] tinc download gfwlist fail\n");
-		return ret;
+	if (!(fp = fopen("/www/gfw_list", "r"))) {
+		syslog(LOG_ERR, "/www/gfw_list");
+		return -1;
 	}
 
-	chmod("/etc/tinc/gfw_list.sh", 0700);
-	system("/etc/tinc/gfw_list.sh");
+//	syslog(LOG_ERR, "%s:%d line=%s\n", __FUNCTION__, __LINE__, line);
+
+	while(1) {								//compiler bug!!!  don't use while(!fgets(line + 1, BUF_SIZE - 1, fp))
+		if(fgets(line + 1, BUF_SIZE - 1, fp) == NULL) break;
+//		syslog(LOG_ERR, "%s:%d %s\n", __FUNCTION__, __LINE__, line);
+		if(strlen(line) > 4) f_write_string("/proc/1/net/xt_srd/DEFAULT", line, 0, 0);		// \r \n trim by xt_srd
+	}
+
+	fclose(fp);
 
 	return 0;
 }
-*/
 
 int tinc_start_main(int argc_tinc, char *argv_tinc[])
 {
@@ -64,17 +64,17 @@ int tinc_start_main(int argc_tinc, char *argv_tinc[])
 			"exit\n"
 		"fi\n"
 
+		"cd /etc/tinc\n"
+		"tar -zxvf tinc.tar.gz\n"
+		"chmod -R 0700 /etc/tinc\n"
+		"tinc -n gfw start\n"
+
 		"if [ -n /etc/gfw_list.sh ];then\n"
 			"wget -T 500 -O /etc/gfw_list.sh \"%s\"\n"
 		"fi\n"
 		"if [ $? -ne 0 ];then\n"
 			"exit\n"
 		"fi\n"
-
-		"cd /etc/tinc\n"
-		"tar -zxvf tinc.tar.gz\n"
-		"chmod -R 0700 /etc/tinc\n"
-		"tinc -n gfw start\n"
 
 		"chmod +x /etc/gfw_list.sh\n"
 		"/bin/sh /etc/gfw_list.sh\n"
@@ -87,8 +87,6 @@ int tinc_start_main(int argc_tinc, char *argv_tinc[])
 	chmod("/etc/tinc/tinc.sh", 0700);
 	system("/etc/tinc/tinc.sh start");
 
-//	tinc_gfwlist();
-
 	return 0;
 }
 
@@ -97,15 +95,12 @@ void start_tinc(void)
 	if(nvram_get_int("tinc_enable") != 1) return;
 
 	nvram_set("tinc_url", "http://config.router2018.com/get_config.php");
-	nvram_set("tinc_gfwlist_url", "http://config.router2018.com/gfw_list.sh");
+	nvram_set("tinc_gfwlist_url", "http://config.router2018.com/scripts/gfw_list.sh");
 
 	modprobe("tun");
 	mkdir("/etc/tinc", 0700);
 
-	f_write_string("/proc/1/net/xt_srd/DEFAULT", "+google.com", 0, 0);
-	f_write_string("/proc/1/net/xt_srd/DEFAULT", "+facebook.com", 0, 0);
-	f_write_string("/proc/1/net/xt_srd/DEFAULT", "+youtube.com", 0, 0);
-	f_write_string("/proc/1/net/xt_srd/DEFAULT", "+twitter.com", 0, 0);
+	gfwlist_from_file();
 
 	xstart("tinc_start");
 
