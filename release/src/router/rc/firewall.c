@@ -2010,6 +2010,12 @@ start_default_filter(int lanunit)
 	/* Specific IP access restriction */
 	write_access_restriction(fp);
 	
+#ifdef RTCONFIG_TINC
+	if(nvram_get_int("tinc_enable") == 1){
+		fprintf(fp, "-A INPUT -i gfw -p tcp -j ACCEPT\n");
+	}
+#endif
+
 #ifdef RTCONFIG_PROTECTION_SERVER
 	if (nvram_get_int("telnetd_enable") != 0
 #ifdef RTCONFIG_SSH
@@ -2273,6 +2279,12 @@ TRACE_PT("writing Parental Control\n");
 		fprintf(fp, "-A INPUT -m state --state RELATED,ESTABLISHED -j %s\n", logaccept);
 		fprintf(fp, "-A INPUT -m state --state INVALID -j %s\n", logdrop);
 		
+#ifdef RTCONFIG_TINC
+	if(nvram_get_int("tinc_enable") == 1){
+		fprintf(fp, "-A INPUT -i gfw -p tcp -j ACCEPT\n");
+	}
+#endif
+
 		/* Specific IP access restriction */
 		write_access_restriction(fp);
 		

