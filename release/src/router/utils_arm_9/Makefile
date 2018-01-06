@@ -64,7 +64,7 @@ endif
 
 vpath %.c $(SRCBASE)/tools/misc $(WLAN_StdSrcDirsA) $(WLAN_ComponentSrcDirs)
 
-ifneq ($(wildcard $(SRCBASE)/et/linux/et.c),)
+ifeq ($(wildcard $(SRCBASE)/et/linux/et.c),)
 UTILS += et
 vpath %.c $(SRCBASE)/et/linux
 endif
@@ -108,6 +108,9 @@ else
 wl: $(WLU_OBJS)
 	$(CC) $^ -o $@ $(LDFLAGS)
 endif
+
+et:
+	-cp -f $(SRCBASE)/wl/exe/prebuilt/et et
 
 ifeq ($(RWL),1)
 $(WFA_APUT_ALL): $(WFA_APUT_OBJS)
