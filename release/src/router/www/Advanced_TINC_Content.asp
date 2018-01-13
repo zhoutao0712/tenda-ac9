@@ -8,7 +8,7 @@
 <meta HTTP-EQUIV="Expires" CONTENT="-1">
 <link rel="shortcut icon" href="images/favicon.png">
 <link rel="icon" href="images/favicon.png">
-<title><#Web_Title#> - TINC</title>
+<title><#Web_Title#> - 出国加速</title>
 <link rel="stylesheet" type="text/css" href="index_style.css"> 
 <link rel="stylesheet" type="text/css" href="form_style.css">
 <script language="JavaScript" type="text/javascript" src="/state.js"></script>
@@ -106,11 +106,11 @@ function tinc_on_off(){
 								<td bgcolor="#4D595D" valign="top" >
 									<div>&nbsp;</div>
 									<div class="formfonttitle">
-										VPN - TINC客户端
+										VPN - 出国加速
 									</div>
 									<div style="margin-left:5px;margin-top:10px;margin-bottom:10px"><img src="/images/New_ui/export/line_export.png"></div>
 									<div class="formfontdesc">
-										TINC客户端:
+										出国加速:
 										<ul>
 											<li>不要与其他VPN同时开启。</li>
 											<li>设备ID是唯一的，同一ID同时只允许一台设备使用。</li>
@@ -119,7 +119,7 @@ function tinc_on_off(){
 									</div>
 									<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
 										<tr>
-											<th>开启TINC客户端</th>
+											<th>开启</th>
 											<td>
 												<input type="radio" value="1" name="tinc_enable" class="input" onclick="tinc_on_off()" <% nvram_match("tinc_enable", "1", "checked"); %>>是
 												<input type="radio" value="0" name="tinc_enable" class="input" onclick="tinc_on_off()" <% nvram_match("tinc_enable", "0", "checked"); %>>否
