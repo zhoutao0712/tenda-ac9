@@ -5303,7 +5303,7 @@ start_services(void)
 #ifdef RTCONFIG_CROND
 	start_cron();
 #endif
-	start_infosvr();
+//	start_infosvr();
 
 	restart_rstats();
 #ifdef RTCONFIG_DSL

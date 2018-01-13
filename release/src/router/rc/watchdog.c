@@ -3870,8 +3870,10 @@ watchdog_main(int argc, char *argv[])
 		nvram_set(p->nv, "0");
 	}
 
+/*
 	if (!pids("ots"))
 		start_ots();
+*/
 
 	setenv("TZ", nvram_safe_get("time_zone_x"), 1);
 
