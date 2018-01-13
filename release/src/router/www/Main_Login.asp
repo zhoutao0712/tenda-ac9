@@ -8,7 +8,7 @@
 <meta HTTP-EQUIV="Expires" CONTENT="-1">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <link rel="icon" href="images/favicon.png">
-<title>ASUS Login</title>
+<title>Login</title>
 <style>
 body{
 	font-family: Arial;
@@ -219,6 +219,7 @@ var countdownid, rtime_obj;
 var redirect_page = login_info.page;
 var isRouterMode = ('<% nvram_get("sw_mode"); %>' == '1') ? true : false;
 
+/*
 var header_info = [<% get_header_info(); %>][0];
 var ROUTERHOSTNAME = '<% nvram_get("local_domain"); %>';
 var domainNameUrl = ((header_info.host.split(":").length==2)?"https":"http")+"://"+header_info.host.replace(header_info.host.split(":")[0], ROUTERHOSTNAME);
@@ -230,6 +231,7 @@ var chdom = function(){window.location.href=domainNameUrl};
 		}, 1);
 	}
 })();
+*/
 
 <% login_state_hook(); %>
 
