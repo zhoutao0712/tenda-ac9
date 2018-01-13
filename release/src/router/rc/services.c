@@ -3128,7 +3128,7 @@ void start_upnp(void)
 					nvram_get_int("upnp_ssdp_interval"),
 					get_productid(),
 					get_productid(),
-					"ASUS Wireless Router",
+					"Wireless Router",
 					rt_version, rt_serialno,
 					nvram_get("serial_no") ? : et0macaddr,
 					"/tmp/upnp.leases");
