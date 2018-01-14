@@ -36,7 +36,7 @@
 #include "xalloc.h"
 
 int addressfamily = AF_UNSPEC;
-int maxtimeout = 900;
+int maxtimeout = 120;
 int seconds_till_retry = 5;
 int udp_rcvbuf = 1024 * 1024;
 int udp_sndbuf = 1024 * 1024;
