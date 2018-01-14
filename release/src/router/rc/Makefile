@@ -401,9 +401,9 @@ ifeq ($(RTCONFIG_TUNNEL),y)
 OBJS += natnl_api.o
 endif
 
-ifneq ($(RTCONFIG_RALINK)$(RTCONFIG_QCA)$(RTCONFIG_REALTEK),y)
-OBJS += erp_monitor.o
-endif
+#ifneq ($(RTCONFIG_RALINK)$(RTCONFIG_QCA)$(RTCONFIG_REALTEK),y)
+#OBJS += erp_monitor.o
+#endif
 
 all: rc
 
@@ -644,9 +644,9 @@ endif
 ifeq ($(RTCONFIG_KEY_GUARD),y)
 	@cd $(INSTALLDIR)/sbin && ln -sf rc keyguard
 endif
-ifneq ($(RTCONFIG_RALINK)$(RTCONFIG_QCA)$(RTCONFIG_REALTEK),y)
-	@cd $(INSTALLDIR)/sbin && ln -sf rc erp_monitor
-endif
+#ifneq ($(RTCONFIG_RALINK)$(RTCONFIG_QCA)$(RTCONFIG_REALTEK),y)
+#	@cd $(INSTALLDIR)/sbin && ln -sf rc erp_monitor
+#endif
 
 ifeq ($(RTCONFIG_TINC),y)
 	@cd $(INSTALLDIR)/sbin && ln -sf rc tinc_start
