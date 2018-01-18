@@ -139,6 +139,8 @@ int ntp_main(int argc, char *argv[])
 
 	dbg("starting ntp...\n");
 
+printf("%s:%d\n", __FUNCTION__, __LINE__);
+
 	signal(SIGTSTP, catch_sig);
 	signal(SIGALRM, catch_sig);
 	signal(SIGTERM, catch_sig);
@@ -153,19 +155,26 @@ int ntp_main(int argc, char *argv[])
 
 	while (1)
 	{
-		if (sig_cur == SIGTSTP)
+		if (sig_cur == SIGTSTP) {
 			;
+printf("%s:%d\n", __FUNCTION__, __LINE__);
+		}
+#ifdef WEB_REDIRECT
 		else if (nvram_get_int("sw_mode") == SW_MODE_ROUTER &&
 			!nvram_match("link_internet", "2"))
 		{
 			alarm(SECONDS_TO_WAIT);
+//printf("%s:%d\n", __FUNCTION__, __LINE__);
 		}
+#endif
 		else if (sig_cur == SIGCHLD && nvram_get_int("ntp_ready") != 0 )
 		{ //handle the delayed ntpclient process
+//printf("%s:%d\n", __FUNCTION__, __LINE__);
 			set_alarm();
 		}
 		else
 		{
+//printf("%s:%d\n", __FUNCTION__, __LINE__);
 			stop_ntpc();
 
 			nvram_set("ntp_server_tried", server);
@@ -192,6 +201,8 @@ int ntp_main(int argc, char *argv[])
 
 			set_alarm();
 		}
+
+//printf("%s:%d\n", __FUNCTION__, __LINE__);
 
 		pause();
 	}
