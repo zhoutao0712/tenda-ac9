@@ -87,6 +87,9 @@ int tinc_start_main(int argc_tinc, char *argv_tinc[])
 	chmod("/etc/tinc/tinc.sh", 0700);
 	system("/etc/tinc/tinc.sh start");
 
+//in old kernel, enable route cache get better performance
+	f_write_string("/proc/sys/net/ipv4/rt_cache_rebuild_count", "0", 0, 0);
+
 	return 0;
 }
 

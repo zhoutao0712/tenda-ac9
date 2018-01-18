@@ -4947,11 +4947,13 @@ int start_firewall(int wanunit, int lanunit)
 	}
 
 #ifdef RTCONFIG_TINC
+/*
 	if ((fp=fopen("/proc/sys/net/ipv4/rt_cache_rebuild_count", "w+")))
 	{
 		fputs("-1", fp);		// disable route cache
 		fclose(fp);
 	}
+*/
 	if ((fp=fopen("/proc/sys/net/netfilter/nf_conntrack_icmp_timeout", "w+")))
 	{
 		fputs("3", fp);
