@@ -14,7 +14,7 @@ APSurvey_msg_connect_open_wlan=您正在连接不安全的网络。在这个网�
 APSurvey_msg_connected=您已经连上此基地台。
 APSurvey_msg_non_support_Auth=不支持的验证方法。
 APSurvey_msg_waiting_to_connect=请稍候，ZVMODELVZ 正在联机到
-ASUS_Registration=加入会员，将不定时提供您最新的产品资讯。 <a style='color:#FC0' target='_blank' href='https://account.zhtel.com'>立即注册！</a>
+ASUS_Registration=加入会员，将不定时提供您最新的产品资讯。
 asusddns_inputhint=请输入名称
 Auto=自动
 Auto_Setting_btn=自动设置
