@@ -806,6 +806,8 @@ ifneq ($(find lighttpd-1.4.39, $(obj-y)),"")
 released_dir += APP-IPK
 endif
 
+obj-y += service_guard
+
 obj-clean := $(foreach obj, $(obj-y) $(obj-n) $(obj-), $(obj)-clean)
 obj-install := $(foreach obj,$(obj-y),$(obj)-install)
 
@@ -5082,6 +5084,9 @@ endif
 quicksec-6.0-fips-clean:
 	-@$(MAKE) KDIR=$(LINUXDIR) -C quicksec-6.0-fips/build/linux clean
 	-@$(MAKE) KDIR=$(LINUXDIR) -C quicksec-6.0-fips/gplinterceptor/build/linux clean
+
+
+service_guard: nvram$(BCMEX) shared
 
 #
 # Generic rules
