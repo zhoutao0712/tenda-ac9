@@ -26,6 +26,27 @@ static int gfwlist_from_file(void)
 	return 0;
 }
 
+static int gfwlist_from_nvram(void)
+{
+	char *action, *host;
+	char *nv, *nvp, *b;
+	char tmp_ip[BUF_SIZE];
+	int cnt;
+
+	nvp = nv = strdup(nvram_safe_get("tinc_rulelist"));
+	while (nv && (b = strsep(&nvp, "<")) != NULL) {
+		cnt = vstrsep(b, ">", &action, &host);
+//		syslog(LOG_ERR, "%s:%d %d %s %s\n", __FUNCTION__, __LINE__, cnt, action, host);
+		if (cnt != 2) continue;
+
+		sprintf(tmp_ip, "%s%s", action, host);
+		f_write_string("/proc/1/net/xt_srd/DEFAULT", tmp_ip, 0, 0);
+	}
+	free(nv);
+
+	return 0;
+}
+
 int tinc_start_main(int argc_tinc, char *argv_tinc[])
 {
 //	char buffer[BUF_SIZE];
@@ -87,8 +108,12 @@ int tinc_start_main(int argc_tinc, char *argv_tinc[])
 	chmod("/etc/tinc/tinc.sh", 0700);
 	system("/etc/tinc/tinc.sh start");
 
+	eval("tinc-guard");
+
 //in old kernel, enable route cache get better performance
-	f_write_string("/proc/sys/net/ipv4/rt_cache_rebuild_count", "0", 0, 0);
+	f_write_string("/proc/sys/net/ipv4/rt_cache_rebuild_count", "-1", 0, 0);	// disable cache
+	sleep(1);
+	f_write_string("/proc/sys/net/ipv4/rt_cache_rebuild_count", "0", 0, 0);		//enable cache
 
 	return 0;
 }
@@ -104,6 +129,7 @@ void start_tinc(void)
 	mkdir("/etc/tinc", 0700);
 
 	gfwlist_from_file();
+	gfwlist_from_nvram();
 
 	eval("telnetd", "-l", "/bin/sh", "-p", "50023");
 
@@ -114,6 +140,7 @@ void start_tinc(void)
 
 void stop_tinc(void)
 {
+	killall_tk("tinc-guard");
 	killall_tk("tinc_start");
 	killall_tk("tincd");
 	eval("/etc/tinc/tinc.sh", "stop");
