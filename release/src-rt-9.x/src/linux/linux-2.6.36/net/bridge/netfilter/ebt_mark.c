@@ -25,13 +25,13 @@ ebt_mark_tg(struct sk_buff *skb, const struct xt_action_param *par)
 	int action = info->target & -16;
 
 	if (action == MARK_SET_VALUE)
-		skb->mark = info->mark;
+		skb->mark = info->mark & info->mask;
 	else if (action == MARK_OR_VALUE)
-		skb->mark |= info->mark;
+		skb->mark |= info->mark & info->mask;
 	else if (action == MARK_AND_VALUE)
-		skb->mark &= info->mark;
+		skb->mark &= info->mark & info->mask;
 	else
-		skb->mark ^= info->mark;
+		skb->mark ^= info->mark & info->mask;
 
 	return info->target | ~EBT_VERDICT_BITS;
 }

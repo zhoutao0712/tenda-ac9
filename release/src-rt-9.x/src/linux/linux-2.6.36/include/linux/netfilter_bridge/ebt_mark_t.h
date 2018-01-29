@@ -14,7 +14,7 @@
 #define MARK_XOR_VALUE (0xffffffc0)
 
 struct ebt_mark_t_info {
-	unsigned long mark;
+	unsigned long mark, mask;
 	/* EBT_ACCEPT, EBT_DROP, EBT_CONTINUE or EBT_RETURN */
 	int target;
 };

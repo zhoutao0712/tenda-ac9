@@ -20,6 +20,7 @@ static int mark_supplied;
 #define MARK_ORMARK  '3'
 #define MARK_ANDMARK '4'
 #define MARK_XORMARK '5'
+#define MARK_MASK    '6'
 static struct option opts[] =
 {
 	{ "mark-target" , required_argument, 0, MARK_TARGET },
@@ -30,6 +31,7 @@ static struct option opts[] =
 	{ "mark-or"     , required_argument, 0, MARK_ORMARK  },
 	{ "mark-and"    , required_argument, 0, MARK_ANDMARK },
 	{ "mark-xor"    , required_argument, 0, MARK_XORMARK },
+	{ "mark-mask"   , required_argument, 0, MARK_MASK },
 	{ 0 }
 };
 
@@ -41,6 +43,7 @@ static void print_help()
 	" --mark-or  value     : Or nfmark with value (nfmark |= value)\n"
 	" --mark-and value     : And nfmark with value (nfmark &= value)\n"
 	" --mark-xor value     : Xor nfmark with value (nfmark ^= value)\n"
+	" --mark-mask value    : nfmark mask value\n"
 	" --mark-target target : ACCEPT, DROP, RETURN or CONTINUE\n");
 }
 
@@ -52,6 +55,7 @@ static void init(struct ebt_entry_target *target)
 	markinfo->target = EBT_ACCEPT;
 	markinfo->mark = 0;
 	mark_supplied = 0;
+	markinfo->mask = 0xffffffffU;
 }
 
 #define OPT_MARK_TARGET   0x01
@@ -59,6 +63,7 @@ static void init(struct ebt_entry_target *target)
 #define OPT_MARK_ORMARK   0x04
 #define OPT_MARK_ANDMARK  0x08
 #define OPT_MARK_XORMARK  0x10
+#define OPT_MARK_MASK     0x20
 static int parse(int c, char **argv, int argc,
    const struct ebt_u_entry *entry, unsigned int *flags,
    struct ebt_entry_target **target)
@@ -100,6 +105,12 @@ static int parse(int c, char **argv, int argc,
 			ebt_print_error2("--mark-xor cannot be used together with specific --mark option");
 		markinfo->target = (markinfo->target & EBT_VERDICT_BITS) | MARK_XOR_VALUE;
                 break;
+	case MARK_MASK:
+		ebt_check_option2(flags, OPT_MARK_MASK);
+		markinfo->mask = strtoul(optarg, &end, 0);
+		if (*end != '\0' || end == optarg)
+			ebt_print_error2("Bad MASK value '%s'", optarg);
+		return 1;
 	 default:
 		return 0;
 	}
@@ -143,6 +154,7 @@ static void print(const struct ebt_u_entry *entry,
 	else
 		ebt_print_error("oops, unknown mark action, try a later version of ebtables");
 	printf(" 0x%lx", markinfo->mark);
+	printf(" --mark-mask 0x%lx", markinfo->mask);
 	tmp = markinfo->target | ~EBT_VERDICT_BITS;
 	printf(" --mark-target %s", TARGET_NAME(tmp));
 }
