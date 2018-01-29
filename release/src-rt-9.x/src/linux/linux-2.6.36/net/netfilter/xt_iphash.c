@@ -206,7 +206,7 @@ static int iphash_mt_check(const struct xt_mtchk_param *par)
 		ret = -ENOMEM;
 		goto out;
 	}
-	t->refcnt = 1;
+	t->refcnt = 2;
 	strcpy(t->name, info->name);
 	for (i = 0; i < IP_HASH_SIZE; i++)
 		INIT_LIST_HEAD(&t->hash[i]);
