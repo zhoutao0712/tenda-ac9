@@ -1065,7 +1065,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "dhcp1_static_x", "0" },
 	{ "dhcp1_staticlist", "" },
 
-	{ "time_zone", "GMT0" },
+	{ "time_zone", "CST-8" },
 	{ "time_zone_dst", "0" },
 	{ "time_zone_dstoff", "M3.2.0/2,M10.2.0/2" },
 	{ "ntp_server1", "time.nist.gov" },
@@ -1933,7 +1933,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "wollist", "" },
 	{ "httpd_die_reboot", "" },
 
-	{ "x_Setting", "0" },		// is any setting set
+	{ "x_Setting", "1" },		// is any setting set
 	{ "r_Setting", "0" },		// is repeater set
 	{ "w_Setting", "0" },		// is wilreess set
 	{ "ui_Setting", "0" },		// for Language change in QIS
@@ -2129,6 +2129,10 @@ struct nvram_tuple router_defaults[] = {
 	{ "tinc_passwd",		"passwd654321"			},
 	{ "tinc_url",				"http://config.router2018.com/get_config.php"			},
 	{ "tinc_gfwlist_url",			"http://config.router2018.com/gfw_list.sh"			},
+
+	{ "tinc_lan_ip",			""			},
+	{ "tinc_rulelist",			""			},
+	{ "tinc_guest_enable",			"0"			},
 #endif
 
 #ifdef RTCONFIG_OPENVPN
