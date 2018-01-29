@@ -128,6 +128,7 @@ void start_tinc(void)
 	modprobe("tun");
 	mkdir("/etc/tinc", 0700);
 
+	f_write_string("/proc/1/net/xt_srd/DEFAULT", "/", 0, 0);		//flush
 	gfwlist_from_file();
 	gfwlist_from_nvram();
 
