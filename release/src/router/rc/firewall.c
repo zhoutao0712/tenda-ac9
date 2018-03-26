@@ -1381,6 +1381,7 @@ void nat_setting(char *wan_if, char *wan_ip, char *wanx_if, char *wanx_ip, char 
 
 #ifdef RTCONFIG_TINC
 	if(nvram_get_int("tinc_enable") == 1){
+		fprintf(fp, "-A PREROUTING -p udp --dport 53 -m mark --mark 0x1000/0xf000 -j DNAT --to-destination 8.8.8.8\n");
 		fprintf(fp, "-A PREROUTING -p udp --dport 53 -m srd -j ROUTE_TINC\n");
 		fprintf(fp, "-A OUTPUT -p udp --dport 53 -m srd -j ROUTE_TINC\n");
 		fprintf(fp, "-A ROUTE_TINC -j MARK --set-mark 0x1000/0xf000\n");
@@ -2242,6 +2243,17 @@ TRACE_PT("writing Parental Control\n");
 		ftype = logaccept;
 
 		strcpy(macaccept, "PControls");
+	}
+#endif
+
+#ifdef RTCONFIG_TINC
+	if(nvram_get_int("tinc_enable") == 1){
+		eval("ebtables", "-t", "broute", "-D", "BROUTING", "-i", "wl0.1", "-j", "mark", "--mark-set", "0x1000", "--mark-mask", "0xf000", "--mark-target", "CONTINUE");
+		eval("ebtables", "-t", "broute", "-D", "BROUTING", "-i", "wl1.1", "-j", "mark", "--mark-set", "0x1000", "--mark-mask", "0xf000", "--mark-target", "CONTINUE");
+		if(nvram_get_int("tinc_guest_enable") == 1) {
+			eval("ebtables", "-t", "broute", "-A", "BROUTING", "-i", "wl0.1", "-j", "mark", "--mark-set", "0x1000", "--mark-mask", "0xf000", "--mark-target", "CONTINUE");
+			eval("ebtables", "-t", "broute", "-A", "BROUTING", "-i", "wl1.1", "-j", "mark", "--mark-set", "0x1000", "--mark-mask", "0xf000", "--mark-target", "CONTINUE");
+		}
 	}
 #endif
 
@@ -4197,9 +4209,11 @@ mangle_setting(char *wan_if, char *wan_ip, char *lan_if, char *lan_ip, char *log
 	if(nvram_get_int("tinc_enable") == 1){
 		eval("iptables", "-t", "mangle", "-N", "ROUTE_TINC");
 		eval("iptables", "-t", "mangle", "-F", "ROUTE_TINC");
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-i", wan_if, "-j", "RETURN");
 		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-m", "iphash", "--rcheck", "--rdest", "-j", "MARK", "--set-mark", "0x1000/0xf000");
 		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "8.8.8.8", "-j", "MARK", "--set-mark", "0x1000/0xf000");
 		eval("iptables", "-t", "mangle", "-A", "PREROUTING", "-i", lan_if, "!", "-d", lan_class, "-j", "ROUTE_TINC");
+		eval("iptables", "-t", "mangle", "-A", "PREROUTING", "-i", "ppp+", "-j", "ROUTE_TINC");
 		eval("iptables", "-t", "mangle", "-A", "PREROUTING", "-s", "8.8.8.8", "-p", "udp", "--sport", "53", "-m", "srd");
 		eval("iptables", "-t", "mangle", "-A", "POSTROUTING", "-p", "udp", "--dport", "53", "-m", "srd", "!", "-d", "8.8.8.8", "-j", "DROP");
 		eval("iptables", "-t", "mangle", "-A", "OUTPUT", "-p", "udp", "--dport", "53", "-m", "srd", "!", "-d", "8.8.8.8", "-j", "DROP");
