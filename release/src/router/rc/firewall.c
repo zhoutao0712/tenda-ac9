@@ -4217,6 +4217,16 @@ mangle_setting(char *wan_if, char *wan_ip, char *lan_if, char *lan_ip, char *log
 		eval("iptables", "-t", "mangle", "-A", "PREROUTING", "-s", "8.8.8.8", "-p", "udp", "--sport", "53", "-m", "srd");
 		eval("iptables", "-t", "mangle", "-A", "POSTROUTING", "-p", "udp", "--dport", "53", "-m", "srd", "!", "-d", "8.8.8.8", "-j", "DROP");
 		eval("iptables", "-t", "mangle", "-A", "OUTPUT", "-p", "udp", "--dport", "53", "-m", "srd", "!", "-d", "8.8.8.8", "-j", "DROP");
+
+// add telegram server ip
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "91.108.4.0/22", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "91.108.8.0/21", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "91.108.16.0/21", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "91.108.36.0/23", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "91.108.38.0/23", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "91.108.56.0/22", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "149.154.160.0/20", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+
 	}
 #endif
 }
