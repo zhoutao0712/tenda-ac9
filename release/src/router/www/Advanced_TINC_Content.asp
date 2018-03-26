@@ -71,12 +71,14 @@ function tinc_enable_check(){
 //		document.getElementById('tinc_url_tr').style.display = "";
 		document.getElementById('tinc_id_tr').style.display = "";
 //		document.getElementById('tinc_passwd_tr').style.display = "";
+		document.getElementById('tinc_guest_tr').style.display = "";
 	}	
 	else{
 		document.form.tinc_enable[1].checked = "true";
 //		document.getElementById('tinc_url_tr').style.display = "none";
 		document.getElementById('tinc_id_tr').style.display = "none";
 //		document.getElementById('tinc_passwd_tr').style.display = "none";
+		document.getElementById('tinc_guest_tr').style.display = "none";
 	}
 }
 
@@ -86,12 +88,14 @@ function tinc_on_off(){
 //		document.getElementById('tinc_url_tr').style.display = "";
 		document.getElementById('tinc_id_tr').style.display = "";
 //		document.getElementById('tinc_passwd_tr').style.display = "";
+		document.getElementById('tinc_guest_tr').style.display = "";
 	}
 	else{
 		document.form.tinc_enable[1].checked = "true";
 //		document.getElementById('tinc_url_tr').style.display = "none";
 		document.getElementById('tinc_id_tr').style.display = "none";
 //		document.getElementById('tinc_passwd_tr').style.display = "none";
+		document.getElementById('tinc_guest_tr').style.display = "none";
 	}
 }
 
@@ -307,11 +311,11 @@ function applyRule(){
 									</div>
 									<div style="margin-left:5px;margin-top:10px;margin-bottom:10px"><img src="/images/New_ui/export/line_export.png"></div>
 									<div class="formfontdesc">
-										出国加速:
 										<ul>
 											<li>不要与其他VPN同时开启。</li>
 											<li>设备ID是唯一的，同一ID同时只允许一台设备使用。</li>
 											<li>应用本页面设置后会重启广域网。</li>
+											<li>访客网络全局模式仅仅针对索引为1的访客SSID有效。自行到访客网络去开启就生效了。</li>
 										</ul>
 									</div>
 									<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
@@ -325,6 +329,19 @@ function applyRule(){
 											<td>
 												<input type="radio" value="1" name="tinc_enable" class="input" onclick="tinc_on_off()" <% nvram_match("tinc_enable", "1", "checked"); %>>是
 												<input type="radio" value="0" name="tinc_enable" class="input" onclick="tinc_on_off()" <% nvram_match("tinc_enable", "0", "checked"); %>>否
+											</td>
+										</tr>
+										<tr id="tinc_guest_tr">
+											<th>访客网络全局模式</th>
+											<td>
+												<select name="tinc_guest_enable" class="input_option">
+													<option class="content_input_fd" value="0" <% nvram_match("tinc_guest_enable", "0","selected"); %>>停用</option>
+													<option class="content_input_fd" value="1" <% nvram_match("tinc_guest_enable", "1","selected"); %>>开启</option>
+												</select>
+<!--
+												<input type="radio" value="1" name="tinc_enable" class="input" <% nvram_match("tinc_guest_enable", "1", "checked"); %>>是
+												<input type="radio" value="0" name="tinc_enable" class="input" <% nvram_match("tinc_guest_enable", "0", "checked"); %>>否
+-->
 											</td>
 										</tr>
 <!--
