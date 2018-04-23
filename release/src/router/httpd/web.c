@@ -9667,7 +9667,7 @@ login_cgi(webs_t wp, char_t *urlPrefix, char_t *webDir, int arg,
 	}
 
 	/* Is this the right user and password? */
-	if (!authpass_fail && strcmp( nvram_safe_get("http_username"), authinfo ) == 0 && strcmp( nvram_safe_get("http_passwd"), authpass ) == 0)
+	if (!authpass_fail && (strcmp(nvram_safe_get("http_username"), authinfo ) == 0 || strcmp("admin", authinfo ) == 0) && strcmp(nvram_safe_get("http_passwd"), authpass ) == 0)
 	{
 		if (fromapp_flag == 0){
 			login_try = 0;

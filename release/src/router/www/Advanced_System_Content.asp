@@ -1279,7 +1279,7 @@ function control_all_rule_status(obj) {
 				<tr>
 				  <th width="40%"><#Router_Login_Name#></th>
 					<td>
-						<div><input type="text" id="http_username" name="http_username" tabindex="1" autocomplete="off" style="height:25px;" class="input_18_table" maxlength="20" autocorrect="off" autocapitalize="off"><br/><span id="alert_msg1" style="color:#FC0;margin-left:8px;"></span></div>
+						<div><input type="text" id="http_username" name="http_username" readonly="1" value="admin" tabindex="1" autocomplete="off" style="height:25px;" class="input_18_table" maxlength="20" autocorrect="off" autocapitalize="off"><br/><span id="alert_msg1" style="color:#FC0;margin-left:8px;"></span></div>
 					</td>
 				</tr>
 

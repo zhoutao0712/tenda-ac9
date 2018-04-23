@@ -469,7 +469,7 @@ function paste_password(){
 		  <th width="240"><a class="hintstyle" href="javascript:void(0);" onClick="openHint(11,5)"><#Router_Login_Name#></a></th>
 		  <td class="QISformtd">
 			<div>
-				<input type="text" id="http_username" name="http_username" tabindex="1" style="height:25px;" class="input_18_table" maxlength="20" value="<% nvram_get("http_username"); %>" autocomplete="off" autocorrect="off" autocapitalize="off">
+				<input type="text" id="http_username" name="http_username" readonly="1" tabindex="1" style="height:25px;" class="input_18_table" maxlength="20" value="<% nvram_get("http_username"); %>" autocomplete="off" autocorrect="off" autocapitalize="off">
 				<br /><span id="alert_msg1" style="color:#FC0;margin-left:8px;display:none;"></span>
 			</div>
 		  </td>
@@ -502,7 +502,7 @@ function paste_password(){
 	<fieldset id="theFieldset1" style="display:none;">
 		<div class="row">
 			<label>Username</label>
-			<input type="text" id="_http_username" name="_http_username" placeholder="Your login" onblur="document.form.http_username.value=this.value" value="<% nvram_get("http_username"); %>" autocomplete="off" autocorrect="off" autocapitalize="off">
+			<input type="text" id="_http_username" name="_http_username" readonly="1" placeholder="Your login" onblur="document.form.http_username.value=this.value" value="<% nvram_get("http_username"); %>" autocomplete="off" autocorrect="off" autocapitalize="off">
 			<br/><span id="alert_msg1" style="color:red"></span>
 		</div>
 		<div class="row_end">

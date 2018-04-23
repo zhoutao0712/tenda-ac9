@@ -394,7 +394,7 @@ function showError(str){
 <input type="hidden" name="flag" value="">
 <input type="hidden" name="login_authorization" value="">
 <input name="foilautofill" style="display: none;" type="password">
-<input type="hidden" name="http_username" value="">
+<input type="hidden" name="http_username" value="admin">
 <input type="hidden" name="http_passwd" value="">
 <table id="loginTable" align="center" cellpadding="0" cellspacing="0" style="display:none">
 	<tr>
@@ -432,7 +432,7 @@ function showError(str){
 					<tr style="height:72px;">
 						<td colspan="2">
 							<div style="margin:20px 0px 0px 78px;">
-								<input type="text" name="http_username_x" tabindex="1" class="form_input" maxlength="20" value="" autocapitalize="off" autocomplete="off" placeholder="<#Router_Login_Name#>">
+								<input type="text" readonly="1" name="http_username_x" tabindex="1" class="form_input" maxlength="20" value="admin" autocapitalize="off" autocomplete="off" placeholder="<#Router_Login_Name#>">
 							</div>
 						</td>
 					</tr>
