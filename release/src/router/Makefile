@@ -3439,6 +3439,7 @@ lzo-install: lzo
 	install -D lzo/src/.libs/liblzo2.so $(INSTALLDIR)/lzo/usr/lib/liblzo2.so.2
 	$(STRIP) $(INSTALLDIR)/lzo/usr/lib/liblzo2.so.2
 	cd $(INSTALLDIR)/lzo/usr/lib && ln -sf liblzo2.so.2 liblzo2.so
+	cd $(INSTALLDIR)/lzo/usr/lib && rm -rf liblzo2.so.2 liblzo2.so
 
 openpam: openpam/Makefile
 	$(MAKE) -C $@ && $(MAKE) $@-stage
@@ -4550,7 +4551,12 @@ email-3.1.3/stamp-h1: openssl
 endif
 
 #tinc
-tinc/stamp-h1: openssl zlib lzo
+#	--with-zlib-include="$(TOP)/zlib" \
+#	--with-zlib-lib="$(TOP)/zlib" \
+#	--with-lzo-include="$(TOP)/lzo/include" \
+#	--with-lzo-lib="$(TOP)/lzo/src/.libs" \
+#tinc/stamp-h1: openssl zlib lzo
+tinc/stamp-h1: openssl
 	@cd tinc && autoreconf -fsi && \
 	CC=$(CC) AR=$(AR) RANLIB=$(RANLIB) LD=$(LD) \
 	CFLAGS="-Os -Wall $(EXTRACFLAGS) -fPIC -ffunction-sections -fdata-sections" \
@@ -4559,19 +4565,19 @@ tinc/stamp-h1: openssl zlib lzo
 	--prefix=/usr \
 	--sysconfdir=/etc \
 	--localstatedir=/var \
-	--with-zlib-include="$(TOP)/zlib" \
-	--with-zlib-lib="$(TOP)/zlib" \
-	--with-lzo-include="$(TOP)/lzo/include" \
-	--with-lzo-lib="$(TOP)/lzo/src/.libs" \
 	--with-openssl-include="$(TOP)/openssl/include" \
 	--with-openssl-lib="$(TOP)/openssl" \
+	--disable-lzo \
+	--disable-zlib \
 	--disable-curses \
-	--disable-readline
+	--disable-readline \
+	--disable-legacy-protocol
 	@touch tinc/stamp-h1
 
 tinc: tinc/stamp-h1
 	@$(SEP)
-	@$(MAKE) -C tinc LIBS="-lcrypto $(TOP)/zlib/libz.a -llzo2 -lm" $(PARALLEL_BUILD)
+	@$(MAKE) -C tinc LIBS="-lcrypto -lm" $(PARALLEL_BUILD)
+#	@$(MAKE) -C tinc LIBS="-lcrypto $(TOP)/zlib/libz.a -llzo2 -lm" $(PARALLEL_BUILD)
 
 tinc-clean:
 	-@$(MAKE) -C tinc clean
