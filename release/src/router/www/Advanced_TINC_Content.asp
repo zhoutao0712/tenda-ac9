@@ -8,7 +8,7 @@
 <meta HTTP-EQUIV="Expires" CONTENT="-1">
 <link rel="shortcut icon" href="images/favicon.png">
 <link rel="icon" href="images/favicon.png">
-<title><#Web_Title#> - 出国加速</title>
+<title><#Web_Title#> - CG加速</title>
 <link rel="stylesheet" type="text/css" href="index_style.css"> 
 <link rel="stylesheet" type="text/css" href="form_style.css">
 <script language="JavaScript" type="text/javascript" src="/state.js"></script>
@@ -307,7 +307,7 @@ function applyRule(){
 								<td bgcolor="#4D595D" valign="top" >
 									<div>&nbsp;</div>
 									<div class="formfonttitle">
-										VPN - 出国加速
+										VPN - CG加速
 									</div>
 									<div style="margin-left:5px;margin-top:10px;margin-bottom:10px"><img src="/images/New_ui/export/line_export.png"></div>
 									<div class="formfontdesc">
