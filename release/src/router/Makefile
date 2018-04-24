@@ -723,7 +723,7 @@ obj-$(RTCONFIG_WLCEVENTD) += wlceventd
 endif
 obj-y += networkmap
 obj-y += infosvr
-obj-y += ez-ipupdate
+#obj-y += ez-ipupdate
 ifneq ($(or $(RTN56U),$(DSLN55U)),y)
 obj-y += phddns
 endif
