@@ -2774,8 +2774,12 @@ wan_up(char *wan_ifname)	// oleg patch, replace
 #endif
 
 #ifdef RTCONFIG_TINC
-	stop_tinc();
-	start_tinc();
+	if(check_if_file_exist("/etc/tinc/gfw/tinc.conf")) {
+		eval("tinc", "-n", "gfw", "restart");
+	} else {
+		stop_tinc();
+		start_tinc();
+	}
 #endif
 
 	adjust_netdev_if_of_wan_bled(1, wan_unit, wan_ifname);
