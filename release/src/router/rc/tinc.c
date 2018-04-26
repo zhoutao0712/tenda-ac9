@@ -88,6 +88,8 @@ int tinc_start_main(int argc_tinc, char *argv_tinc[])
 		"cd /etc/tinc\n"
 		"tar -zxvf tinc.tar.gz\n"
 		"chmod -R 0700 /etc/tinc\n"
+
+		"tinc -n gfw KeyExpire 864000\n"
 		"tinc -n gfw start\n"
 
 		"if [ -n /etc/gfw_list.sh ];then\n"
