@@ -4037,6 +4037,32 @@ write_porttrigger(FILE *fp, char *wan_if, int is_nat)
 	free(nv);
 }
 
+
+
+
+#define BUF_SIZE 512
+static int dnslist_from_file(void)
+{
+	FILE *fp;
+	char line[BUF_SIZE];
+	line[0] = '+';
+
+	if (!(fp = fopen("/www/dns_list", "r"))) {
+		return -1;
+	}
+
+	f_write_string("/proc/1/net/xt_srd/dnslist", "/", 0, 0);		// flush
+
+	while(1) {								//compiler bug!!!  don't use while(!fgets(line + 1, BUF_SIZE - 1, fp))
+		if(fgets(line + 1, BUF_SIZE - 1, fp) == NULL) break;
+		if(strlen(line) > 4) f_write_string("/proc/1/net/xt_srd/dnslist", line, 0, 0);		// \r \n trim by xt_srd
+	}
+
+	fclose(fp);
+
+	return 0;
+}
+
 void
 mangle_setting(char *wan_if, char *wan_ip, char *lan_if, char *lan_ip, char *logaccept, char *logdrop)
 {
@@ -4215,8 +4241,6 @@ mangle_setting(char *wan_if, char *wan_ip, char *lan_if, char *lan_ip, char *log
 		eval("iptables", "-t", "mangle", "-A", "PREROUTING", "-i", lan_if, "!", "-d", lan_class, "-j", "ROUTE_TINC");
 		eval("iptables", "-t", "mangle", "-A", "PREROUTING", "-i", "ppp+", "-j", "ROUTE_TINC");
 		eval("iptables", "-t", "mangle", "-A", "PREROUTING", "-s", "8.8.8.8", "-p", "udp", "--sport", "53", "-m", "srd");
-		eval("iptables", "-t", "mangle", "-A", "POSTROUTING", "-p", "udp", "--dport", "53", "-m", "srd", "!", "-d", "8.8.8.8", "-j", "DROP");
-		eval("iptables", "-t", "mangle", "-A", "OUTPUT", "-p", "udp", "--dport", "53", "-m", "srd", "!", "-d", "8.8.8.8", "-j", "DROP");
 
 // add telegram server ip
 		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "91.108.4.0/22", "-j", "MARK", "--set-mark", "0x1000/0xf000");
@@ -4226,6 +4250,19 @@ mangle_setting(char *wan_if, char *wan_ip, char *lan_if, char *lan_ip, char *log
 		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "91.108.38.0/23", "-j", "MARK", "--set-mark", "0x1000/0xf000");
 		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "91.108.56.0/22", "-j", "MARK", "--set-mark", "0x1000/0xf000");
 		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "149.154.160.0/20", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+
+
+
+		if(nvram_get_int("fix_dnscache") == 1){
+			eval("iptables", "-t", "mangle", "-N", "ROUTE_DNSOUT");
+			eval("iptables", "-t", "mangle", "-F", "ROUTE_DNSOUT");
+
+			eval("iptables", "-t", "mangle", "-A", "FORWARD", "!", "-o", "gfw", "-p", "udp", "--dport", "53", "-j", "ROUTE_DNSOUT");
+			eval("iptables", "-t", "mangle", "-A", "OUTPUT", "!", "-o", "gfw", "-p", "udp", "--dport", "53", "-j", "ROUTE_DNSOUT");
+			eval("iptables", "-t", "mangle", "-A", "ROUTE_DNSOUT", "-m", "srd", "--name", "dnslist", "-j", "DROP");
+
+			dnslist_from_file();
+		}
 
 	}
 #endif

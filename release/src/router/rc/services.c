@@ -1000,6 +1000,13 @@ void start_dnsmasq(void)
 		    "min-port=%u\n",		// min port used for random src port
 		dmservers, 1500, nvram_get_int("dns_minport") ? : 4096);
 
+
+	if(nvram_get_int("fix_dnscache") == 1) {
+		fprintf(fp, "max-ttl=%d\n", 1);			// 1 seconds
+		fprintf(fp, "max-cache-ttl=%d\n", 1);		// 1 seconds
+		fprintf(fp, "dns-forward-max=%d\n", 1024);
+	}
+
 	/* lan domain */
 	value = nvram_safe_get("lan_domain");
 	if (*value) {
