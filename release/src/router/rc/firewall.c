@@ -4041,6 +4041,7 @@ write_porttrigger(FILE *fp, char *wan_if, int is_nat)
 
 
 #define BUF_SIZE 512
+/*
 static int dnslist_from_file(void)
 {
 	FILE *fp;
@@ -4059,6 +4060,52 @@ static int dnslist_from_file(void)
 	}
 
 	fclose(fp);
+
+	return 0;
+}
+*/
+
+static int gfwlist_from_file(void)
+{
+	FILE *fp;
+	char line[BUF_SIZE];
+	line[0] = '+';
+
+	if (!(fp = fopen("/www/gfw_list", "r"))) {
+		syslog(LOG_ERR, "/www/gfw_list");
+		return -1;
+	}
+
+//	syslog(LOG_ERR, "%s:%d line=%s\n", __FUNCTION__, __LINE__, line);
+
+	while(1) {								//compiler bug!!!  don't use while(!fgets(line + 1, BUF_SIZE - 1, fp))
+		if(fgets(line + 1, BUF_SIZE - 1, fp) == NULL) break;
+//		syslog(LOG_ERR, "%s:%d %s\n", __FUNCTION__, __LINE__, line);
+		if(strlen(line) > 4) f_write_string("/proc/1/net/xt_srd/DEFAULT", line, 0, 0);		// \r \n trim by xt_srd
+	}
+
+	fclose(fp);
+
+	return 0;
+}
+
+static int gfwlist_from_nvram(void)
+{
+	char *action, *host;
+	char *nv, *nvp, *b;
+	char tmp_ip[BUF_SIZE];
+	int cnt;
+
+	nvp = nv = strdup(nvram_safe_get("tinc_rulelist"));
+	while (nv && (b = strsep(&nvp, "<")) != NULL) {
+		cnt = vstrsep(b, ">", &action, &host);
+//		syslog(LOG_ERR, "%s:%d %d %s %s\n", __FUNCTION__, __LINE__, cnt, action, host);
+		if (cnt != 2) continue;
+
+		sprintf(tmp_ip, "%s%s", action, host);
+		f_write_string("/proc/1/net/xt_srd/DEFAULT", tmp_ip, 0, 0);
+	}
+	free(nv);
 
 	return 0;
 }
@@ -4259,11 +4306,13 @@ mangle_setting(char *wan_if, char *wan_ip, char *lan_if, char *lan_ip, char *log
 
 			eval("iptables", "-t", "mangle", "-A", "FORWARD", "!", "-o", "gfw", "-p", "udp", "--dport", "53", "-j", "ROUTE_DNSOUT");
 			eval("iptables", "-t", "mangle", "-A", "OUTPUT", "!", "-o", "gfw", "-p", "udp", "--dport", "53", "-j", "ROUTE_DNSOUT");
-			eval("iptables", "-t", "mangle", "-A", "ROUTE_DNSOUT", "-m", "srd", "--name", "dnslist", "-j", "DROP");
+			eval("iptables", "-t", "mangle", "-A", "ROUTE_DNSOUT", "-m", "srd", "-j", "DROP");
 
-			dnslist_from_file();
+//			dnslist_from_file();
 		}
-
+		f_write_string("/proc/1/net/xt_srd/DEFAULT", "/", 0, 0);		//flush
+		gfwlist_from_nvram();
+		gfwlist_from_file();
 	}
 #endif
 }
