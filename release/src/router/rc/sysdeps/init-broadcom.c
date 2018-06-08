@@ -2030,6 +2030,9 @@ void init_wl(void)
 	}
 #endif
 	check_wl_country();
+	nvram_set("wl0_country_code", "US");
+	nvram_set("wl1_country_code", "CN");
+
 #if defined(RTAC3200) || defined(RTAC68U) || defined(RTAC5300) || defined(RTAC5300R) || defined(RTAC88U) || defined(RTAC3100)
 	wl_disband5grp();
 #endif
@@ -2151,6 +2154,9 @@ void init_wl_compact(void)
 	}
 #endif
 	check_wl_country();
+	nvram_set("wl0_country_code", "US");
+	nvram_set("wl1_country_code", "CN");
+
 #ifndef RTCONFIG_BRCM_USBAP
 	if ((model == MODEL_DSLAC68U) ||
 		(model == MODEL_RPAC68U) ||
