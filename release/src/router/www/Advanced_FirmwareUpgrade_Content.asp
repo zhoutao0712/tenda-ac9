@@ -116,24 +116,24 @@ function initial(){
 
 
 	if(no_update_support){
-		document.getElementById("update").style.display = "none";
-		document.getElementById("beta_firmware_path_span").style.display = "none";
-		document.getElementById("linkpage_div").style.display = "none";
+//		document.getElementById("update").style.display = "none";
+//		document.getElementById("beta_firmware_path_span").style.display = "none";
+//		document.getElementById("linkpage_div").style.display = "none";
 	}
 	else{
 		if(!live_update_support || !HTTPS_support){
-			document.getElementById("update").style.display = "none";
-			document.getElementById("beta_firmware_path_span").style.display = "none";
-			document.getElementById("linkpage_div").style.display = "";
-			document.getElementById("linkpage").style.display = "";
-			helplink = get_helplink();
-			document.getElementById("linkpage").href = helplink;
+//			document.getElementById("update").style.display = "none";
+//			document.getElementById("beta_firmware_path_span").style.display = "none";
+//			document.getElementById("linkpage_div").style.display = "";
+//			document.getElementById("linkpage").style.display = "";
+//			helplink = get_helplink();
+//			document.getElementById("linkpage").href = helplink;
 		} 
 		else{
-			document.getElementById("update").style.display = "";
-			document.getElementById("beta_firmware_path_span").style.display = "";
-			document.getElementById("linkpage_div").style.display = "none";
-			change_firmware_path(document.getElementById("beta_firmware_path").checked==true);
+//			document.getElementById("update").style.display = "";
+//			document.getElementById("beta_firmware_path_span").style.display = "";
+//			document.getElementById("linkpage_div").style.display = "none";
+//			change_firmware_path(document.getElementById("beta_firmware_path").checked==true);
 			if(confirm_show.length > 0 && confirm_show == 1){
 				do_show_confirm(webs_state_info_beta, confirm_show, current_firmware_path);	//Show beta path result
 			}
@@ -177,6 +177,8 @@ function initial(){
 		inputCtrl(document.form.file, 1);
 		inputCtrl(document.form.upload, 1);
 	}
+	document.getElementById("fw_note2").style.display = "none";
+	document.getElementById("fw_note3").style.display = "none";
 }
 
 var dead = 0;
@@ -771,11 +773,6 @@ function transferTimeFormat(time){
 				<th><#FW_item2#></th>
 				<td>
 							<input type="text" name="firmver_table" class="input_20_table" value="<% nvram_get("firmver"); %>.<% nvram_get("buildno"); %>_<% nvram_get("extendno"); %>" readonly="1" autocorrect="off" autocapitalize="off">&nbsp&nbsp&nbsp<!--/td-->
-							<input type="button" id="update" name="update" class="button_gen" style="display:none;" onclick="detect_update(document.start_update.firmware_path.value);" value="<#liveupdate#>" />
-							<span id="beta_firmware_path_span" style="display:none;">
-								<input type="checkbox" name="beta_firmware_path" id="beta_firmware_path" onclick="change_firmware_path(this.checked==true);"  <% nvram_match("firmware_path", "1", "checked"); %>>Get Beta Firmware</input>
-							</span>
-							<div id="linkpage_div" class="button_helplink" style="margin-left:200px;margin-top:-25px;display:none;"><a id="linkpage" target="_blank"><div style="padding-top:5px;"><#liveupdate#></div></a></div>
 							<div id="check_states">
 								<span id="update_states"></span>
 								<img id="update_scan" style="display:none;" src="images/InternetScan.gif" />
