@@ -20,10 +20,8 @@
 <script>
 var tinc_rulelist_array = [];
 var add_ruleList_array = new Array();
-
-function validForm(){
-	return true;
-}
+var add_wanIp_array = new Array();
+var add_lanIp_array = new Array();
 
 function done_validating(action){
 	refreshpage();
@@ -52,16 +50,16 @@ function initial(){
 		return parseArray;
 	};
 	tinc_rulelist_array["tinc_rulelist_0"] = parseNvramToArray('<% nvram_char_to_ascii("","tinc_rulelist"); %>');
-	Object.keys(tinc_rulelist_array).forEach(function(key) {
-		gen_tinc_ruleTable_Block(key);
-	});
-//	gen_tinc_ruleTable_Block("tinc_rulelist_0");
+	gen_tinc_ruleTable_Block("tinc_rulelist_0");
+	showtinc_rulelist(tinc_rulelist_array["tinc_rulelist_0"], "tinc_rulelist_0");
 
-	Object.keys(tinc_rulelist_array).forEach(function(key) {
-		showtinc_rulelist(tinc_rulelist_array[key], key);
-	});
-//	showtinc_rulelist(tinc_rulelist_array["tinc_rulelist_0"], "tinc_rulelist_0");
+	tinc_rulelist_array["tinc_rulelist_1"] = parseNvramToArray('<% nvram_char_to_ascii("","tinc_wan_ip"); %>');
+	gen_tinc_ruleTable_Block("tinc_rulelist_1");
+	showtinc_rulelist(tinc_rulelist_array["tinc_rulelist_1"], "tinc_rulelist_1");
 
+	tinc_rulelist_array["tinc_rulelist_2"] = parseNvramToArray('<% nvram_char_to_ascii("","tinc_lan_ip"); %>');
+	gen_tinc_ruleTable_Block("tinc_rulelist_2");
+	showtinc_rulelist(tinc_rulelist_array["tinc_rulelist_2"], "tinc_rulelist_2");
 }
 
 function tinc_enable_check(){
@@ -99,148 +97,386 @@ function tinc_on_off(){
 	}
 }
 
-function validRuleForm(_wan_idx){	
-//	alert(document.getElementById("tinc_host_x_" + _wan_idx + "").value);
-	add_ruleList_array = [];
-	add_ruleList_array.push(document.getElementById("tinc_action_x_" + _wan_idx + "").value);
-	add_ruleList_array.push(document.getElementById("tinc_host_x_" + _wan_idx + "").value);
+function validRuleForm(_tableID){
+	if(_tableID == "tinc_rulelist_0") {
+		add_ruleList_array = [];
+		add_ruleList_array.push(document.getElementById("tinc_action_x_0").value);
+		add_ruleList_array.push(document.getElementById("tinc_host_x_0").value);
+	}
+	if(_tableID == "tinc_rulelist_1") {
+		add_wanIp_array = [];
+		add_wanIp_array.push(document.getElementById("tinc_action_x_1" ).value);
+		add_wanIp_array.push(document.getElementById("tinc_host_x_1").value);
+	}
+
+	if(_tableID == "tinc_rulelist_2") {
+		add_wanIp_array = [];
+		add_wanIp_array.push(document.getElementById("tinc_action_x_2" ).value);
+		add_wanIp_array.push(document.getElementById("tinc_host_x_2").value);
+	}
+
 	return true;
 }
 
-function addRow_Group(upper, _this){
-	var wan_idx = $(_this).closest("*[wanUnitID]").attr( "wanUnitID" );
-	if(validRuleForm(wan_idx)){
-
-		var rule_num = tinc_rulelist_array["tinc_rulelist_" + wan_idx + ""].length;
+function addRow_host(upper){
+	if(validRuleForm("tinc_rulelist_0")){
+		var rule_num = tinc_rulelist_array["tinc_rulelist_0"].length;
 		if(rule_num >= upper){
 			alert("<#JS_itemlimit1#> " + upper + " <#JS_itemlimit2#>");
 			return false;
 		}
 
-		//match(Source Target + Port Range + Protocol) is not accepted
-		var tinc_rulelist_array_temp = tinc_rulelist_array["tinc_rulelist_" + wan_idx + ""].slice();
+		var tinc_rulelist_array_temp = tinc_rulelist_array["tinc_rulelist_0"].slice();
 		var add_ruleList_array_temp = add_ruleList_array.slice();
 		if(tinc_rulelist_array_temp.length > 0) {
-			tinc_rulelist_array["tinc_rulelist_" + wan_idx + ""].push(add_ruleList_array);
+			tinc_rulelist_array["tinc_rulelist_0"].push(add_ruleList_array);
 		}
 		else {
-			tinc_rulelist_array["tinc_rulelist_" + wan_idx + ""].push(add_ruleList_array);
+			tinc_rulelist_array["tinc_rulelist_0"].push(add_ruleList_array);
 		}
 
-		document.getElementById("tinc_action_x_" + wan_idx + "").value = "+";
-		document.getElementById("tinc_host_x_" + wan_idx + "").value = "";
-		showtinc_rulelist(tinc_rulelist_array["tinc_rulelist_" + wan_idx + ""], "tinc_rulelist_" + wan_idx + "");
+		document.getElementById("tinc_action_x_0").value = "+";
+		document.getElementById("tinc_host_x_0").value = "";
+		showtinc_rulelist(tinc_rulelist_array["tinc_rulelist_0"], "tinc_rulelist_0");
 		return true;
 	}
 }
 
-function del_Row(_this){
-	var row_idx = $(_this).closest("*[row_tr_idx]").attr( "row_tr_idx" );
-	var wan_idx = $(_this).closest("*[wanUnitID]").attr( "wanUnitID" );
-	
-	tinc_rulelist_array["tinc_rulelist_" + wan_idx + ""].splice(row_idx, 1);
-	showtinc_rulelist(tinc_rulelist_array["tinc_rulelist_" + wan_idx + ""], "tinc_rulelist_" + wan_idx + "");
+function addRow_wanip(upper){
+		if(validRuleForm("tinc_rulelist_1")){
+			var rule_num = tinc_rulelist_array["tinc_rulelist_1"].length;
+			if(rule_num >= upper){
+				alert("<#JS_itemlimit1#> " + upper + " <#JS_itemlimit2#>");
+				return false;
+			}
+
+			var tinc_rulelist_array_temp = tinc_rulelist_array["tinc_rulelist_1"].slice();
+			var add_ruleList_array_temp = add_wanIp_array.slice();
+			if(tinc_rulelist_array_temp.length > 0) {
+				tinc_rulelist_array["tinc_rulelist_1"].push(add_wanIp_array);
+			}
+			else {
+				tinc_rulelist_array["tinc_rulelist_1"].push(add_wanIp_array);
+			}
+
+			document.getElementById("tinc_action_x_1").value = "+";
+			document.getElementById("tinc_host_x_1").value = "";
+			showtinc_rulelist(tinc_rulelist_array["tinc_rulelist_1"], "tinc_rulelist_1");
+			return true;
+		}
+}
+
+function addRow_lanip(upper){
+		if(validRuleForm("tinc_rulelist_2")){
+			var rule_num = tinc_rulelist_array["tinc_rulelist_2"].length;
+			if(rule_num >= upper){
+				alert("<#JS_itemlimit1#> " + upper + " <#JS_itemlimit2#>");
+				return false;
+			}
+
+			var tinc_rulelist_array_temp = tinc_rulelist_array["tinc_rulelist_2"].slice();
+			var add_ruleList_array_temp = add_wanIp_array.slice();
+			if(tinc_rulelist_array_temp.length > 0) {
+				tinc_rulelist_array["tinc_rulelist_2"].push(add_wanIp_array);
+			}
+			else {
+				tinc_rulelist_array["tinc_rulelist_2"].push(add_wanIp_array);
+			}
+
+			document.getElementById("tinc_action_x_2").value = "1";
+			document.getElementById("tinc_host_x_2").value = "";
+			showtinc_rulelist(tinc_rulelist_array["tinc_rulelist_2"], "tinc_rulelist_2");
+			return true;
+		}
+}
+
+function del_Row_host(row_idx){
+	tinc_rulelist_array["tinc_rulelist_0"].splice(row_idx, 1);
+	showtinc_rulelist(tinc_rulelist_array["tinc_rulelist_0"], "tinc_rulelist_0");
+}
+
+function del_Row_wanip(row_idx){
+	tinc_rulelist_array["tinc_rulelist_1"].splice(row_idx, 1);
+	showtinc_rulelist(tinc_rulelist_array["tinc_rulelist_1"], "tinc_rulelist_1");
+}
+
+function del_Row_lanip(row_idx){
+	tinc_rulelist_array["tinc_rulelist_2"].splice(row_idx, 1);
+	showtinc_rulelist(tinc_rulelist_array["tinc_rulelist_2"], "tinc_rulelist_2");
 }
 
 function showtinc_rulelist(_arrayData, _tableID) {
-	var wan_idx = _tableID.split("_")[2];
-	var width_array = [14, 75, 11];
-	var handle_long_text = function(_len, _text, _width) {
-		var html = "";
-		if(_text.length > _len) {
-			var display_text = "";
-			display_text = _text.substring(0, (_len - 2)) + "...";
-			html +='<td width="' +_width + '%" title="' + _text + '">' + display_text + '</td>';
-		}
-		else
-			html +='<td width="' + _width + '%">' + _text + '</td>';
-		return html;
-	};
-	var code = "";
-	code +='<table width="100%" cellspacing="0" cellpadding="4" align="center" class="list_table">';
-	if(_arrayData.length == 0)
-		code +='<tr><td style="color:#FFCC00;" colspan="7"><#IPConnection_VSList_Norule#></td></tr>';
-	else {
-		for(var i = 0; i < _arrayData.length; i += 1) {
-			var eachValue = _arrayData[i];
-			if(eachValue.length != 0) {
-				code +='<tr row_tr_idx="' + i + '">';
-				for(var j = 0; j < eachValue.length; j += 1) {
-					switch(j) {
-						case 0 :
-						case 1 :
-							code += handle_long_text(18, eachValue[j], width_array[j]);
-							break;
-						case 2 :
-							code += handle_long_text(14, eachValue[j], width_array[j]);
-							break;
-						default :
-							code +='<td width="' + width_array[j] + '%">' + eachValue[j] + '</td>';
-							break;
+	if(_tableID == "tinc_rulelist_0") {
+		var width_array = [14, 75, 11];
+		var handle_long_text = function(_len, _text, _width) {
+			var html = "";
+			if(_text.length > _len) {
+				var display_text = "";
+				display_text = _text.substring(0, (_len - 2)) + "...";
+				html +='<td width="' +_width + '%" title="' + _text + '">' + display_text + '</td>';
+			}
+			else {
+				html +='<td width="' + _width + '%">' + _text + '</td>';
+			}
+
+			return html;
+		};
+
+		var code = "";
+		code +='<table width="100%" cellspacing="0" cellpadding="4" align="center" class="list_table">';
+		if(_arrayData.length == 0)
+			code +='<tr><td style="color:#FFCC00;" colspan="7"><#IPConnection_VSList_Norule#></td></tr>';
+		else {
+			for(var i = 0; i < _arrayData.length; i += 1) {
+				var eachValue = _arrayData[i];
+				if(eachValue.length != 0) {
+					code +='<tr row_tr_idx="' + i + '">';
+					for(var j = 0; j < eachValue.length; j += 1) {
+						switch(j) {
+							case 0 :
+							case 1 :
+								code += handle_long_text(32, eachValue[j], width_array[j]);
+								break;
+							case 2 :
+								code += handle_long_text(14, eachValue[j], width_array[j]);
+								break;
+							default :
+								code +='<td width="' + width_array[j] + '%">' + eachValue[j] + '</td>';
+								break;
+						}
 					}
+
+					code +='<td width="14%"><input class="remove_btn" onclick="del_Row_host(' + i + ');" value=""/></td></tr>';
+					code +='</tr>';
 				}
-				
-				code +='<td width="14%"><input class="remove_btn" onclick="del_Row(this);" value=""/></td></tr>';
-				code +='</tr>';
 			}
 		}
+
+		code +='</table>';
+		document.getElementById("tinc_rulelist_Block_0").innerHTML = code;
 	}
-	code +='</table>';
-	document.getElementById("tinc_rulelist_Block_" + wan_idx + "").innerHTML = code;	     
+
+	if(_tableID == "tinc_rulelist_1") {
+		var width_array = [14, 75, 11];
+		var handle_long_text = function(_len, _text, _width) {
+			var html = "";
+			if(_text == "+") _text = "启用加速";
+			if(_text == "-") _text = "禁用加速";
+			if(_text.length > _len) {
+				var display_text = "";
+				display_text = _text.substring(0, (_len - 2)) + "...";
+				html +='<td width="' +_width + '%" title="' + _text + '">' + display_text + '</td>';
+			}
+			else {
+				html +='<td width="' + _width + '%">' + _text + '</td>';
+			}
+
+			return html;
+		};
+
+		var code = "";
+		code +='<table width="100%" cellspacing="0" cellpadding="4" align="center" class="list_table">';
+		if(_arrayData.length == 0)
+			code +='<tr><td style="color:#FFCC00;" colspan="7"><#IPConnection_VSList_Norule#></td></tr>';
+		else {
+			for(var i = 0; i < _arrayData.length; i += 1) {
+				var eachValue = _arrayData[i];
+				if(eachValue.length != 0) {
+					code +='<tr row_tr_idx="' + i + '">';
+					for(var j = 0; j < eachValue.length; j += 1) {
+						switch(j) {
+							case 0 :
+							case 1 :
+								code += handle_long_text(18, eachValue[j], width_array[j]);
+								break;
+							case 2 :
+								code += handle_long_text(14, eachValue[j], width_array[j]);
+								break;
+							default :
+								code +='<td width="' + width_array[j] + '%">' + eachValue[j] + '</td>';
+								break;
+						}
+					}
+
+					code +='<td width="14%"><input class="remove_btn" onclick="del_Row_wanip(' + i + ');" value=""/></td></tr>';
+					code +='</tr>';
+				}
+			}
+		}
+
+		code +='</table>';
+		document.getElementById("tinc_rulelist_Block_1").innerHTML = code;
+	}
+
+	if(_tableID == "tinc_rulelist_2") {
+		var width_array = [14, 75, 11];
+		var handle_long_text = function(_len, _text, _width) {
+			var html = "";
+			if(_text == "1") _text = "启用全局";
+			if(_text == "2") _text = "禁用加速";
+			if(_text.length > _len) {
+				var display_text = "";
+				display_text = _text.substring(0, (_len - 2)) + "...";
+				html +='<td width="' +_width + '%" title="' + _text + '">' + display_text + '</td>';
+			}
+			else {
+				html +='<td width="' + _width + '%">' + _text + '</td>';
+			}
+
+			return html;
+		};
+
+		var code = "";
+		code +='<table width="100%" cellspacing="0" cellpadding="4" align="center" class="list_table">';
+		if(_arrayData.length == 0)
+			code +='<tr><td style="color:#FFCC00;" colspan="7"><#IPConnection_VSList_Norule#></td></tr>';
+		else {
+			for(var i = 0; i < _arrayData.length; i += 1) {
+				var eachValue = _arrayData[i];
+				if(eachValue.length != 0) {
+					code +='<tr row_tr_idx="' + i + '">';
+					for(var j = 0; j < eachValue.length; j += 1) {
+						switch(j) {
+							case 0 :
+							case 1 :
+								code += handle_long_text(18, eachValue[j], width_array[j]);
+								break;
+							case 2 :
+								code += handle_long_text(14, eachValue[j], width_array[j]);
+								break;
+							default :
+								code +='<td width="' + width_array[j] + '%">' + eachValue[j] + '</td>';
+								break;
+						}
+					}
+
+					code +='<td width="14%"><input class="remove_btn" onclick="del_Row_lanip(' + i + ');" value=""/></td></tr>';
+					code +='</tr>';
+				}
+			}
+		}
+
+		code +='</table>';
+		document.getElementById("tinc_rulelist_Block_2").innerHTML = code;
+	}
 }
 
 function gen_tinc_ruleTable_Block(_tableID) {
-	var html = "";
-	html += '<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" class="FormTable_table">';
-	
-	html += '<thead>';
-	html += '<tr>';
-	var wan_title = "";
-	var wan_idx = _tableID.split("_")[2];
-/*
-	if(support_dual_wan_unit_flag) {
-		switch(wan_idx) {
-			case "0" :
-				wan_title = "<#dualwan_primary#>&nbsp;";
-				break;
-			case "1" :
-				wan_title = "<#dualwan_secondary#>&nbsp;";
-				break;
-		}
+	if(_tableID == "tinc_rulelist_0") {
+		var html = "";
+		html += '<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" class="FormTable_table">';
+		html += '<thead>';
+		html += '<tr>';
+
+		html += '<td colspan="7">' + '自定义域名规则&nbsp;(<#List_limit#>&nbsp;128)</td>';
+		html += '</tr>';
+		html += '</thead>';
+
+		html += '<tr>';
+		html += '<th width="14%">动作</th>';
+
+		html += '<th width="75%"><a class="hintstyle" href="javascript:void(0);" onClick="">域名</a></th>';
+		html += '<th width="11%"><#list_add_delete#></th>';
+		html += '</tr>';
+
+		html += '<tr>';
+
+		html += '<td width="14%">';
+		html += '<select name="tinc_action_x_0" id="tinc_action_x_0" class="input_option">';
+		html += '<option value="+">增加到列表</option>';
+		html += '<option value="-">从列表删除</option>';
+		html += '</select>';
+		html += '</td>';
+
+		html += '<td width="75%">';
+		html += '<input type="text" maxlength="128" class="input_32_table" name="tinc_host_x_0" id="tinc_host_x_0" onKeyPress="return validator.isString(this, event)" autocorrect="off" autocapitalize="off"/>';
+		html += '</td>';
+
+		html += '<td width="11%">';
+		html += '<input type="button" class="add_btn" onClick="addRow_host(128);" name="tinc_rulelist_0" id="tinc_rulelist_0" value="">';
+		html += '</td>';
+
+		html += '</tr>';
+		html += '</table>';
+		document.getElementById("tinc_rulelist_Table_0").innerHTML = html;
 	}
-*/
-	html += '<td colspan="7">' + wan_title + '域名规则&nbsp;(<#List_limit#>&nbsp;64)</td>';
-	html += '</tr>';
-	html += '</thead>';
+	if(_tableID == "tinc_rulelist_1") {
+		var html = "";
+		html += '<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" class="FormTable_table">';
+		html += '<thead>';
+		html += '<tr>';
 
-	html += '<tr>';
-	html += '<th width="14%">动作</th>';
+		html += '<td colspan="7">' + '自定义广域网IP规则&nbsp;(<#List_limit#>&nbsp;128)</td>';
+		html += '</tr>';
+		html += '</thead>';
 
-	html += '<th width="75%"><a class="hintstyle" href="javascript:void(0);" onClick="">域名</a></th>';
-	html += '<th width="11%"><#list_add_delete#></th>';
-	html += '</tr>';
+		html += '<tr>';
+		html += '<th width="14%">动作</th>';
 
-	html += '<tr>';
+		html += '<th width="75%"><a class="hintstyle" href="javascript:void(0);" onClick="">广域网IP</a></th>';
+		html += '<th width="11%"><#list_add_delete#></th>';
+		html += '</tr>';
 
-	html += '<td width="14%">';
-	html += '<select name="tinc_action_x_' + wan_idx + '" id="tinc_action_x_' + wan_idx + '" class="input_option">';
-	html += '<option value="+">增加到列表</option>';
-	html += '<option value="-">从列表删除</option>';
-	html += '</select>';
-	html += '</td>';
+		html += '<tr>';
 
-	html += '<td width="75%">';
-	html += '<input type="text" maxlength="128" class="input_32_table" name="tinc_host_x_' + wan_idx + '" id="tinc_host_x_' + wan_idx + '" onKeyPress="return validator.isString(this, event)" autocorrect="off" autocapitalize="off"/>';
-	html += '</td>';
+		html += '<td width="14%">';
+		html += '<select name="tinc_action_x_1" id="tinc_action_x_1" class="input_option">';
+		html += '<option value="+">启用加速</option>';
+		html += '<option value="-">禁用加速</option>';
+		html += '</select>';
+		html += '</td>';
 
-	html += '<td width="11%">';
-	html += '<input type="button" class="add_btn" onClick="addRow_Group(64, this);" name="tinc_rulelist_' + wan_idx + '" id="tinc_rulelist_' + wan_idx + '" value="">';
-	html += '</td>';
+		html += '<td width="75%">';
+		html += '<input type="text" maxlength="128" class="input_32_table" name="tinc_host_x_1" id="tinc_host_x_1" onKeyPress="return validator.isString(this, event)" autocorrect="off" autocapitalize="off"/>';
+		html += '</td>';
 
-	html += '</tr>';
-	html += '</table>';
+		html += '<td width="11%">';
+		html += '<input type="button" class="add_btn" onClick="addRow_wanip(128);" name="tinc_rulelist_1" id="tinc_rulelist_1" value="">';
+		html += '</td>';
 
-	document.getElementById("tinc_rulelist_Table_" + wan_idx + "").innerHTML = html;
+		html += '</tr>';
+		html += '</table>';
+		document.getElementById("tinc_rulelist_Table_1").innerHTML = html;
+	}
+
+	if(_tableID == "tinc_rulelist_2") {
+		var html = "";
+		html += '<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" class="FormTable_table">';
+		html += '<thead>';
+		html += '<tr>';
+
+		html += '<td colspan="7">' + '自定义局域网IP规则&nbsp;(<#List_limit#>&nbsp;128)</td>';
+		html += '</tr>';
+		html += '</thead>';
+
+		html += '<tr>';
+		html += '<th width="14%">动作</th>';
+
+		html += '<th width="75%"><a class="hintstyle" href="javascript:void(0);" onClick="">局域网IP</a></th>';
+		html += '<th width="11%"><#list_add_delete#></th>';
+		html += '</tr>';
+
+		html += '<tr>';
+
+		html += '<td width="15%">';
+		html += '<select name="tinc_action_x_2" id="tinc_action_x_2" class="input_option">';
+		html += '<option value="1">启用全局模式</option>';
+		html += '<option value="2">禁用加速模式</option>';
+		html += '</select>';
+		html += '</td>';
+
+		html += '<td width="75%">';
+		html += '<input type="text" maxlength="128" class="input_32_table" name="tinc_host_x_2" id="tinc_host_x_2" onKeyPress="return validator.isString(this, event)" autocorrect="off" autocapitalize="off"/>';
+		html += '</td>';
+
+		html += '<td width="11%">';
+		html += '<input type="button" class="add_btn" onClick="addRow_lanip(128);" name="tinc_rulelist_2" id="tinc_rulelist_2" value="">';
+		html += '</td>';
+
+		html += '</tr>';
+		html += '</table>';
+		document.getElementById("tinc_rulelist_Table_2").innerHTML = html;
+	}
 }
 
 function applyRule(){
@@ -261,12 +497,66 @@ function applyRule(){
 		};
 
 		document.form.tinc_rulelist.value = parseArrayToNvram(tinc_rulelist_array["tinc_rulelist_0"]);
-//		alert(document.form.tinc_rulelist.value);
+		document.form.tinc_wan_ip.value = parseArrayToNvram(tinc_rulelist_array["tinc_rulelist_1"]);
+		document.form.tinc_lan_ip.value = parseArrayToNvram(tinc_rulelist_array["tinc_rulelist_2"]);
 
 		showLoading();
 		document.form.submit();
 	}
 }
+
+function validHost(enDomain){
+	var checkOK = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-0123456789. "
+	var ch;
+	var i, j;
+	if(enDomain=="" || enDomain==" " || enDomain.length < 4) {
+//		alert("请输入合法的域名");
+		return false;
+	}
+
+	for (i = 0; i < enDomain.length;  i++) {
+		ch = enDomain.charAt(i);
+		for (j = 0; j < checkOK.length; j++) {
+			if (ch == checkOK.charAt(j)) break;
+		}
+		if (j == checkOK.length) {
+//			alert("请输入合法的域名");
+			return false;
+		}
+	}
+	return true;
+}
+
+function validForm(){
+	var i;
+	var host_dataArray = tinc_rulelist_array["tinc_rulelist_0"];
+	for(i = 0; i < host_dataArray.length; i += 1) {
+		if(!validHost(host_dataArray[i][1])) {
+			alert("请输入合法的域名")
+			return false;
+		}
+	}
+
+	var wanip_dataArray = tinc_rulelist_array["tinc_rulelist_1"];
+	for(i = 0; i < wanip_dataArray.length; i += 1) {
+		if(ipFilterZero(wanip_dataArray[i][1]) == -2) {
+			alert("请输入合法的IP地址")
+			return false;
+		}
+	}
+
+	var lanip_dataArray = tinc_rulelist_array["tinc_rulelist_2"];
+	for(i = 0; i < lanip_dataArray.length; i += 1) {
+		if(ipFilterZero(lanip_dataArray[i][1]) == -2) {
+			alert("请输入合法的IP地址")
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
 </script>
 </head>
 
@@ -287,6 +577,8 @@ function applyRule(){
 <input type="hidden" name="preferred_lang" id="preferred_lang" value="<% nvram_get("preferred_lang"); %>">
 <input type="hidden" name="firmver" value="<% nvram_get("firmver"); %>">
 <input type="hidden" name="tinc_rulelist" value=''>
+<input type="hidden" name="tinc_wan_ip" value=''>
+<input type="hidden" name="tinc_lan_ip" value=''>
 
 <table class="content" align="center" cellpadding="0" cellspacing="0">
 	<tr>
@@ -312,7 +604,6 @@ function applyRule(){
 									<div style="margin-left:5px;margin-top:10px;margin-bottom:10px"><img src="/images/New_ui/export/line_export.png"></div>
 									<div class="formfontdesc">
 										<ul>
-											<li>不要与其他VPN同时开启。</li>
 											<li>设备ID是唯一的，同一ID同时只允许一台设备使用。</li>
 											<li>应用本页面设置后会重启广域网。</li>
 											<li>访客网络全局模式仅仅针对索引为1的访客SSID有效。自行到访客网络去开启就生效了。</li>
@@ -370,6 +661,10 @@ function applyRule(){
 
 									<div id="tinc_rulelist_Table_0" wanUnitID="0"></div>
 									<div id="tinc_rulelist_Block_0" wanUnitID="0"></div>
+									<div id="tinc_rulelist_Table_1" wanUnitID="0"></div>
+									<div id="tinc_rulelist_Block_1" wanUnitID="0"></div>
+									<div id="tinc_rulelist_Table_2" wanUnitID="0"></div>
+									<div id="tinc_rulelist_Block_2" wanUnitID="0"></div>
 
 									<div class="apply_gen">
 										<input name="button" type="button" class="button_gen" onclick="applyRule()" value="<#CTL_apply#>"/>

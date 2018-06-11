@@ -2131,6 +2131,7 @@ struct nvram_tuple router_defaults[] = {
 	{ "tinc_gfwlist_url",			"http://config.router2018.com/gfw_list.sh"			},
 
 	{ "tinc_lan_ip",			""			},
+	{ "tinc_wan_ip",			""			},
 	{ "tinc_rulelist",			""			},
 	{ "tinc_guest_enable",			"0"			},
 

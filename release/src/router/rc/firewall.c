@@ -4110,6 +4110,70 @@ static int gfwlist_from_nvram(void)
 	return 0;
 }
 
+static in_addr_t inet_addr_safe(const char *cp)
+{
+	struct in_addr a;
+
+	if (!cp)
+		return INADDR_ANY;
+
+	if (!inet_aton(cp, &a))
+		return INADDR_ANY;
+	else
+		return a.s_addr;
+}
+
+static int is_valid_ipv4(const char *cp)
+{
+	return (inet_addr_safe(cp) != INADDR_ANY) ? 1 : 0;
+}
+
+static void do_wanip_rule(void)
+{
+		char *action, *host_ip;
+		char *nv, *nvp, *b;
+//		char tmp_ip[512];
+		int cnt;
+
+		nvp = nv = strdup(nvram_safe_get("tinc_wan_ip"));
+		while (nv && (b = strsep(&nvp, "<")) != NULL) {
+			cnt = vstrsep(b, ">", &action, &host_ip);
+//			syslog(LOG_ERR, "%s:%d %d %s %s\n", __FUNCTION__, __LINE__, cnt, action, host_ip);
+			if (cnt != 2) continue;
+			if(is_valid_ipv4(host_ip)) {
+				if(strcmp(action, "+") == 0) {
+					eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", host_ip, "-j", "MARK", "--set-mark", "0x1000/0xf000");
+				} else if(strcmp(action, "-") == 0) {
+					eval("iptables", "-t", "mangle", "-I", "ROUTE_TINC", "-d", host_ip, "-j", "RETURN");
+				}
+			}
+		}
+		free(nv);
+}
+
+static void do_lanip_rule(void)
+{
+		char *action, *host_ip;
+		char *nv, *nvp, *b;
+//		char tmp_ip[512];
+		int cnt;
+
+		nvp = nv = strdup(nvram_safe_get("tinc_lan_ip"));
+		while (nv && (b = strsep(&nvp, "<")) != NULL) {
+			cnt = vstrsep(b, ">", &action, &host_ip);
+//			syslog(LOG_ERR, "%s:%d %d %s %s\n", __FUNCTION__, __LINE__, cnt, action, host_ip);
+			if (cnt != 2) continue;
+			if(is_valid_ipv4(host_ip)) {
+				if(strcmp(action, "1") == 0) {
+					eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-s", host_ip, "-j", "MARK", "--set-mark", "0x1000/0xf000");
+				} else if(strcmp(action, "2") == 0) {
+					eval("iptables", "-t", "mangle", "-I", "ROUTE_TINC", "-s", host_ip, "-j", "RETURN");
+				}
+			}
+		}
+		free(nv);
+}
+
 void
 mangle_setting(char *wan_if, char *wan_ip, char *lan_if, char *lan_ip, char *logaccept, char *logdrop)
 {
@@ -4298,8 +4362,6 @@ mangle_setting(char *wan_if, char *wan_ip, char *lan_if, char *lan_ip, char *log
 		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "91.108.56.0/22", "-j", "MARK", "--set-mark", "0x1000/0xf000");
 		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "149.154.160.0/20", "-j", "MARK", "--set-mark", "0x1000/0xf000");
 
-
-
 		if(nvram_get_int("fix_dnscache") == 1){
 			eval("iptables", "-t", "mangle", "-N", "ROUTE_DNSOUT");
 			eval("iptables", "-t", "mangle", "-F", "ROUTE_DNSOUT");
@@ -4310,6 +4372,10 @@ mangle_setting(char *wan_if, char *wan_ip, char *lan_if, char *lan_ip, char *log
 
 //			dnslist_from_file();
 		}
+
+		do_wanip_rule();
+		do_lanip_rule();
+
 		f_write_string("/proc/1/net/xt_srd/DEFAULT", "/", 0, 0);		//flush
 		gfwlist_from_nvram();
 		gfwlist_from_file();
