@@ -41,7 +41,12 @@ int main(int argc, char *argv[])
 	while (1) {
 //printf("%s:%d et0macaddr=%s\n", __FUNCTION__, __LINE__, nvram_safe_get("et0macaddr"));
 		if(pidof("tincd") <= 0) {
-			eval("service", "restart_tinc");
+//			eval("service", "restart_tinc");
+			if(check_if_file_exist("/etc/tinc/gfw/tinc.conf")) {
+				eval("tinc", "-n", "gfw", "restart");
+			} else {
+				eval("service", "restart_tinc");
+			}
 		}
 
 		sleep(CHECK_INTERVAL);
