@@ -806,6 +806,7 @@ ifneq ($(find lighttpd-1.4.39, $(obj-y)),"")
 released_dir += APP-IPK
 endif
 
+obj-y += curl-7.21.7
 obj-y += service_guard
 
 obj-clean := $(foreach obj, $(obj-y) $(obj-n) $(obj-), $(obj)-clean)
@@ -3913,7 +3914,7 @@ curl-7.21.7: curl-7.21.7/Makefile
 curl-7.21.7/Makefile: curl-7.21.7/configure
 	@cd curl-7.21.7 && $(CONFIGURE) CC=$(CC) \
 		--prefix=/usr --bindir=/usr/sbin --libdir=/usr/lib \
-		--enable-http --with-ssl=$(TOP)/openssl LDFLAGS="-ldl" \
+		--enable-http --with-ssl=$(TOP)/openssl --without-zlib LDFLAGS="-ldl" \
 
 curl-7.21.7-install: curl-7.21.7
 	@$(SEP)
@@ -5092,7 +5093,7 @@ quicksec-6.0-fips-clean:
 	-@$(MAKE) KDIR=$(LINUXDIR) -C quicksec-6.0-fips/gplinterceptor/build/linux clean
 
 
-service_guard: nvram$(BCMEX) shared
+service_guard: nvram$(BCMEX) shared curl-7.21.7
 
 #
 # Generic rules
