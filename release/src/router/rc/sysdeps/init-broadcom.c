@@ -2029,8 +2029,8 @@ void init_wl(void)
 			break;
 	}
 #endif
-	check_wl_country();
-	nvram_set("wl0_country_code", "US");
+//	check_wl_country();
+	nvram_set("wl0_country_code", "CN");
 	nvram_set("wl1_country_code", "CN");
 
 #if defined(RTAC3200) || defined(RTAC68U) || defined(RTAC5300) || defined(RTAC5300R) || defined(RTAC88U) || defined(RTAC3100)
@@ -2153,8 +2153,8 @@ void init_wl_compact(void)
 			break;
 	}
 #endif
-	check_wl_country();
-	nvram_set("wl0_country_code", "US");
+//	check_wl_country();
+	nvram_set("wl0_country_code", "CN");
 	nvram_set("wl1_country_code", "CN");
 
 #ifndef RTCONFIG_BRCM_USBAP
