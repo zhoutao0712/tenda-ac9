@@ -110,9 +110,9 @@ function validRuleForm(_tableID){
 	}
 
 	if(_tableID == "tinc_rulelist_2") {
-		add_wanIp_array = [];
-		add_wanIp_array.push(document.getElementById("tinc_action_x_2" ).value);
-		add_wanIp_array.push(document.getElementById("tinc_host_x_2").value);
+		add_lanIp_array = [];
+		add_lanIp_array.push(document.getElementById("tinc_action_x_2" ).value);
+		add_lanIp_array.push(document.getElementById("tinc_host_x_2").value);
 	}
 
 	return true;
@@ -175,12 +175,12 @@ function addRow_lanip(upper){
 			}
 
 			var tinc_rulelist_array_temp = tinc_rulelist_array["tinc_rulelist_2"].slice();
-			var add_ruleList_array_temp = add_wanIp_array.slice();
+			var add_ruleList_array_temp = add_lanIp_array.slice();
 			if(tinc_rulelist_array_temp.length > 0) {
-				tinc_rulelist_array["tinc_rulelist_2"].push(add_wanIp_array);
+				tinc_rulelist_array["tinc_rulelist_2"].push(add_lanIp_array);
 			}
 			else {
-				tinc_rulelist_array["tinc_rulelist_2"].push(add_wanIp_array);
+				tinc_rulelist_array["tinc_rulelist_2"].push(add_lanIp_array);
 			}
 
 			document.getElementById("tinc_action_x_2").value = "1";
@@ -659,12 +659,12 @@ function validForm(){
 -->
 										</table>
 
-									<div id="tinc_rulelist_Table_0" wanUnitID="0"></div>
-									<div id="tinc_rulelist_Block_0" wanUnitID="0"></div>
-									<div id="tinc_rulelist_Table_1" wanUnitID="0"></div>
-									<div id="tinc_rulelist_Block_1" wanUnitID="0"></div>
-									<div id="tinc_rulelist_Table_2" wanUnitID="0"></div>
-									<div id="tinc_rulelist_Block_2" wanUnitID="0"></div>
+									<div id="tinc_rulelist_Table_0"></div>
+									<div id="tinc_rulelist_Block_0"></div>
+									<div id="tinc_rulelist_Table_1"></div>
+									<div id="tinc_rulelist_Block_1"></div>
+									<div id="tinc_rulelist_Table_2"></div>
+									<div id="tinc_rulelist_Block_2"></div>
 
 									<div class="apply_gen">
 										<input name="button" type="button" class="button_gen" onclick="applyRule()" value="<#CTL_apply#>"/>
