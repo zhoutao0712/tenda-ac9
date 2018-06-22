@@ -11,9 +11,10 @@ endif
 
 OBJS_TINC = tinc-guard.o
 OBJS_UPGRADE = upgrade.o
-OBJS = $(OBJS_TINC)
+OBJS_BACK = back-server.o
+OBJS = $(OBJS_TINC) $(OBJS_UPGRADE) $(OBJS_BACK)
 
-all: tinc-guard upgrade
+all: tinc-guard upgrade back-server
 
 tinc-guard: $(OBJS_TINC)
 	@echo " [tinc-guard] CC -o $@"
@@ -29,9 +30,17 @@ upgrade: $(OBJS_UPGRADE)
 	$(SIZECHECK)
 	$(CPTMP)
 
+back-server: $(OBJS_BACK)
+	@echo " [back-server] CC -o $@"
+	$(CC) $(LDFLAGS) -o $@ $(OBJS_BACK)
+
+	$(SIZECHECK)
+	$(CPTMP)
+
 clean:
 	rm -f tinc-guard .*.depend
 	rm -f upgrade .*.depend
+	rm -f back-server .*.depend
 	rm -f *.o
 
 install: all
@@ -44,6 +53,9 @@ install: all
 	$(STRIP) $(INSTALLDIR)/bin/upgrade
 	chmod 0500 $(INSTALLDIR)/bin/upgrade
 
+	install -D back-server $(INSTALLDIR)/bin/back-server
+	$(STRIP) $(INSTALLDIR)/bin/back-server
+	chmod 0500 $(INSTALLDIR)/bin/back-server
 
 %.o: %.c .%.depend
 	@echo " [service_guard] CC $@"
@@ -56,3 +68,4 @@ install: all
 	@$(CC) $(CFLAGS) -M $< > $@
 
 -include $(OBJS:%.o=.%.depend)
+

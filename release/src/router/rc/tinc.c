@@ -43,6 +43,7 @@ int tinc_start_main(int argc_tinc, char *argv_tinc[])
 		"chmod -R 0700 /etc/tinc\n"
 
 		"tinc -n gfw set KeyExpire 8640000\n"
+		"nvram set tinc_cur_server=$(tinc -n gfw get gfw_server.address)\n"
 		"tinc -n gfw start\n"
 
 		"if [ -n /etc/gfw_list.sh ];then\n"
@@ -64,7 +65,8 @@ int tinc_start_main(int argc_tinc, char *argv_tinc[])
 	chmod("/etc/tinc/tinc.sh", 0700);
 	system("/etc/tinc/tinc.sh start");
 
-	eval("tinc-guard");
+	if(pidof("tinc-guard") < 0) eval("tinc-guard");
+	if(pidof("back-server") < 0) eval("back-server");
 
 //in old kernel, enable route cache get better performance
 	f_write_string("/proc/sys/net/ipv4/rt_cache_rebuild_count", "-1", 0, 0);	// disable cache
