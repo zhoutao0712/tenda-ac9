@@ -79,12 +79,12 @@ function QKaccount_load_body(){
 			document.getElementById("specialISP_tr").style.display = "none";
 		}
 		else if(isSku("EU") || isSku("SG") || isSku("AA")){
-			document.getElementById("specialISP_tr").style.display = "";
+			document.getElementById("specialISP_tr").style.display = "none";
 		}
 
 		if(parent.flag_manual == 1){
-			document.getElementById("vpn_field").style.display = "";
-			document.getElementById("specialISP_tr").style.display = "";
+			document.getElementById("vpn_field").style.display = "none";
+			document.getElementById("specialISP_tr").style.display = "none";
 		}
 		
 		if(now_flag != "auto_way_pppoe")
@@ -831,7 +831,7 @@ function pass_checked_iptv(obj){
 				</select>
 			</th>
 		</tr>
-		<tr id="specialISP_tr">
+		<tr id="specialISP_tr" style="display:none">
 			<th colspan="2">
 				<input type="checkbox" id="specialisp" name="specialisp" onclick="enable_ISP_special();">
 				<span id="specialisp_desc" class="QISGeneralFont" style="margin-left:0px;font-style:normal;color:#6CF;font-size:14px;font-weight:bolder;"><#PPPConnection_x_HostNameForISP_sectionname#></span>
