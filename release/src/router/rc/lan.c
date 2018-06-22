@@ -1907,8 +1907,9 @@ _dprintf("nat_rule: stop_nat_rules 1.\n");
 		// When CONNECTED, need to redirect 10.0.0.1
 		// (from the browser's cache) to DUT's home page.
 		repeater_nat_setting();
-		eval("ebtables", "-t", "broute", "-F");
+//		eval("ebtables", "-t", "broute", "-F");
 		eval("ebtables", "-t", "filter", "-F");
+		eval("ebtables", "-t", "broute", "-D", "BROUTING", "-d", "00:E0:11:22:33:44", "-j", "redirect", "--redirect-target", "DROP");
 		eval("ebtables", "-t", "broute", "-I", "BROUTING", "-d", "00:E0:11:22:33:44", "-j", "redirect", "--redirect-target", "DROP");
 		sprintf(domain_mapping, "%x %s", inet_addr(nvram_safe_get("lan_ipaddr")), DUT_DOMAIN_NAME);
 		f_write_string("/proc/net/dnsmqctrl", domain_mapping, 0, 0);
@@ -2011,7 +2012,7 @@ void stop_lan(void)
 
 	if (module_loaded("ebtables")) {
 		eval("ebtables", "-F");
-		eval("ebtables", "-t", "broute", "-F");
+//		eval("ebtables", "-t", "broute", "-F");
 	}
 
 	if (strncmp(lan_ifname, "br", 2) == 0) {
@@ -3044,8 +3045,9 @@ lan_up(char *lan_ifname)
 	if(get_model() == MODEL_APN12HP &&
 		nvram_get_int("sw_mode") == SW_MODE_AP) {
 		repeater_nat_setting();
-		eval("ebtables", "-t", "broute", "-F");
+//		eval("ebtables", "-t", "broute", "-F");
 		eval("ebtables", "-t", "filter", "-F");
+		eval("ebtables", "-t", "broute", "-D", "BROUTING", "-d", "00:E0:11:22:33:44", "-j", "redirect", "--redirect-target", "DROP");
 		eval("ebtables", "-t", "broute", "-I", "BROUTING", "-d", "00:E0:11:22:33:44", "-j", "redirect", "--redirect-target", "DROP");
 		sprintf(domain_mapping, "%x %s", inet_addr(nvram_safe_get("lan_ipaddr")), DUT_DOMAIN_NAME);
 		f_write_string("/proc/net/dnsmqctrl", domain_mapping, 0, 0);
@@ -3099,7 +3101,7 @@ void stop_lan_wl(void)
 
 	if (module_loaded("ebtables")) {
 		eval("ebtables", "-F");
-		eval("ebtables", "-t", "broute", "-F");
+//		eval("ebtables", "-t", "broute", "-F");
 	}
 
 	lan_ifname = nvram_safe_get("lan_ifname");
@@ -3643,6 +3645,7 @@ void lanaccess_mssid_ban(const char *limited_ifname)
 #elif defined(RTCONFIG_FBWIFI)
 	eval("ebtables", "-t", "broute", "-A", "BROUTING", "-i", (char*)limited_ifname, "-p", "ipv4", "--ip-dst", lan_subnet, "--ip-dport", "!", "8083", "--ip-proto", "tcp", "-j", "DROP");
 #else
+	eval("ebtables", "-t", "broute", "-D", "BROUTING", "-i", (char*)limited_ifname, "-p", "ipv4", "--ip-dst", lan_subnet, "--ip-proto", "tcp", "-j", "DROP");
 	eval("ebtables", "-t", "broute", "-A", "BROUTING", "-i", (char*)limited_ifname, "-p", "ipv4", "--ip-dst", lan_subnet, "--ip-proto", "tcp", "-j", "DROP");
 #endif
 }

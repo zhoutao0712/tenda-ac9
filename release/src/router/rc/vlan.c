@@ -1156,6 +1156,7 @@ void vlan_lanaccess_mssid_ban(const char *limited_ifname, char *ip, char *netmas
 
 	if (strcmp(ip, "0.0.0.0") && strcmp(netmask, "0.0.0.0")) {
 		snprintf(lan_subnet, sizeof(lan_subnet), "%s/%s", ip, netmask);
+		eval("ebtables", "-t", "broute", "-D", "BROUTING", "-i", (char*)limited_ifname, "--ip-dst", lan_subnet, "--ip-proto", "tcp", "-j", "DROP");
 		eval("ebtables", "-t", "broute", "-A", "BROUTING", "-i", (char*)limited_ifname, "--ip-dst", lan_subnet, "--ip-proto", "tcp", "-j", "DROP");
 	}
 }
