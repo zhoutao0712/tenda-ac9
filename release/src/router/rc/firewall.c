@@ -2251,8 +2251,8 @@ TRACE_PT("writing Parental Control\n");
 		eval("ebtables", "-t", "broute", "-D", "BROUTING", "-i", "wl0.1", "-j", "mark", "--mark-set", "0x1000", "--mark-mask", "0xf000", "--mark-target", "CONTINUE");
 		eval("ebtables", "-t", "broute", "-D", "BROUTING", "-i", "wl1.1", "-j", "mark", "--mark-set", "0x1000", "--mark-mask", "0xf000", "--mark-target", "CONTINUE");
 		if(nvram_get_int("tinc_guest_enable") == 1) {
-			eval("ebtables", "-t", "broute", "-A", "BROUTING", "-i", "wl0.1", "-j", "mark", "--mark-set", "0x1000", "--mark-mask", "0xf000", "--mark-target", "CONTINUE");
-			eval("ebtables", "-t", "broute", "-A", "BROUTING", "-i", "wl1.1", "-j", "mark", "--mark-set", "0x1000", "--mark-mask", "0xf000", "--mark-target", "CONTINUE");
+			eval("ebtables", "-t", "broute", "-I", "BROUTING", "-i", "wl0.1", "-j", "mark", "--mark-set", "0x1000", "--mark-mask", "0xf000", "--mark-target", "CONTINUE");
+			eval("ebtables", "-t", "broute", "-I", "BROUTING", "-i", "wl1.1", "-j", "mark", "--mark-set", "0x1000", "--mark-mask", "0xf000", "--mark-target", "CONTINUE");
 		}
 	}
 #endif

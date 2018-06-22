@@ -1357,12 +1357,14 @@ int setup_dnsmq(int mode)
 	if(mode) {
 		// setup ebtables
 		eval("ebtables", "-F");
-		eval("ebtables", "-t", "broute", "-F");
+//		eval("ebtables", "-t", "broute", "-F");
+		eval("ebtables", "-t", "broute", "-D", "BROUTING", "-d", "00:E0:11:22:33:44", "-j", "redirect", "--redirect-target", "DROP");
 		eval("ebtables", "-t", "broute", "-I", "BROUTING", "-d", "00:E0:11:22:33:44", "-j", "redirect", "--redirect-target", "DROP");
 	}
 	else {
 		eval("ebtables", "-F");
-		eval("ebtables", "-t", "broute", "-F");
+//		eval("ebtables", "-t", "broute", "-F");
+		eval("ebtables", "-D", "FORWARD", "-i", nvram_safe_get(wlc_nvname("ifname")), "-j", "DROP");
 		eval("ebtables", "-I", "FORWARD", "-i", nvram_safe_get(wlc_nvname("ifname")), "-j", "DROP");
 	}	
 	
