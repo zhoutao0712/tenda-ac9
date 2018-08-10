@@ -9,7 +9,7 @@ ifeq ($(RTCONFIG_BCMARM),y)
 CFLAGS += -I$(SRCBASE)/common/include
 endif
 
-OBJS_TINC = tinc-guard.o
+OBJS_TINC = ping.o tinc-guard.o
 OBJS_UPGRADE = upgrade.o
 OBJS_BACK = back-server.o
 OBJS = $(OBJS_TINC) $(OBJS_UPGRADE) $(OBJS_BACK)
