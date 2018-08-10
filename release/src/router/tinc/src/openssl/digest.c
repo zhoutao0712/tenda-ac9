@@ -1,6 +1,6 @@
 /*
     digest.c -- Digest handling
-    Copyright (C) 2007-2013 Guus Sliepen <guus@tinc-vpn.org>
+    Copyright (C) 2007-2016 Guus Sliepen <guus@tinc-vpn.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -29,15 +29,16 @@
 #include "../logger.h"
 
 static digest_t *digest_open(const EVP_MD *evp_md, int maclength) {
-	digest_t *digest = xzalloc(sizeof *digest);
+	digest_t *digest = xzalloc(sizeof(*digest));
 	digest->digest = evp_md;
 
 	int digestlen = EVP_MD_size(digest->digest);
 
-	if(maclength > digestlen || maclength < 0)
+	if(maclength > digestlen || maclength < 0) {
 		digest->maclength = digestlen;
-	else
+	} else {
 		digest->maclength = maclength;
+	}
 
 	return digest;
 }
@@ -64,22 +65,41 @@ digest_t *digest_open_by_nid(int nid, int maclength) {
 	return digest_open(evp_md, maclength);
 }
 
-digest_t *digest_open_sha1(int maclength) {
-	return digest_open(EVP_sha1(), maclength);
-}
-
 bool digest_set_key(digest_t *digest, const void *key, size_t len) {
-	digest->key = xrealloc(digest->key, len);
-	memcpy(digest->key, key, len);
-	digest->keylength = len;
+#ifdef HAVE_HMAC_CTX_NEW
+	digest->hmac_ctx = HMAC_CTX_new();
+	HMAC_Init_ex(digest->hmac_ctx, key, len, digest->digest, NULL);
+#else
+	digest->hmac_ctx = xzalloc(sizeof(*digest->hmac_ctx));
+	HMAC_Init(digest->hmac_ctx, key, len, digest->digest);
+#endif
+
+	if(!digest->hmac_ctx) {
+		abort();
+	}
+
 	return true;
 }
 
 void digest_close(digest_t *digest) {
-	if(!digest)
+	if(!digest) {
 		return;
+	}
 
-	free(digest->key);
+	if(digest->md_ctx) {
+		EVP_MD_CTX_destroy(digest->md_ctx);
+	}
+
+#ifdef HAVE_HMAC_CTX_NEW
+
+	if(digest->hmac_ctx) {
+		HMAC_CTX_free(digest->hmac_ctx);
+	}
+
+#else
+	free(digest->hmac_ctx);
+#endif
+
 	free(digest);
 }
 
@@ -87,17 +107,25 @@ bool digest_create(digest_t *digest, const void *indata, size_t inlen, void *out
 	size_t len = EVP_MD_size(digest->digest);
 	unsigned char tmpdata[len];
 
-	if(digest->key) {
-		if(!HMAC(digest->digest, digest->key, digest->keylength, indata, inlen, tmpdata, NULL)) {
+	if(digest->hmac_ctx) {
+		if(!HMAC_Init_ex(digest->hmac_ctx, NULL, 0, NULL, NULL)
+		                || !HMAC_Update(digest->hmac_ctx, indata, inlen)
+		                || !HMAC_Final(digest->hmac_ctx, tmpdata, NULL)) {
 			logger(DEBUG_ALWAYS, LOG_DEBUG, "Error creating digest: %s", ERR_error_string(ERR_get_error(), NULL));
 			return false;
 		}
 	} else {
-		EVP_MD_CTX ctx;
+		if(!digest->md_ctx) {
+			digest->md_ctx = EVP_MD_CTX_create();
+		}
 
-		if(!EVP_DigestInit(&ctx, digest->digest)
-				|| !EVP_DigestUpdate(&ctx, indata, inlen)
-				|| !EVP_DigestFinal(&ctx, tmpdata, NULL)) {
+		if(!digest->md_ctx) {
+			abort();
+		}
+
+		if(!EVP_DigestInit(digest->md_ctx, digest->digest)
+		                || !EVP_DigestUpdate(digest->md_ctx, indata, inlen)
+		                || !EVP_DigestFinal(digest->md_ctx, tmpdata, NULL)) {
 			logger(DEBUG_ALWAYS, LOG_DEBUG, "Error creating digest: %s", ERR_error_string(ERR_get_error(), NULL));
 			return false;
 		}
@@ -115,26 +143,29 @@ bool digest_verify(digest_t *digest, const void *indata, size_t inlen, const voi
 }
 
 int digest_get_nid(const digest_t *digest) {
-	if(!digest || !digest->digest)
+	if(!digest || !digest->digest) {
 		return 0;
+	}
 
-	return digest->digest->type;
+	return EVP_MD_type(digest->digest);
 }
 
 size_t digest_keylength(const digest_t *digest) {
-	if(!digest || !digest->digest)
+	if(!digest || !digest->digest) {
 		return 0;
+	}
 
-	return digest->digest->md_size;
+	return EVP_MD_size(digest->digest);
 }
 
 size_t digest_length(const digest_t *digest) {
-	if(!digest)
+	if(!digest) {
 		return 0;
+	}
 
 	return digest->maclength;
 }
 
 bool digest_active(const digest_t *digest) {
-	return digest && digest->digest && digest->digest->type != 0;
+	return digest && digest->digest && EVP_MD_type(digest->digest) != 0;
 }

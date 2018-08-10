@@ -21,6 +21,9 @@
 /* Define to 1 if you have the `asprintf' function. */
 #undef HAVE_ASPRINTF
 
+/* Define to 1 if you have the `BN_GENCB_new' function. */
+#undef HAVE_BN_GENCB_NEW
+
 /* Unknown BSD variant */
 #undef HAVE_BSD
 
@@ -39,6 +42,10 @@
 /* Darwin (MacOS/X) */
 #undef HAVE_DARWIN
 
+/* Define to 1 if you have the declaration of `EVP_aes_256_cfb', and to 0 if
+   you don't. */
+#undef HAVE_DECL_EVP_AES_256_CFB
+
 /* Define to 1 if you have the declaration of `OpenSSL_add_all_algorithms',
    and to 0 if you don't. */
 #undef HAVE_DECL_OPENSSL_ADD_ALL_ALGORITHMS
@@ -55,6 +62,12 @@
 
 /* DragonFly */
 #undef HAVE_DRAGONFLY
+
+/* Define to 1 if you have the `ERR_remove_state' function. */
+#undef HAVE_ERR_REMOVE_STATE
+
+/* Define to 1 if you have the `EVP_CIPHER_CTX_new' function. */
+#undef HAVE_EVP_CIPHER_CTX_NEW
 
 /* Define to 1 if you have the `EVP_EncryptInit_ex' function. */
 #undef HAVE_EVP_ENCRYPTINIT_EX
@@ -74,9 +87,6 @@
 /* FreeBSD */
 #undef HAVE_FREEBSD
 
-/* Define to 1 if you have the `ftime' function. */
-#undef HAVE_FTIME
-
 /* Define to 1 if you have the <gcrypt.h> header file. */
 #undef HAVE_GCRYPT_H
 
@@ -88,6 +98,9 @@
 
 /* Define to 1 if you have the `gettimeofday' function. */
 #undef HAVE_GETTIMEOFDAY
+
+/* Define to 1 if you have the `HMAC_CTX_new' function. */
+#undef HAVE_HMAC_CTX_NEW
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
@@ -227,8 +240,8 @@
 /* Define to 1 if you have the `putenv' function. */
 #undef HAVE_PUTENV
 
-/* Define to 1 if you have the `RAND_status' function. */
-#undef HAVE_RAND_STATUS
+/* Define to 1 if you have the `RAND_bytes' function. */
+#undef HAVE_RAND_BYTES
 
 /* have readline support */
 #undef HAVE_READLINE
@@ -244,6 +257,9 @@
 
 /* Define to 1 if you have the <resolv.h> header file. */
 #undef HAVE_RESOLV_H
+
+/* Define to 1 if you have the `RSA_set0_key' function. */
+#undef HAVE_RSA_SET0_KEY
 
 /* Solaris/SunOS */
 #undef HAVE_SOLARIS

@@ -1,4 +1,4 @@
-.Dd 2016-04-11
+.Dd 2017-09-02
 .Dt TINC.CONF 5
 .\" Manual page created by:
 .\" Ivo Timmermans
@@ -234,11 +234,15 @@ Do NOT connect multiple
 .Nm tinc 
 daemons to the same multicast address, this will very likely cause routing loops.
 Also note that this can cause decrypted VPN packets to be sent out on a real network if misconfigured.
+.It fd
+Use a file descriptor.
+All packets are read from this interface.
+Packets received for the local node are written to it.
 .It uml Pq not compiled in by default
 Create a UNIX socket with the filename specified by
 .Va Device ,
 or
-.Pa @localstatedir@/run/ Ns Ar NETNAME Ns Pa .umlsocket
+.Pa @runstatedir@/ Ns Ar NETNAME Ns Pa .umlsocket
 if not specified.
 .Nm tinc
 will wait for a User Mode Linux instance to connect to this socket.
@@ -247,7 +251,7 @@ Uses the libvdeplug library to connect to a Virtual Distributed Ethernet switch,
 using the UNIX socket specified by
 .Va Device ,
 or
-.Pa @localstatedir@/run/vde.ctl
+.Pa @runstatedir@/vde.ctl
 if not specified.
 .El
 Also, in case tinc does not seem to correctly interpret packets received from the virtual network device,
@@ -302,10 +306,16 @@ Incoming packets that are meant for another node are forwarded by tinc internall
 .Pp
 This is the default mode, and unless you really know you need another forwarding mode, don't change it.
 .It kernel
-Incoming packets are always sent to the TUN/TAP device, even if the packets are not for the local node.
+Incoming packets using the legacy protocol are always sent to the TUN/TAP device,
+even if the packets are not for the local node.
 This is less efficient, but allows the kernel to apply its routing and firewall rules on them,
 and can also help debugging.
+Incoming packets using the SPTPS protocol are dropped, since they are end-to-end encrypted.
 .El
+.It Va FWMark Li = Ar value Po 0 Pc Bq experimental
+When set to a non-zero value, all TCP and UDP sockets created by tinc will use the given value as the firewall mark.
+This can be used for mark-based routing or for packet filtering.
+This option is currently only supported on Linux.
 .It Va Hostnames Li = yes | no Pq no
 This option selects whether IP addresses (both real and on the VPN) should
 be resolved. Since DNS lookups are blocking, it might affect tinc's
@@ -323,6 +333,8 @@ Under Windows, this variable is used to select which network interface will be u
 If you specified a
 .Va Device ,
 this variable is almost always already correctly set.
+.It Va InvitationExpire Li = Ar seconds Pq 604800
+This option controls the period invitations are valid.
 .It Va KeyExpire Li = Ar seconds Pq 3600
 This option controls the period the encryption keys used to encrypt the data are valid.
 It is common practice to change keys at regular intervals to make it even harder for crackers,
@@ -363,6 +375,8 @@ and they only ConnectTo a third node outside the NAT,
 which normally would prevent the peers from learning each other's LAN address.
 .Pp
 Currently, local discovery is implemented by sending some packets to the local address of the node during UDP discovery. This will not work with old nodes that don't transmit their local address.
+.It Va LogLevel Li = level Pq 0
+This option controls the verbosity of the logging. The higher the debug level, the more messages it will log.
 .It Va MACExpire Li = Ar seconds Pq 600
 This option controls the amount of time MAC addresses are kept before they are removed.
 This only has effect when
@@ -775,6 +789,10 @@ It can be used to set up the corresponding network interface.
 If an executable file with this name exists,
 it will be executed right before the tinc daemon is going to close
 its connection to the virtual network device.
+.It Pa @sysconfdir@/tinc/ Ns Ar NETNAME Ns Pa /invitations/
+This directory contains outstanding invitations.
+.It Pa @sysconfdir@/tinc/ Ns Ar NETNAME Ns Pa /invitation-data
+After a successful join, this file contains a copy of the invitation data received.
 .El
 .Sh SEE ALSO
 .Xr tincd 8 ,

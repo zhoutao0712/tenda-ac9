@@ -1,6 +1,8 @@
 ## Produce this file with automake to get Makefile.in
 
-sbin_PROGRAMS = tincd tinc sptps_test sptps_keypair
+sbin_PROGRAMS = tincd tinc
+check_PROGRAMS = sptps_test sptps_keypair
+EXTRA_PROGRAMS = sptps_test sptps_keypair
 
 CLEANFILES = version_git.h
 
@@ -18,11 +20,10 @@ version.c: ${srcdir}/version.c
 endif
 
 if LINUX
-sbin_PROGRAMS += sptps_speed
+EXTRA_PROGRAMS += sptps_speed
 endif
 
 ed25519_SOURCES = \
-	ed25519/add_scalar.c \
 	ed25519/ed25519.h \
 	ed25519/fe.c ed25519/fe.h \
 	ed25519/fixedint.h \
@@ -41,6 +42,8 @@ chacha_poly1305_SOURCES = \
 	chacha-poly1305/poly1305.c chacha-poly1305/poly1305.h
 
 tincd_SOURCES = \
+	address_cache.c address_cache.h \
+	autoconnect.c autoconnect.h \
 	buffer.c buffer.h \
 	cipher.h \
 	conf.c conf.h \
@@ -58,6 +61,7 @@ tincd_SOURCES = \
 	edge.c edge.h \
 	ethernet.h \
 	event.c event.h \
+	fd_device.c \
 	graph.c graph.h \
 	hash.c hash.h \
 	have.h \
@@ -275,10 +279,11 @@ endif
 tinc_LDADD = $(READLINE_LIBS) $(CURSES_LIBS)
 sptps_speed_LDADD = -lrt
 
-LIBS = @LIBS@ -lm
+LIBS = @LIBS@ -lm $(CODE_COVERAGE_LIBS)
 
 if TUNEMU
 LIBS += -lpcap
 endif
 
-AM_CFLAGS = -DCONFDIR=\"$(sysconfdir)\" -DLOCALSTATEDIR=\"$(localstatedir)\" -DSBINDIR=\"$(sbindir)\" -iquote.
+AM_CFLAGS = -DCONFDIR=\"$(sysconfdir)\" -DRUNSTATEDIR=\"$(runstatedir)\" -DLOCALSTATEDIR=\"$(localstatedir)\" -DSBINDIR=\"$(sbindir)\" -iquote. $(CODE_COVERAGE_CFLAGS)
+AM_CPPFLAGS = $(CODE_COVERAGE_CPPFLAGS)

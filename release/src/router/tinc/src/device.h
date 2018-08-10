@@ -1,3 +1,6 @@
+#ifndef TINC_DEVICE_H
+#define TINC_DEVICE_H
+
 /*
     device.h -- generic header for device.c
     Copyright (C) 2001-2005 Ivo Timmermans
@@ -18,9 +21,6 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef __TINC_DEVICE_H__
-#define __TINC_DEVICE_H__
-
 #include "net.h"
 
 extern int device_fd;
@@ -40,8 +40,9 @@ extern const devops_t os_devops;
 extern const devops_t dummy_devops;
 extern const devops_t raw_socket_devops;
 extern const devops_t multicast_devops;
+extern const devops_t fd_devops;
 extern const devops_t uml_devops;
 extern const devops_t vde_devops;
 extern devops_t devops;
 
-#endif /* __TINC_DEVICE_H__ */
+#endif

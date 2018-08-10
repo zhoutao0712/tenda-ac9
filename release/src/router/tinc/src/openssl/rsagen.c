@@ -22,52 +22,88 @@
 #include <openssl/pem.h>
 #include <openssl/err.h>
 
-#define __TINC_RSA_INTERNAL__
+#define TINC_RSA_INTERNAL
 typedef RSA rsa_t;
 
 #include "../logger.h"
 #include "../rsagen.h"
+#include "../xalloc.h"
 
 /* This function prettyprints the key generation process */
 
-static void indicator(int a, int b, void *p) {
-	switch (a) {
+static int indicator(int a, int b, BN_GENCB *cb) {
+	switch(a) {
+	case 0:
+		fprintf(stderr, ".");
+		break;
+
+	case 1:
+		fprintf(stderr, "+");
+		break;
+
+	case 2:
+		fprintf(stderr, "-");
+		break;
+
+	case 3:
+		switch(b) {
 		case 0:
-			fprintf(stderr, ".");
+			fprintf(stderr, " p\n");
 			break;
 
 		case 1:
-			fprintf(stderr, "+");
-			break;
-
-		case 2:
-			fprintf(stderr, "-");
-			break;
-
-		case 3:
-			switch (b) {
-				case 0:
-					fprintf(stderr, " p\n");
-					break;
-
-				case 1:
-					fprintf(stderr, " q\n");
-					break;
-
-				default:
-					fprintf(stderr, "?");
-			}
+			fprintf(stderr, " q\n");
 			break;
 
 		default:
 			fprintf(stderr, "?");
+		}
+
+		break;
+
+	default:
+		fprintf(stderr, "?");
 	}
+
+	return 1;
 }
 
 // Generate RSA key
 
+#ifndef HAVE_BN_GENCB_NEW
+BN_GENCB *BN_GENCB_new(void) {
+	return xzalloc(sizeof(BN_GENCB));
+}
+
+void BN_GENCB_free(BN_GENCB *cb) {
+	free(cb);
+}
+#endif
+
 rsa_t *rsa_generate(size_t bits, unsigned long exponent) {
-	return RSA_generate_key(bits, exponent, indicator, NULL);
+	BIGNUM *bn_e = BN_new();
+	rsa_t *rsa = RSA_new();
+	BN_GENCB *cb = BN_GENCB_new();
+
+	if(!bn_e || !rsa || !cb) {
+		abort();
+	}
+
+	BN_set_word(bn_e, exponent);
+	BN_GENCB_set(cb, indicator, NULL);
+
+	int result = RSA_generate_key_ex(rsa, bits, bn_e, cb);
+
+	BN_GENCB_free(cb);
+	BN_free(bn_e);
+
+	if(!result) {
+		fprintf(stderr, "Error during key generation!\n");
+		RSA_free(rsa);
+		return NULL;
+	}
+
+	return rsa;
 }
 
 // Write PEM RSA keys

@@ -1,6 +1,6 @@
 /*
     graph.c -- graph algorithms
-    Copyright (C) 2001-2013 Guus Sliepen <guus@tinc-vpn.org>,
+    Copyright (C) 2001-2017 Guus Sliepen <guus@tinc-vpn.org>,
                   2001-2005 Ivo Timmermans
 
     This program is free software; you can redistribute it and/or modify
@@ -68,15 +68,17 @@
 static void mst_kruskal(void) {
 	/* Clear MST status on connections */
 
-	for list_each(connection_t, c, connection_list)
+	for list_each(connection_t, c, connection_list) {
 		c->status.mst = false;
+	}
 
 	logger(DEBUG_SCARY_THINGS, LOG_DEBUG, "Running Kruskal's algorithm:");
 
 	/* Clear visited status on nodes */
 
-	for splay_each(node_t, n, node_tree)
+	for splay_each(node_t, n, node_tree) {
 		n->status.visited = false;
+	}
 
 	/* Starting point */
 
@@ -100,11 +102,13 @@ static void mst_kruskal(void) {
 		e->from->status.visited = true;
 		e->to->status.visited = true;
 
-		if(e->connection)
+		if(e->connection) {
 			e->connection->status.mst = true;
+		}
 
-		if(e->reverse->connection)
+		if(e->reverse->connection) {
 			e->reverse->connection->status.mst = true;
+		}
 
 		logger(DEBUG_SCARY_THINGS, LOG_DEBUG, " Adding edge %s - %s weight %d", e->from->name, e->to->name, e->weight);
 
@@ -145,20 +149,22 @@ static void sssp_bfs(void) {
 	for list_each(node_t, n, todo_list) {                   /* "n" is the node from which we start */
 		logger(DEBUG_SCARY_THINGS, LOG_DEBUG, " Examining edges from %s", n->name);
 
-		if(n->distance < 0)
+		if(n->distance < 0) {
 			abort();
+		}
 
 		for splay_each(edge_t, e, n->edge_tree) {       /* "e" is the edge connected to "from" */
-			if(!e->reverse || e->to == myself)
+			if(!e->reverse || e->to == myself) {
 				continue;
+			}
 
 			/* Situation:
 
-				   /
-				  /
+			           /
+			          /
 			   ----->(n)---e-->(e->to)
-				  \
-				   \
+			          \
+			           \
 
 			   Where e is an edge, (n) and (e->to) are nodes.
 			   n->address is set to the e->address of the edge left of n to n.
@@ -172,14 +178,16 @@ static void sssp_bfs(void) {
 			bool indirect = n->status.indirect || e->options & OPTION_INDIRECT;
 
 			if(e->to->status.visited
-			   && (!e->to->status.indirect || indirect)
-			   && (e->to->distance != n->distance + 1 || e->weight >= e->to->prevedge->weight))
+			                && (!e->to->status.indirect || indirect)
+			                && (e->to->distance != n->distance + 1 || e->weight >= e->to->prevedge->weight)) {
 				continue;
+			}
 
 			// Only update nexthop if it doesn't increase the path length
 
-			if(!e->to->status.visited || (e->to->distance == n->distance + 1 && e->weight >= e->to->prevedge->weight))
+			if(!e->to->status.visited || (e->to->distance == n->distance + 1 && e->weight >= e->to->prevedge->weight)) {
 				e->to->nexthop = (n->nexthop == myself) ? e->to : n->nexthop;
+			}
 
 			e->to->status.visited = true;
 			e->to->status.indirect = indirect;
@@ -188,8 +196,9 @@ static void sssp_bfs(void) {
 			e->to->options = e->options;
 			e->to->distance = n->distance + 1;
 
-			if(!e->to->status.reachable || (e->to->address.sa.sa_family == AF_UNSPEC && e->address.sa.sa_family != AF_UNKNOWN))
+			if(!e->to->status.reachable || (e->to->address.sa.sa_family == AF_UNSPEC && e->address.sa.sa_family != AF_UNKNOWN)) {
 				update_node_udp(e->to, &e->address);
+			}
 
 			list_insert_tail(todo_list, e->to);
 		}
@@ -207,6 +216,7 @@ static void check_reachability(void) {
 	int reachable_count = 0;
 	int became_reachable_count = 0;
 	int became_unreachable_count = 0;
+
 	for splay_each(node_t, n, node_tree) {
 		if(n->status.visited != n->status.reachable) {
 			n->status.reachable = !n->status.reachable;
@@ -214,26 +224,33 @@ static void check_reachability(void) {
 
 			if(n->status.reachable) {
 				logger(DEBUG_TRAFFIC, LOG_DEBUG, "Node %s (%s) became reachable",
-					   n->name, n->hostname);
-				if (n != myself)
+				       n->name, n->hostname);
+
+				if(n != myself) {
 					became_reachable_count++;
+				}
 			} else {
 				logger(DEBUG_TRAFFIC, LOG_DEBUG, "Node %s (%s) became unreachable",
-					   n->name, n->hostname);
-				if (n != myself)
+				       n->name, n->hostname);
+
+				if(n != myself) {
 					became_unreachable_count++;
+				}
 			}
 
-			if(experimental && OPTION_VERSION(n->options) >= 2)
+			if(experimental && OPTION_VERSION(n->options) >= 2) {
 				n->status.sptps = true;
+			}
 
 			/* TODO: only clear status.validkey if node is unreachable? */
 
 			n->status.validkey = false;
+
 			if(n->status.sptps) {
 				sptps_stop(&n->sptps);
 				n->status.waitingforkey = false;
 			}
+
 			n->last_req_key = 0;
 
 			n->status.udp_confirmed = false;
@@ -247,51 +264,49 @@ static void check_reachability(void) {
 			char *name;
 			char *address;
 			char *port;
-			char *envp[8] = {NULL};
 
-			xasprintf(&envp[0], "NETNAME=%s", netname ? : "");
-			xasprintf(&envp[1], "DEVICE=%s", device ? : "");
-			xasprintf(&envp[2], "INTERFACE=%s", iface ? : "");
-			xasprintf(&envp[3], "NODE=%s", n->name);
+			environment_t env;
+			environment_init(&env);
+			environment_add(&env, "NODE=%s", n->name);
 			sockaddr2str(&n->address, &address, &port);
-			xasprintf(&envp[4], "REMOTEADDRESS=%s", address);
-			xasprintf(&envp[5], "REMOTEPORT=%s", port);
-			xasprintf(&envp[6], "NAME=%s", myself->name);
+			environment_add(&env, "REMOTEADDRESS=%s", address);
+			environment_add(&env, "REMOTEPORT=%s", port);
 
-			execute_script(n->status.reachable ? "host-up" : "host-down", envp);
+			execute_script(n->status.reachable ? "host-up" : "host-down", &env);
 
 			xasprintf(&name, n->status.reachable ? "hosts/%s-up" : "hosts/%s-down", n->name);
-			execute_script(name, envp);
+			execute_script(name, &env);
 
 			free(name);
 			free(address);
 			free(port);
-
-			for(int i = 0; i < 7; i++)
-				free(envp[i]);
+			environment_exit(&env);
 
 			subnet_update(n, NULL, n->status.reachable);
 
 			if(!n->status.reachable) {
 				update_node_udp(n, NULL);
-				memset(&n->status, 0, sizeof n->status);
+				memset(&n->status, 0, sizeof(n->status));
 				n->options = 0;
 			} else if(n->connection) {
 				// Speed up UDP probing by sending our key.
-				if(!n->status.sptps)
+				if(!n->status.sptps) {
 					send_ans_key(n);
+				}
 			}
 		}
 
-		if(n->status.reachable && n != myself)
+		if(n->status.reachable && n != myself) {
 			reachable_count++;
+		}
 	}
 
-	if (device_standby) {
-		if (reachable_count == 0 && became_unreachable_count > 0)
+	if(device_standby) {
+		if(reachable_count == 0 && became_unreachable_count > 0) {
 			device_disable();
-		else if (reachable_count > 0 && reachable_count == became_reachable_count)
+		} else if(reachable_count > 0 && reachable_count == became_reachable_count) {
 			device_enable();
+		}
 	}
 }
 

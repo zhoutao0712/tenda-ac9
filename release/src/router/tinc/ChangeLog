@@ -1,3 +1,197 @@
+Version 1.1pre16                                            June 12 2018
+------------------------------------------------------------------------
+
+Guus Sliepen (54):
+      Update THANKS.
+      Prepare for automatic code formatting using Artistic Style.
+      Remove unused/obsolete checks from configure.ac.
+      Update all header guards.
+      Convert sizeof foo to sizeof(foo).
+      Reformat all code using astyle.
+      Ensure "make distcheck" really runs without errors.
+      Add some information about the requirements of a chroot environment.
+      Disable PMTU discovery when TCPOnly is used.
+      Only forward SPTPS packets if Forwarding = internal.
+      If we are using libncurses, also try to link with libtinfo.
+      Don't log errors when autoconnecting fails and debuglevel is 0.
+      Remove unused functions.
+      Ensure all parameters have names in header files.
+      Support autoconf's --runstatedir option.
+      Const correctness.
+      Update THANKS.
+      Fix building documentation when using OpenBSD's make.
+      Assume all IPPROTO_* macros exist.
+      Document the --batch option.
+      Don't warn about empty lines in invitation files.
+      Document that invitation files MUST always start with Name = ...
+      Add missing newlines to some error messages.
+      Merge remote-tracking branch 'dechamps/ipip' into 1.1
+      Remove hardcoded paths from systemd unit files.
+      Set default systemd unit path to ${libdir}/systemd/system.
+      Ensure the sptps-basic test doesn't fail during make distcheck.
+      Update .gitignore.
+      Don't include generated files into the tarball.
+      Document how to enable tinc at boot time using systemd.
+      Fix all spelling errors found by codespell.
+      Add a cache of recently seen addresses.
+      Fix calling freeaddrinfo() on the wrong pointer.
+      Reformat all code using astyle.
+      Add code coverage testing support.
+      Reduce memory allocations due to zlib's uncompress().
+      Reduce memory allocations due to HMAC() and EVP_MD_*().
+      Document the control protocol.
+      Update the documentation of the control protocol.
+      Unconditionally remove timeouts from the queue before calling the callback.
+      Revert "Unconditionally remove timeouts from the queue before calling the callback."
+      Work around a GCC bug that causes inet_checksum() to give wrong results.
+      Try to process all pending events after select().
+      Fix compatibility with LibreSSL and OpenSSL < 1.1.
+      Reformat all code using astyle.
+      Ensure we call CloseServiceHandle() in case of errors.
+      Warn if we cannot reload the tincd when creating an invitation.
+      Properly implement tinc.texi's dependency on tincinclude.texi.
+      Prevent an infinite loop in get_recent_address().
+      Fix invitation tests if port 655 is available.
+      Add the ability to set a firewall mark on sockets.
+      Reformat all code using astyle.
+      Remove the wxPython GUI.
+      Releasing 1.1pre16.
+
+Todd C. Miller (9):
+      Fix parsing of -b flag
+      Replace remaining sizeof foo with sizeof(foo).
+      Add some missing freeaddrinfo() calls to avoid leaking memory.
+      WSAEVENT is a pointer, so we cannot simply return the different of two
+      In device_issue_read() there is no need to reset Offset and OffsetHigh
+      Fix a use-after-free bug in get_recent_address() and two related issues.
+      Fix heap corruption on Windows exposed by the use-after free fix.
+      In device_handle_read() we need to reset the read event on error or
+      Call WSAWaitForMultipleEvents() in a loop until we have checked all events.
+
+Etienne Dechamps (5):
+      Support MSS clamping for IP in IP (RFC 2003) packets.
+      Fix AC_CHECK_DECLS usage in openssl.m4.
+      Fix "void function should not return void expression" warning.
+      Fix "use of GNU empty initializer extension" warning.
+      Move ResetEvent() call before ReadFile().
+
+Daniel Lublin (1):
+      doc: there is, not their is
+
+Gjergji (1):
+      fix service removal.
+
+Mike Sullivan (1):
+      Fix handling partial SPTPS messages in sptps_test.
+
+Oliver Freyermuth (1):
+      Fix compiling when support for UML sockets is enabled.
+
+Version 1.1pre15                                       September 02 2017
+------------------------------------------------------------------------
+
+Guus Sliepen (56):
+      Preserve IPv6 scope_id in edges.
+      Fix the previous commit.
+      Ensure compatibility with OpenSSL 1.1.0.
+      Add -Wall to CFLAGS.
+      Check return value of RSA_generate_key_ex().
+      Use EVP_MD_CTX_destroy() instead of _free().
+      Force nul-termination of strings after vsnprintf().
+      Fix warnings from the Clang static analyzer.
+      Fix potential memory leaks found by the Clang static analyzer.
+      Add missing m4 files.
+      Fix compiling with OpenSSL < 1.1.0.
+      Log warnings about dropped packets only with debug level 5 or higher.
+      Use AES256 and SHA256 by default for the legacy protocol.
+      Enforce maximum amount of bytes sent/received on meta-connections.
+      Fix potential segfault in the replacement vasprintf() function.
+      Don't build sptps_* binaries by default.
+      Remove the description of the LocalDiscoveryAddress option from the manual.
+      Use free_known_addresses() to free memory allocated by get_known_addresses().
+      Add missing #defines used by fd_device.c.
+      Don't try to use kill() on Windows.
+      Merge remote-tracking branch 'dechamps/sleep' into 1.1
+      Put script environment creation/deletion in functions.
+      Add DEBUG environment variable for scripts.
+      Use unique ports for all tests.
+      Remove superfluous sleep command in invite-join test.
+      Add the invite-offline test.
+      Update .gitignore.
+      Add the scripts test.
+      Ensure proper logging in the invite-offline test.
+      Use 127.0.0.1 instead of localhost to ensure tests are reproducible.
+      Ensure sptps_keypair and sptps_test get build for make check.
+      Use /dev/udp instead of /dev/ip on Solaris.
+      Use getmsg()/putmsg() instead of read()/write() on Solaris.
+      Ensure tests compile on *BSD.
+      Make sure realname is always initialized.
+      Fix compiler warnings on *BSD.
+      Fix segfault when adding environment variables.
+      Fix tests on *BSD.
+      Add missing tinc stop command to the scripts test.
+      Remove dead stores.
+      Add field widths to sscanf() calls.
+      Fix some minor issues found by cppcheck.
+      Remove unused add_scalar function.
+      Move logging of "would block" messages to debug level 4.
+      Set KillMode=mixed in the systemd service file.
+      Add configurable experation time for invitations.
+      Store the invitation data after a succesful join.
+      Forward-port tinc 1.0's handling of device errors.
+      Make autoconnect try to heal network splits.
+      Add missing break statements.
+      Force IPv4 for sptps-basic.test.
+      Fix a compiler warning.
+      Fix a file descriptor leak when using an invitation.
+      Ensure packet priority is cleared when sending PMTU probe replies.
+      Drop h and hh length modifiers from printf format strings.
+      Releasing 1.1pre15.
+
+Etienne Dechamps (7):
+      Fix error handling when setting up the UDP socket.
+      Fix crash on Windows when a socket is available for both write and read.
+      On Windows, don't cancel I/O when disabling the device.
+      Fix edge local addresses not being set when connections are established.
+      Fix edge updates containing local address changes.
+      Clarify the flow of add_edge_h().
+      Fix address memory leaks in add_edge_h().
+
+thorkill (4):
+      Send PKT_PROBE only when handshake has been done already.
+      Prevent tincd from sending packets to unexpecting nodes
+      Sanitize input in id_h - prevent integer overflows
+      Fix NULL pointer dereference in send_udp_info
+
+Sean McVeigh (2):
+      check for daemon pid existence before trying to connect to the control socket, and clean up stale files otherwise.
+      fix check in cmd_pid() for failure to connect to tincd
+
+Vittorio G (VittGam) (2):
+      fsck: Fix ed25519 public key reading, and fclose usage.
+      tincctl: Avoid falling back to 1024 bits RSA key generation when an invalid key size is specified.
+
+Dennis Lan (1):
+      Fix typo in src/upnp.c.
+
+Pacien TRAN-GIRARD (1):
+      Add fd_device
+
+Roman Savelyev (1):
+      Fix lost pointer trails in get_known_addresses().
+
+Vittorio Gambaletta (VittGam) (1):
+      route: Support ToS/DiffServ priority inheritance when routing IPv6 packets.
+
+lemoer (1):
+      Added comments and unfold deep "if"-construct in timeout_handler
+
+pacien (1):
+      Add LogLevel config option
+
+volth (1):
+      Avoid infinite loop on EBADFD
+
 Version 1.1pre14                                             May 01 2016
 ------------------------------------------------------------------------
 

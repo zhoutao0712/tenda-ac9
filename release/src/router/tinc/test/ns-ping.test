@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. ./testlib.sh
+. "${0%/*}/testlib.sh"
 
 # Skip this test if we aren't root or if "ip netns" does not exist
 
@@ -13,7 +13,7 @@ $tinc $c1 <<EOF
 init foo
 set Mode switch
 set Interface ping.test1
-set Port 32573
+set Port 32577
 set Address localhost
 EOF
 

@@ -1,7 +1,10 @@
+#ifndef TINC_LOGGER_H
+#define TINC_LOGGER_H
+
 /*
     logger.h -- header file for logger.c
     Copyright (C) 1998-2005 Ivo Timmermans
-                  2000-2012 Guus Sliepen <guus@tinc-vpn.org>
+                  2000-2017 Guus Sliepen <guus@tinc-vpn.org>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,9 +20,6 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-
-#ifndef __TINC_LOGGER_H__
-#define __TINC_LOGGER_H__
 
 typedef enum debug_t {
 	DEBUG_NOTHING = 0,              /* Quiet mode, only show starting/stopping of the daemon */
@@ -67,12 +67,12 @@ enum {
 
 #include <stdbool.h>
 
-extern debug_t debug_level;
+extern int debug_level;
 extern bool logcontrol;
 extern int umbilical;
-extern void openlogger(const char *, logmode_t);
+extern void openlogger(const char *ident, logmode_t mode);
 extern void reopenlogger(void);
-extern void logger(int, int, const char *, ...) __attribute__ ((__format__(printf, 3, 4)));
+extern void logger(int level, int priority, const char *format, ...) __attribute__((__format__(printf, 3, 4)));
 extern void closelogger(void);
 
-#endif /* __TINC_LOGGER_H__ */
+#endif
