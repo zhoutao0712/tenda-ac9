@@ -4,18 +4,21 @@
 int tinc_start_main(int argc_tinc, char *argv_tinc[])
 {
 	FILE *f_tinc;
-/*
-	pid_t pid;
-	int ret;
-	char *tinc_config_argv[] = {"/usr/bin/wget", "-T", "120", "-O", "/etc/tinc/tinc.tar.gz", nvram_safe_get("tinc_url"), NULL};
 
-	ret = _eval(tinc_config_argv, NULL, 0, &pid);
+	signal(SIGPIPE, SIG_IGN);
+	signal(SIGALRM, SIG_IGN);
+	signal(SIGHUP, SIG_IGN);
+	signal(SIGCHLD, SIG_IGN);
 
-	if(ret != 0) {
-		fprintf(stderr, "[vpn] tinc download congfig fail\n");
-		return ret;
+//printf("%d\n", argc_tinc);
+
+	if(argc_tinc == 1) {
+		if (daemon(1, 1) < 0) {
+			syslog(LOG_ERR, "daemon: %m");
+			return 0;
+		}
 	}
-*/
+
 	if (!( f_tinc = fopen("/etc/tinc/tinc.sh", "w"))) {
 		perror( "/etc/tinc/tinc.sh" );
 		return -1;
@@ -42,7 +45,10 @@ int tinc_start_main(int argc_tinc, char *argv_tinc[])
 		"tar -zxvf tinc.tar.gz\n"
 		"chmod -R 0700 /etc/tinc\n"
 
+		"tinc -n gfw set forwarding off\n"
+//		"tinc -n gfw set Broadcast direct\n"
 		"tinc -n gfw set KeyExpire 8640000\n"
+		"nvram set tinc_ori_server=$(tinc -n gfw get gfw_server.address)\n"
 		"nvram set tinc_cur_server=$(tinc -n gfw get gfw_server.address)\n"
 		"tinc -n gfw start\n"
 
@@ -96,6 +102,7 @@ void start_tinc(void)
 void stop_tinc(void)
 {
 	killall_tk("tinc-guard");
+	killall_tk("back-server");
 	killall_tk("tinc_start");
 	killall_tk("tincd");
 	eval("/etc/tinc/tinc.sh", "stop");

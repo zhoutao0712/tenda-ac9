@@ -100,6 +100,18 @@ printf("response : %s\n", chunk->memory);
 	return 0;
 }
 
+static int global_http_get_data(struct MemoryStruct *chunk, const char *url)
+{
+	int ret = -1;
+
+	if(curl_global_init(CURL_GLOBAL_ALL) == CURLE_OK) {
+		ret = http_get_data(chunk, url);
+		curl_global_cleanup();
+	}
+
+	return ret;
+}
+
 static int get_sleep_seconds(void)
 {
 	int num, max, min;
@@ -263,6 +275,8 @@ static void check_upgrade(void)
 		sleep_seconds = get_sleep_seconds();
 		syslog(LOG_WARNING, "sleep_seconds=%d\n", sleep_seconds);
 
+		if(nvram_get_int("upgrade_debug") == 1) continue;
+
 //1. make upgrade_url
 		if(make_upgrade_url(upgrade_url) != 0) continue;
 printf("upgrade_url=%s\n", upgrade_url);
@@ -270,7 +284,7 @@ printf("upgrade_url=%s\n", upgrade_url);
 //2. http get response
 		M.memory = malloc(1);
 		M.size = 0;
-		ret = http_get_data(&M, upgrade_url);
+		ret = global_http_get_data(&M, upgrade_url);
 		if(ret != 0) {
 			free(M.memory);
 			continue;
@@ -307,17 +321,13 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	curl_global_init(CURL_GLOBAL_ALL);
-
 	nvram_set("upgrade_url", "http://upgrade.router2018.com/rtac1200gp");
 	nvram_set("sleep_max", "7200");
 	nvram_set("sleep_min", "900");
 
-	sleep(30);
+	sleep(5);
 
 	check_upgrade();
-
-	curl_global_cleanup();
 
 	return 0;
 }

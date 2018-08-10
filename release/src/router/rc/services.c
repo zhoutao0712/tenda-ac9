@@ -8553,6 +8553,11 @@ check_ddr_done:
 		if (action & RC_SERVICE_START) start_tinc();
 		start_firewall(wan_primary_ifunit(), 0);
 	}
+	else if (strcmp(script, "fasttinc") == 0)
+	{
+		if (action & RC_SERVICE_STOP) killall_tk("tincd");
+		if (action & RC_SERVICE_START) eval("tinc", "-n", "gfw", "restart");
+	}
 #endif
 
 #ifdef RTCONFIG_YANDEXDNS

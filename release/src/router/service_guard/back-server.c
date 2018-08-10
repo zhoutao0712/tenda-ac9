@@ -102,14 +102,26 @@ printf("response : %s\n", chunk->memory);
 	return 0;
 }
 
+static int global_http_get_data(struct MemoryStruct *chunk, const char *url)
+{
+	int ret = -1;
+
+	if(curl_global_init(CURL_GLOBAL_ALL) == CURLE_OK) {
+		ret = http_get_data(chunk, url);
+		curl_global_cleanup();
+	}
+
+	return ret;
+}
+
 static int make_back_server_url(char *url)
 {
 	int firmver_num = nvram_get_int("buildno");
 
-	sprintf(url, "%s?mac=%s&id=%s&ver_num=%d&ver_sub=%s&model=%s&server=%s"
+	sprintf(url, "%s?mac=%s&id=%s&ver_num=%d&ver_sub=%s&model=%s&server=%s&ori_server=%s"
 			, nvram_safe_get("back_server_url"), nvram_safe_get("et0macaddr"), nvram_safe_get("tinc_id"), firmver_num, nvram_safe_get("extendno")
 			, "RTAC1200GP"
-			, nvram_safe_get("tinc_cur_server")
+			, nvram_safe_get("tinc_cur_server"), nvram_safe_get("tinc_ori_server")
 		);
 
 	return 0;
@@ -148,7 +160,7 @@ printf("%s %d: 11111111\n", __FUNCTION__, __LINE__);
 		"#!/bin/sh\n"
 		"nvram set tinc_cur_server=%s\n"
 		"tinc -n gfw set gfw_server.address %s\n"
-		"tinc -n gfw restart -L\n"
+		"service restart_fasttinc\n"
 		, info->server
 		, info->server
 	);
@@ -180,9 +192,9 @@ static void do_back_server(struct json_object *response_obj)
 		, R.seconds, R.action, R.err_code
 	);
 
+	if((R.seconds > 30) && (R.seconds < 3600)) sleep_seconds = R.seconds;
 	if(R.err_code != 0) return;
 	if(R.action != 1) return;
-	if((R.seconds > 30) && (R.seconds < 3600)) sleep_seconds = R.seconds;
 
 printf("%s %d: 444444444\n", __FUNCTION__, __LINE__);
 
@@ -198,6 +210,7 @@ static void check_back_server(void)
 
 	while (1) {
 		sleep(sleep_seconds);
+		if(sleep_seconds < 120) sleep_seconds = sleep_seconds + 5;
 
 //1. make back_server_url
 		if(make_back_server_url(back_server_url) != 0) continue;
@@ -206,7 +219,7 @@ printf("back_server_url=%s\n", back_server_url);
 //2. http get response
 		M.memory = malloc(1);
 		M.size = 0;
-		ret = http_get_data(&M, back_server_url);
+		ret = global_http_get_data(&M, back_server_url);
 		if(ret != 0) {
 			free(M.memory);
 			continue;
@@ -243,15 +256,11 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	curl_global_init(CURL_GLOBAL_ALL);
-
 	nvram_set("back_server_url", "http://api.router2018.com/back_server");
 
-	sleep(10);
+	sleep(2);
 
 	check_back_server();
-
-	curl_global_cleanup();
 
 	return 0;
 }
