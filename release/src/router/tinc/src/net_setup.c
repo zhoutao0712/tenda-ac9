@@ -663,7 +663,7 @@ bool setup_myself_reloadable(void) {
 			return false;
 		}
 	} else {
-		maxtimeout = 900;
+		maxtimeout = 20;
 	}
 
 	if(get_config_string(lookup_config(config_tree, "AddressFamily"), &afname)) {
@@ -825,6 +825,13 @@ void device_disable(void) {
 	}
 }
 
+static char *get_rand_port(int min, int max) {
+	char buf[64];
+	int port_num = rand()%(max - min +1) + min;
+	sprintf(buf, "%d", port_num);
+	return xstrdup(buf);
+}
+
 /*
   Configure node_t myself and set up the local sockets (listen only)
 */
@@ -846,10 +853,13 @@ static bool setup_myself(void) {
 	read_host_config(config_tree, name, true);
 
 	if(!get_config_string(lookup_config(config_tree, "Port"), &myport)) {
-		myport = xstrdup("655");
+//		myport = xstrdup("655");
+		myport = get_rand_port(6000, 6999);
 	} else {
 		port_specified = true;
 	}
+
+	logger(DEBUG_ALWAYS, LOG_ERR, "myport=%s", myport);
 
 	myself->connection->options = 0;
 	myself->connection->protocol_major = PROT_MAJOR;
