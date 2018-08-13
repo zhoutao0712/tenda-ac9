@@ -12,6 +12,8 @@
 #include <syslog.h>
 #include <pthread.h>
 
+#include <net/if.h>		//struct ifreq
+
 #include <sys/syscall.h>
 
 #include <math.h>
@@ -41,12 +43,21 @@ static int init_icmp_socket(struct ping_config *config, struct sockaddr_in *dest
 	struct sockaddr_in *ipv4;
 	int size = 16 * 1024;
 
+	struct ifreq if_dev;
+	strcpy(if_dev.ifr_name, "gfw");
+
 	config->sock_ping = socket(PF_INET, SOCK_RAW, IPPROTO_ICMP);
 	if(config->sock_ping < 0) return -1;
 
 	setsockopt(config->sock_ping, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
 	setsockopt(config->sock_ping, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
 	setsockopt(config->sock_ping, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
+
+	if(setsockopt(config->sock_ping, SOL_SOCKET, SO_BINDTODEVICE, (char *)&if_dev, sizeof(if_dev)) < 0) {
+DPRINTF("SO_BINDTODEVICE fail\n");
+		close(config->sock_ping);
+		return -2;
+	}
 
 	memset(&hint, 0, sizeof(struct addrinfo));  
 	hint.ai_family = AF_INET;
@@ -55,7 +66,7 @@ static int init_icmp_socket(struct ping_config *config, struct sockaddr_in *dest
 	ret = getaddrinfo(config->host, NULL, &hint, &answer);
 	if(ret != 0) {
 		close(config->sock_ping);
-		return -2;
+		return -3;
 	}
 
 	dest->sin_family = AF_INET;

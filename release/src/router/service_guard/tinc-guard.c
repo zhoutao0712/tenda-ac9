@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 	while (1) {
 		sleep(3);
 		if(fail_count > 0) ping_count = 4;
-		else ping_count = 8;
+		else ping_count = 6;
 
 		ret = do_ping(ping_host, ping_count);
 
@@ -53,6 +53,8 @@ int main(int argc, char *argv[])
 		else fail_count++;
 
 		if(fail_count > 1) {
+			if(pidof("tinc_start") > 0) sleep(30);
+
 			if(check_if_file_exist("/etc/tinc/gfw/tinc.conf")) {
 				eval("service", "restart_fasttinc");
 			} else {
