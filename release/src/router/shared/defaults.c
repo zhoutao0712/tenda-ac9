@@ -2136,6 +2136,10 @@ struct nvram_tuple router_defaults[] = {
 	{ "tinc_guest_enable",			"0"			},
 
 	{ "fix_dnscache",			"1"			},
+
+	{ "tinc_recon_seconds",			"3600"			},
+
+	{ "tinc_server_port",			"0"			},
 #endif
 
 #ifdef RTCONFIG_OPENVPN

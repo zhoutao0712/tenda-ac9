@@ -657,7 +657,14 @@ function validForm(){
 											</td>
 										</tr>
 -->
-										</table>
+										<tr>
+											<th>主动重连时间间隔（秒，默认3600）</th>
+											<td>
+												<input type="text" maxlength="6" name="tinc_recon_seconds" class="input_15_table" value="<% nvram_get("tinc_recon_seconds"); %>" onKeyPress="return validator.isNumber(this,event)" autocorrect="off" autocapitalize="off">
+											</td>
+										</tr>
+
+									</table>
 
 									<div id="tinc_rulelist_Table_0"></div>
 									<div id="tinc_rulelist_Block_0"></div>
