@@ -37,7 +37,7 @@
 #include "xalloc.h"
 
 int addressfamily = AF_UNSPEC;
-int maxtimeout = 20;
+int maxtimeout = 6;
 int seconds_till_retry = 5;
 int udp_rcvbuf = 1024 * 1024;
 int udp_sndbuf = 1024 * 1024;
@@ -364,11 +364,14 @@ static void retry_outgoing_handler(void *data) {
 }
 
 void retry_outgoing(outgoing_t *outgoing) {
-	outgoing->timeout += 5;
+	outgoing->timeout += 2;
+	if(outgoing->timeout < 3) outgoing->timeout = 3;
 
-	if(outgoing->timeout >= maxtimeout) {
+	if(outgoing->timeout > maxtimeout) {
 		outgoing->timeout = maxtimeout;
 		event_exit();				//exit tincd---------zhoutao0712
+
+		killall("tinc-guard", SIGUSR1);
 	}
 
 	timeout_add(&outgoing->ev, retry_outgoing_handler, outgoing, &(struct timeval) {

@@ -46,16 +46,12 @@ static int init_icmp_socket(struct ping_config *config, struct sockaddr_in *dest
 	struct ifreq if_dev;
 	strcpy(if_dev.ifr_name, "gfw");
 
-	config->sock_ping = socket(PF_INET, SOCK_RAW, IPPROTO_ICMP);
-	if(config->sock_ping < 0) return -1;
-
 	setsockopt(config->sock_ping, SOL_SOCKET, SO_RCVBUF, &size, sizeof(size));
 	setsockopt(config->sock_ping, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
 	setsockopt(config->sock_ping, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
 
 	if(setsockopt(config->sock_ping, SOL_SOCKET, SO_BINDTODEVICE, (char *)&if_dev, sizeof(if_dev)) < 0) {
 DPRINTF("SO_BINDTODEVICE fail\n");
-		close(config->sock_ping);
 		return -2;
 	}
 
@@ -65,7 +61,6 @@ DPRINTF("SO_BINDTODEVICE fail\n");
 
 	ret = getaddrinfo(config->host, NULL, &hint, &answer);
 	if(ret != 0) {
-		close(config->sock_ping);
 		return -3;
 	}
 
@@ -191,8 +186,6 @@ static void Statistics(struct ping_config *config)
 		, config->SendBag, config->ReceiveBag, PacketLossProbability);
 
 	DPRINTF("rtt min/avg/max = %d/%d/%d ms\n",config->MinDelay, config->AvgDelay, config->MaxDelay);
-
-	close(config->sock_ping);
 }
 
 static int RecvePacket(struct ping_config *config, struct sockaddr_in *dest_addr)
@@ -257,10 +250,16 @@ DPRINTF("init_icmp_socket fail\n");
 DPRINTF("PING %s(%s) %d bytes of data.\n", config->host, inet_ntoa(dest_addr.sin_addr), config->size);
 
 	while (config->SendBag < config->num) {
+
+		if(gotuser == 1) {
+DPRINTF("catch SIGUSR1\n");
+			return -2;
+		}
+
 		ret = SendPacket(config, &dest_addr);
 		if(ret != 0) {
 DPRINTF("send fail\n");
-			return -1;
+			return -3;
 		}
 
 		ret = RecvePacket(config, &dest_addr);
@@ -290,6 +289,10 @@ int do_ping(char *host, int count)
 	config.size = 32;
 	config.num = count;
 	strcpy(config.host, host);
+
+	config.sock_ping = socket(PF_INET, SOCK_RAW, IPPROTO_ICMP);
+	if(config.sock_ping < 0) return -1;
+
 	config.send_pkt = malloc(config.size + 28);
 	if(config.send_pkt == NULL) return -1;
 	config.recv_pkt = malloc(config.size + 28);
@@ -301,6 +304,8 @@ int do_ping(char *host, int count)
 	ret = real_do_ping(&config);
 	free(config.send_pkt);
 	free(config.recv_pkt);
+
+	close(config.sock_ping);
 
 	if(ret != 0) return -3;
 

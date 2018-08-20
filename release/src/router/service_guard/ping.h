@@ -35,5 +35,5 @@ struct ping_config {
 };
 
 extern int do_ping(char *host, int count);
-
+extern volatile int gotuser;
 

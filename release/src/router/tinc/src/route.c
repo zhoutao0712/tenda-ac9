@@ -573,6 +573,8 @@ static void route_broadcast(node_t *source, vpn_packet_t *packet) {
 /* RFC 791 */
 
 static void fragment_ipv4_packet(node_t *dest, vpn_packet_t *packet, length_t ether_size) {
+	return;
+
 	struct ip ip;
 	vpn_packet_t fragment;
 	int maxlen, todo;
@@ -1081,6 +1083,8 @@ static void route_mac(node_t *source, vpn_packet_t *packet) {
 		return;
 	}
 
+	if(via->mtu < 1272) via->mtu = 1272;
+
 	if(via && packet->len > via->mtu && via != myself) {
 		logger(DEBUG_TRAFFIC, LOG_INFO, "Packet for %s (%s) length %d larger than MTU %d", subnet->owner->name, subnet->owner->hostname, packet->len, via->mtu);
 		length_t ethlen = 14;
@@ -1090,7 +1094,8 @@ static void route_mac(node_t *source, vpn_packet_t *packet) {
 			ethlen += 4;
 		}
 
-		if(type == ETH_P_IP && packet->len > 576 + ethlen) {
+//		if(type == ETH_P_IP && packet->len > 576 + ethlen) {
+		if(type == ETH_P_IP && packet->len > via->mtu) {
 			if(DATA(packet)[6 + ethlen] & 0x40) {
 				packet->len = via->mtu;
 				route_ipv4_unreachable(source, packet, ethlen, ICMP_DEST_UNREACH, ICMP_FRAG_NEEDED);

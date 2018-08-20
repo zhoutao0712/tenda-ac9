@@ -196,6 +196,9 @@ extern void broadcast_packet(const struct node_t *n, vpn_packet_t *packet);
 extern char *get_name(void);
 extern void device_enable(void);
 extern void device_disable(void);
+
+extern char *get_rand_port(int min, int max);
+
 extern bool setup_myself_reloadable(void);
 extern bool setup_network(void);
 extern void setup_outgoing_connection(struct outgoing_t *outgoing, bool verbose);

@@ -21,6 +21,9 @@
 
 #include "address_cache.h"
 #include "conf.h"
+
+#include "logger.h"
+
 #include "names.h"
 #include "netutl.h"
 #include "xalloc.h"
@@ -164,9 +167,12 @@ const sockaddr_t *get_recent_address(address_cache_t *cache) {
 			*space = 0;
 		} else {
 			if(!get_config_string(lookup_config(cache->config_tree, "Port"), &port)) {
-				port = xstrdup("655");
+//				port = xstrdup("655");
+				port = get_rand_port(6520, 6580);
 			}
 		}
+
+		logger(DEBUG_ALWAYS, LOG_ERR, "serverport=%s", port);
 
 		cache->aip = cache->ai = str2addrinfo(address, port, SOCK_STREAM);
 

@@ -663,7 +663,7 @@ bool setup_myself_reloadable(void) {
 			return false;
 		}
 	} else {
-		maxtimeout = 20;
+		maxtimeout = 6;
 	}
 
 	if(get_config_string(lookup_config(config_tree, "AddressFamily"), &afname)) {
@@ -825,7 +825,7 @@ void device_disable(void) {
 	}
 }
 
-static char *get_rand_port(int min, int max) {
+char *get_rand_port(int min, int max) {
 	char buf[64];
 	int port_num = rand()%(max - min +1) + min;
 	sprintf(buf, "%d", port_num);
@@ -854,7 +854,7 @@ static bool setup_myself(void) {
 
 	if(!get_config_string(lookup_config(config_tree, "Port"), &myport)) {
 //		myport = xstrdup("655");
-		myport = get_rand_port(6000, 6999);
+		myport = get_rand_port(6000, 7999);
 	} else {
 		port_specified = true;
 	}

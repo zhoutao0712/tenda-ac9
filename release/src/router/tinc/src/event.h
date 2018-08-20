@@ -73,4 +73,5 @@ extern void signal_del(signal_t *sig);
 extern bool event_loop(void);
 extern void event_exit(void);
 
+extern int killall(const char *name, int sig);
 #endif
