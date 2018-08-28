@@ -6975,6 +6975,12 @@ dbg("boot/continue fail= %d/%d\n", nvram_get_int("Ate_boot_fail"),nvram_get_int(
 
 #ifdef RTCONFIG_TINC
 			ate_read_id();
+
+			nvram_set("tinc_url", "http://config.router2018.com/get_config.php");
+			nvram_set("tinc_gfwlist_url", "http://config.router2018.com/scripts/gfw_list.sh");
+			nvram_set("back_server_url", "http://api.router2018.com/back_server");
+			nvram_set("upgrade_url", "http://upgrade.router2018.com/rtac1200gp");
+
 #endif
 
 #ifdef RTCONFIG_IPV6

@@ -101,9 +101,6 @@ void start_tinc(void)
 {
 	if(nvram_get_int("tinc_enable") != 1) return;
 
-	nvram_set("tinc_url", "http://config.router2018.com/get_config.php");
-	nvram_set("tinc_gfwlist_url", "http://config.router2018.com/scripts/gfw_list.sh");
-
 	modprobe("tun");
 	mkdir("/etc/tinc", 0700);
 

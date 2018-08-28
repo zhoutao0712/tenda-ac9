@@ -256,8 +256,6 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	nvram_set("back_server_url", "http://api.router2018.com/back_server");
-
 	sleep(2);
 
 	check_back_server();

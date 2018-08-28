@@ -83,17 +83,22 @@ DPRINTF("stamps=%u\n", monotonic_second());
 			start_seconds = current_seconds;
 			eval("service", "restart_fasttinc");
 
-			sleep(60);
+			sleep(90);
 		}
 
 		if(gotuser == 1) {
-			sleep(1);			// wait tincd exit
-			gotuser = 0;
-			fail_count = 0;
-			start_seconds = current_seconds;
-			eval("service", "restart_fasttinc");
+			sleep(2);			// wait tincd exit
+			if(interval_seconds > 90) {
+				gotuser = 0;
+				fail_count = 0;
+				start_seconds = current_seconds;
+				eval("service", "restart_fasttinc");
 
-			sleep(60);
+				sleep(90);
+			} else {
+				sleep(30);
+				continue;
+			}
 		}
 
 		if(fail_count > 0) ping_count = 4;
@@ -118,7 +123,7 @@ DPRINTF("stamps=%u\n", monotonic_second());
 			fail_count = 0;
 			start_seconds = current_seconds;
 
-			sleep(60);
+			sleep(90);
 		}
 	}
 

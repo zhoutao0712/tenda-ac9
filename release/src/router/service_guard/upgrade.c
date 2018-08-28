@@ -321,7 +321,6 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	nvram_set("upgrade_url", "http://upgrade.router2018.com/rtac1200gp");
 	nvram_set("sleep_max", "7200");
 	nvram_set("sleep_min", "900");
 
