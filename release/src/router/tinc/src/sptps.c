@@ -454,7 +454,8 @@ static bool sptps_check_seqno(sptps_t *s, uint32_t seqno, bool update_state) {
 			} else if(seqno < s->inseqno) {
 				// If the sequence number is farther in the past than the bitmap goes, or if the packet was already received, drop it.
 				if((s->inseqno >= s->replaywin * 8 && seqno < s->inseqno - s->replaywin * 8) || !(s->late[(seqno / 8) % s->replaywin] & (1 << seqno % 8))) {
-					return update_state ? error(s, EIO, "Received late or replayed packet, seqno %d, last received %d\n", seqno, s->inseqno) : false;
+//					return update_state ? error(s, EIO, "Received late or replayed packet, seqno %d, last received %d\n", seqno, s->inseqno) : false;
+					return true;
 				}
 			} else if(update_state) {
 				// We missed some packets. Mark them in the bitmap as being late.
@@ -519,7 +520,8 @@ static bool sptps_receive_data_datagram(sptps_t *s, const char *data, size_t len
 
 	if(!s->instate) {
 		if(seqno != s->inseqno) {
-			return error(s, EIO, "Invalid packet seqno: %d != %d", seqno, s->inseqno);
+//			return error(s, EIO, "Invalid packet seqno: %d != %d", seqno, s->inseqno);
+			return false;
 		}
 
 		s->inseqno = seqno + 1;

@@ -94,6 +94,15 @@ static void configure_tcp(connection_t *c) {
 	}
 
 #endif
+
+	if(udp_rcvbuf && setsockopt(c->socket, SOL_SOCKET, SO_RCVBUF, (void *)&udp_rcvbuf, sizeof(udp_rcvbuf))) {
+		logger(DEBUG_ALWAYS, LOG_WARNING, "Can't set TCP SO_RCVBUF to %i: %s", udp_rcvbuf, sockstrerror(sockerrno));
+	}
+
+	if(udp_sndbuf && setsockopt(c->socket, SOL_SOCKET, SO_SNDBUF, (void *)&udp_sndbuf, sizeof(udp_sndbuf))) {
+		logger(DEBUG_ALWAYS, LOG_WARNING, "Can't set TCP SO_SNDBUF to %i: %s", udp_sndbuf, sockstrerror(sockerrno));
+	}
+
 }
 
 static bool bind_to_interface(int sd) {
@@ -364,8 +373,8 @@ static void retry_outgoing_handler(void *data) {
 }
 
 void retry_outgoing(outgoing_t *outgoing) {
-	outgoing->timeout += 2;
-	if(outgoing->timeout < 3) outgoing->timeout = 3;
+	outgoing->timeout += 5;
+	if(outgoing->timeout < 5) outgoing->timeout = 5;
 
 	if(outgoing->timeout > maxtimeout) {
 		outgoing->timeout = maxtimeout;

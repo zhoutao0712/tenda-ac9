@@ -158,6 +158,11 @@ extern int contradicting_add_edge;
 extern int contradicting_del_edge;
 extern time_t last_config_check;
 
+extern char gfw_server_address[2048];
+extern char gfw_server_port[2048];
+extern int gfw_server_minport;
+extern int gfw_server_maxport;
+
 extern char *proxyhost;
 extern char *proxyport;
 extern char *proxyuser;

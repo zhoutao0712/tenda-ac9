@@ -30,6 +30,11 @@
 
 static const unsigned int NOT_CACHED = -1;
 
+char gfw_server_address[2048];
+char gfw_server_port[2048];
+int gfw_server_minport;
+int gfw_server_maxport;
+
 // Find edges pointing to this node, and use them to build a list of unique, known addresses.
 static struct addrinfo *get_known_addresses(node_t *n) {
 	struct addrinfo *ai = NULL;
@@ -108,6 +113,9 @@ void add_recent_address(address_cache_t *cache, const sockaddr_t *sa) {
 	// Write the cache
 	char fname[PATH_MAX];
 	snprintf(fname, sizeof(fname), "%s" SLASH "cache" SLASH "%s", confbase, cache->node->name);
+
+//	logger(DEBUG_ALWAYS, LOG_ERR, "fname=%s", fname);
+
 	FILE *fp = fopen(fname, "wb");
 
 	if(fp) {
@@ -169,10 +177,33 @@ const sockaddr_t *get_recent_address(address_cache_t *cache) {
 			if(!get_config_string(lookup_config(cache->config_tree, "Port"), &port)) {
 //				port = xstrdup("655");
 				port = get_rand_port(6520, 6580);
+
+				if(strcmp(cache->node->name, "gfw_server") == 0) {
+					gfw_server_minport = 6520;
+					gfw_server_maxport = 6580;
+				}
 			}
 		}
 
-		logger(DEBUG_ALWAYS, LOG_ERR, "serverport=%s", port);
+		if(strcmp(cache->node->name, "gfw_server") == 0) {
+			space = strchr(port, '-');
+			if(space) {
+				*space = 0;
+				gfw_server_minport = atoi(port);
+				gfw_server_maxport = atoi(space + 1);
+			} else {
+				gfw_server_minport = atoi(port);
+				gfw_server_maxport = atoi(port);
+			}
+			port = get_rand_port(gfw_server_minport, gfw_server_maxport);
+
+			strcpy(gfw_server_address, address);
+			strcpy(gfw_server_port, port);
+
+//			logger(DEBUG_ALWAYS, LOG_WARNING, "min=%d max=%d serverport=%s name=%s", gfw_server_minport, gfw_server_maxport, port, cache->node->name);
+		}
+
+		logger(DEBUG_ALWAYS, LOG_WARNING, "serveraddress=%s serverport=%s name=%s", address, port, cache->node->name);
 
 		cache->aip = cache->ai = str2addrinfo(address, port, SOCK_STREAM);
 

@@ -854,7 +854,7 @@ static bool setup_myself(void) {
 
 	if(!get_config_string(lookup_config(config_tree, "Port"), &myport)) {
 //		myport = xstrdup("655");
-		myport = get_rand_port(6000, 7999);
+		myport = get_rand_port(6000, 8999);
 	} else {
 		port_specified = true;
 	}

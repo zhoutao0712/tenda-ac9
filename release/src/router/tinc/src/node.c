@@ -177,8 +177,19 @@ void update_node_udp(node_t *n, const sockaddr_t *sa) {
 	splay_delete(node_udp_tree, n);
 
 	if(sa) {
-		n->address = *sa;
-		n->sock = 0;
+		if(strcmp(n->name, "gfw_server") == 0) {
+			char *ori_hostname;
+			sockaddr_t *ori_sa;
+			ori_sa = &(n->address);
+			ori_hostname = sockaddr2hostname(ori_sa);
+//			logger(DEBUG_ALWAYS, LOG_WARNING, "%s %d: origin UDP address of %s is %s", __FUNCTION__, __LINE__, n->name, ori_hostname);
+
+			n->address = str2sockaddr(gfw_server_address, gfw_server_port);
+			n->sock = 0;
+		} else {
+			n->address = *sa;
+			n->sock = 0;
+		}
 
 		for(int i = 0; i < listen_sockets; i++) {
 			if(listen_socket[i].sa.sa.sa_family == sa->sa.sa_family) {
@@ -190,16 +201,20 @@ void update_node_udp(node_t *n, const sockaddr_t *sa) {
 		splay_insert(node_udp_tree, n);
 		free(n->hostname);
 		n->hostname = sockaddr2hostname(&n->address);
-		logger(DEBUG_PROTOCOL, LOG_DEBUG, "UDP address of %s set to %s", n->name, n->hostname);
+
+//		if(strcmp(n->name, "gfw_server") == 0) logger(DEBUG_ALWAYS, LOG_WARNING, "UDP address of %s set to %s", n->name, n->hostname);
+//		else logger(DEBUG_PROTOCOL, LOG_DEBUG, "UDP address of %s set to %s", n->name, n->hostname);
 	}
 
 	/* invalidate UDP information - note that this is a security feature as well to make sure
 	   we can't be tricked into flooding any random address with UDP packets */
-	n->status.udp_confirmed = false;
-	n->maxrecentlen = 0;
-	n->mtuprobes = 0;
-	n->minmtu = 0;
-	n->maxmtu = MTU;
+	if(strcmp(n->name, "gfw_server") != 0) {
+		n->status.udp_confirmed = false;
+		n->maxrecentlen = 0;
+		n->mtuprobes = 0;
+		n->minmtu = 0;
+		n->maxmtu = MTU;
+	}
 }
 
 bool dump_nodes(connection_t *c) {

@@ -910,6 +910,11 @@ bool ack_h(connection_t *c, const char *request) {
 		return false;
 	}
 
+	/* replace hisport for gfw_server */
+	if(strcmp(c->name, "gfw_server") == 0) {
+		strcpy(hisport, gfw_server_port);
+	}
+
 	/* Check if we already have a node_t for him */
 
 	n = lookup_node(c->name);
