@@ -806,6 +806,7 @@ ifneq ($(find lighttpd-1.4.39, $(obj-y)),"")
 released_dir += APP-IPK
 endif
 
+obj-y += libevent-2.0.21
 obj-y += curl-7.21.7
 obj-y += service_guard
 
@@ -2742,9 +2743,9 @@ libevent-2.0.21-configure:
 		$(CONFIGURE) --prefix=/usr --bindir=/usr/sbin --libdir=/usr/lib \
 	)
 
-libevent-2.0.21-install: libevent-2.0.21
-	install -D $(STAGEDIR)/usr/lib/libevent-2.0.so.5 $(INSTALLDIR)/$</usr/lib/libevent-2.0.so.5
-	$(STRIP) $(INSTALLDIR)/$</usr/lib/libevent-2.0.so*
+#libevent-2.0.21-install: libevent-2.0.21
+#	install -D $(STAGEDIR)/usr/lib/libevent-2.0.so.5 $(INSTALLDIR)/$</usr/lib/libevent-2.0.so.5
+#	$(STRIP) $(INSTALLDIR)/$</usr/lib/libevent-2.0.so*
 
 libevent-2.0.21-clean:
 	[ ! -f libevent-2.0.21/Makefile ] || $(MAKE) -C libevent-2.0.21 clean
