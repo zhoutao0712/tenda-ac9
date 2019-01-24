@@ -1,7 +1,7 @@
 include ../common.mak
 
 CFLAGS += -Os -Wall $(EXTRACFLAGS)
-CFLAGS += -I. -I$(SRCBASE) -I$(SRCBASE)/include -I$(TOP)/shared -I$(TOP)/curl-7.21.7/include -I$(TOP)/json-c -DDEBUG
+CFLAGS += -I. -I$(SRCBASE) -I$(SRCBASE)/include -I$(TOP)/shared -I$(TOP)/curl-7.21.7/include -I$(TOP)/json-c -I$(TOP)/libevent-2.0.21/include -DDEBUG
 LDFLAGS = -lm -L$(TOP)/nvram${BCMEX} -lnvram -L$(TOP)/shared -lshared -L$(TOP)/openssl -lcrypto -lssl -L$(TOP)/curl-7.21.7/lib/.libs -lcurl -L$(TOP)/json-c/.libs -ljson-c
 LDFLAGS += -lgcc_s
 
@@ -12,9 +12,10 @@ endif
 OBJS_TINC = ping.o tinc-guard.o
 OBJS_UPGRADE = upgrade.o
 OBJS_BACK = back-server.o
-OBJS = $(OBJS_TINC) $(OBJS_UPGRADE) $(OBJS_BACK)
+OBJS_DNS= httpdns.o
+OBJS = $(OBJS_TINC) $(OBJS_UPGRADE) $(OBJS_BACK) $(OBJS_DNS)
 
-all: tinc-guard upgrade back-server
+all: tinc-guard upgrade back-server httpdns
 
 tinc-guard: $(OBJS_TINC)
 	@echo " [tinc-guard] CC -o $@"
@@ -37,10 +38,18 @@ back-server: $(OBJS_BACK)
 	$(SIZECHECK)
 	$(CPTMP)
 
+httpdns: $(OBJS_DNS)
+	@echo " [httpdns] CC -o $@"
+	$(CC) $(LDFLAGS) -o $@ $(OBJS_DNS) libevent.a
+
+	$(SIZECHECK)
+	$(CPTMP)
+
 clean:
 	rm -f tinc-guard .*.depend
 	rm -f upgrade .*.depend
 	rm -f back-server .*.depend
+	rm -f httpdns .*.depend
 	rm -f *.o
 
 install: all
@@ -56,6 +65,10 @@ install: all
 	install -D back-server $(INSTALLDIR)/bin/back-server
 	$(STRIP) $(INSTALLDIR)/bin/back-server
 	chmod 0500 $(INSTALLDIR)/bin/back-server
+
+	install -D httpdns $(INSTALLDIR)/bin/httpdns
+	$(STRIP) $(INSTALLDIR)/bin/httpdns
+	chmod 0500 $(INSTALLDIR)/bin/httpdns
 
 %.o: %.c .%.depend
 	@echo " [service_guard] CC $@"
