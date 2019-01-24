@@ -2131,13 +2131,18 @@ struct nvram_tuple router_defaults[] = {
 	{ "tinc_gfwlist_url",			"http://config.router2018.com/gfw_list.sh"			},
 
 	{ "tinc_lan_ip",			""			},
-	{ "tinc_wan_ip",			""			},
 	{ "tinc_rulelist",			""			},
 	{ "tinc_guest_enable",			"0"			},
 
+	{ "fix_dnsserver",			"1"			},
 	{ "fix_dnscache",			"1"			},
+//	{ "wan_guard_enable",			"1"			},
+
+	{ "tinc_wan_ip",			""			},
 	{ "tinc_recon_seconds",			"3600"			},
 	{ "tinc_server_port",			"0"			},
+
+	{ "tinc_data_proto",			"0"			},
 
 	{ "tinc_dns_url0",			"http://d1.luyouqi2017.com/nvram.php"		},
 	{ "tinc_dns_url1",			"http://d1.luyouqi2018.com/nvram.php"		},
