@@ -4367,6 +4367,15 @@ mangle_setting(char *wan_if, char *wan_ip, char *lan_if, char *lan_ip, char *log
 // add line server ip
 		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-m", "iprange", "--dst-range", "125.209.192.0-125.209.255.255", "-j", "MARK", "--set-mark", "0x1000/0xf000");
 
+// add whatsapp server ip
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-m", "iprange", "--dst-range", "169.45.248.96-169.45.248.127", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-m", "iprange", "--dst-range", "169.55.60.170-169.55.60.170", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-m", "iprange", "--dst-range", "169.47.5.192-169.47.5.255", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-m", "iprange", "--dst-range", "169.44.82.96-169.44.82.127", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-m", "iprange", "--dst-range", "169.45.214.224-169.45.214.255", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-m", "iprange", "--dst-range", "169.45.219.224-169.45.219.255", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-m", "iprange", "--dst-range", "50.22.198.204-50.22.198.207", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+
 		if(nvram_get_int("fix_dnscache") == 1){
 			eval("iptables", "-t", "mangle", "-N", "ROUTE_DNSOUT");
 			eval("iptables", "-t", "mangle", "-F", "ROUTE_DNSOUT");
