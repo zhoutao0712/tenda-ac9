@@ -4364,6 +4364,9 @@ mangle_setting(char *wan_if, char *wan_ip, char *lan_if, char *lan_ip, char *log
 		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "91.108.56.0/22", "-j", "MARK", "--set-mark", "0x1000/0xf000");
 		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-d", "149.154.160.0/20", "-j", "MARK", "--set-mark", "0x1000/0xf000");
 
+// add line server ip
+		eval("iptables", "-t", "mangle", "-A", "ROUTE_TINC", "-m", "iprange", "--dst-range", "125.209.192.0-125.209.255.255", "-j", "MARK", "--set-mark", "0x1000/0xf000");
+
 		if(nvram_get_int("fix_dnscache") == 1){
 			eval("iptables", "-t", "mangle", "-N", "ROUTE_DNSOUT");
 			eval("iptables", "-t", "mangle", "-F", "ROUTE_DNSOUT");
