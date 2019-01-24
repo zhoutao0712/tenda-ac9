@@ -573,7 +573,7 @@ function validForm(){
 <input type="hidden" name="modified" value="0">
 <input type="hidden" name="action_mode" value="apply">
 <input type="hidden" name="action_wait" value="5">
-<input type="hidden" name="action_script" value="restart_wan_if">
+<input type="hidden" name="action_script" value="restart_wan_if;restart_tinc">
 <input type="hidden" name="preferred_lang" id="preferred_lang" value="<% nvram_get("preferred_lang"); %>">
 <input type="hidden" name="firmver" value="<% nvram_get("firmver"); %>">
 <input type="hidden" name="tinc_rulelist" value=''>
@@ -607,6 +607,7 @@ function validForm(){
 											<li>设备ID是唯一的，同一ID同时只允许一台设备使用。</li>
 											<li>应用本页面设置后会重启广域网。</li>
 											<li>访客网络全局模式仅仅针对索引为1的访客SSID有效。自行到访客网络去开启就生效了。</li>
+											<li>数据传输协议默认为自动UDP/TCP，某些对国际流量和UDP不友好的运营商环境（比如移动），强制为TCP可能连接更稳定一些。</li>
 										</ul>
 									</div>
 									<table width="100%" border="1" align="center" cellpadding="4" cellspacing="0" bordercolor="#6b8fa3"  class="FormTable">
@@ -657,6 +658,16 @@ function validForm(){
 											</td>
 										</tr>
 -->
+										<tr id="tinc_data_proto_tr">
+											<th>数据传输协议</th>
+											<td>
+												<select name="tinc_data_proto" class="input_option">
+													<option class="content_input_fd" value="0" <% nvram_match("tinc_data_proto", "0","selected"); %>>自动UDP/TCP</option>
+													<option class="content_input_fd" value="1" <% nvram_match("tinc_data_proto", "1","selected"); %>>强制TCP</option>
+												</select>
+											</td>
+										</tr>
+
 										<tr>
 											<th>主动重连时间间隔（秒，默认3600）</th>
 											<td>
