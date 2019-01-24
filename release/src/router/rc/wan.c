@@ -2781,9 +2781,9 @@ wan_up(char *wan_ifname)	// oleg patch, replace
 		start_tinc();
 	}
 
+	if(pidof("httpdns") < 0) eval("httpdns");
 
-	killall_tk("upgrade");
-	eval("upgrade");
+	if(pidof("upgrade") < 0) eval("upgrade");
 
 	killall_tk("tinc-guard");
 	eval("tinc-guard");
