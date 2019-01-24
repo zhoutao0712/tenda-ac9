@@ -5041,6 +5041,44 @@ int start_firewall(int wanunit, int lanunit)
 		fclose(fp);
 	}
 */
+
+	if ((fp=fopen("/proc/sys/net/core/rmem_default", "w+")))
+	{
+		fputs("262144", fp);
+		fclose(fp);
+	}
+
+	if ((fp=fopen("/proc/sys/net/core/rmem_max", "w+")))
+	{
+		fputs("2097152", fp);				// 2MB
+		fclose(fp);
+	}
+
+	if ((fp=fopen("/proc/sys/net/core/wmem_default", "w+")))
+	{
+		fputs("262144", fp);
+		fclose(fp);
+	}
+
+	if ((fp=fopen("/proc/sys/net/core/wmem_max", "w+")))
+	{
+		fputs("1048576", fp);				// 1MB
+		fclose(fp);
+	}
+
+	if ((fp=fopen("/proc/sys/net/ipv4/tcp_rmem", "w+")))
+	{
+		fputs("8192 16384 2097152", fp);		// 2MB
+		fclose(fp);
+	}
+
+	if ((fp=fopen("/proc/sys/net/ipv4/tcp_wmem", "w+")))
+	{
+		fputs("8192 16384 1048576", fp);		// 1MB
+		fclose(fp);
+	}
+
+
 	if ((fp=fopen("/proc/sys/net/ipv4/tcp_fin_timeout", "w+")))
 	{
 		fputs("40", fp);
