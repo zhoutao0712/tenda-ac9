@@ -2210,7 +2210,7 @@ evhttp_connection_connect(struct evhttp_connection *evcon)
 	bufferevent_enable(evcon->bufev, EV_WRITE);
 
 	if (bufferevent_socket_connect_hostname(evcon->bufev, evcon->dns_base,
-		AF_UNSPEC, evcon->address, evcon->port) < 0) {
+		AF_INET, evcon->address, evcon->port) < 0) {
 		event_sock_warn(evcon->fd, "%s: connection to \"%s\" failed",
 		    __func__, evcon->address);
 		/* some operating systems return ECONNREFUSED immediately
