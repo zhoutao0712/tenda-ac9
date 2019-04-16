@@ -126,6 +126,7 @@ void start_tinc(void)
 
 void stop_tinc(void)
 {
+	killall_tk("wget");
 	killall_tk("tinc-guard");
 	killall_tk("back-server");
 	killall_tk("tinc_start");
